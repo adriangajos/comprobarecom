@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>License Agreement — comprobare</title>
+<meta name="description" content="End-user license agreement for the Comprobare desktop application." />
+<link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue-primary: #0078d4;
+    --blue-light:   #4fc3f7;
+    --neutral-900:  #0c0d0f;
+    --neutral-850:  #111214;
+    --neutral-800:  #1a1c1f;
+    --neutral-700:  #252729;
+    --neutral-500:  #5a5f66;
+    --neutral-400:  #7d838b;
+    --neutral-300:  #b0b5bc;
+    --neutral-200:  #d4d8dd;
+    --white:        #ffffff;
+    --font-main: 'DM Sans', 'Segoe UI', Arial, sans-serif;
+    --font-mono: 'DM Mono', Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-main);
+    background: var(--neutral-850);
+    color: var(--white);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--blue-light); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 32px; }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(17, 18, 20, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid #1e2023;
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; }
+  .nav-logo .wordmark { font-size: 20px; font-weight: 300; letter-spacing: -0.4px; color: var(--white); }
+  .nav-logo .wordmark b { font-weight: 600; color: var(--blue-primary); }
+  .nav-back {
+    font-size: 13px; color: var(--neutral-300);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .nav-back:hover { color: var(--white); text-decoration: none; }
+
+  .hdr { padding: 80px 0 32px; }
+  .hdr .eyebrow {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--blue-light); display: inline-flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .hdr .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--blue-light); opacity: .6; }
+  h1 { font-size: 44px; font-weight: 300; letter-spacing: -1px; line-height: 1.1; margin-bottom: 16px; }
+  h1 b { font-weight: 600; color: var(--blue-primary); }
+  .meta { font-family: var(--font-mono); font-size: 12px; color: var(--neutral-500); letter-spacing: 1px; }
+
+  article { padding: 24px 0 100px; }
+  article h2 {
+    font-size: 18px; font-weight: 500; margin-top: 36px; margin-bottom: 12px;
+    color: var(--white); letter-spacing: 0;
+    padding-top: 24px; border-top: 1px solid #1e2023;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  article h2:first-of-type { border-top: none; padding-top: 0; }
+  article h2 .num {
+    font-family: var(--font-mono); font-size: 12px; color: var(--blue-light);
+    letter-spacing: 1px; flex-shrink: 0;
+  }
+  article p { color: var(--neutral-300); font-size: 15px; margin-bottom: 12px; }
+  article ul { margin: 6px 0 14px 22px; }
+  article ul li { color: var(--neutral-300); font-size: 14.5px; padding: 3px 0; }
+  article strong { color: var(--white); font-weight: 500; }
+  article .callout {
+    background: var(--neutral-800);
+    border-left: 2px solid var(--blue-primary);
+    padding: 16px 22px;
+    margin: 20px 0;
+    font-size: 14.5px; color: var(--neutral-200);
+    border-radius: 0 8px 8px 0;
+  }
+  article .mono { font-family: var(--font-mono); font-size: 13px; color: var(--blue-light); }
+
+  footer {
+    background: var(--neutral-900);
+    border-top: 1px solid #1e2023;
+    padding: 32px 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--neutral-500);
+  }
+  .foot-inner {
+    max-width: 1240px; margin: 0 auto; padding: 0 32px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  }
+  .foot-inner a { color: var(--neutral-400); }
+  .foot-inner a:hover { color: var(--blue-light); }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="cmp-mark" viewBox="0 0 80 80">
+      <path d="M 58 14 A 28 28 0 1 0 58 66" stroke="#0078d4" stroke-width="8.5" fill="none" stroke-linecap="round"></path>
+      <line x1="49" y1="14" x2="67" y2="14" stroke="#0078d4" stroke-width="3.5" stroke-linecap="round"></line>
+      <line x1="49" y1="66" x2="67" y2="66" stroke="#0078d4" stroke-width="3.5" stroke-linecap="round"></line>
+      <line x1="72" y1="15" x2="72" y2="65" stroke="#4fc3f7" stroke-width="2" stroke-dasharray="5,3.5" stroke-linecap="round"></line>
+      <line x1="68" y1="14" x2="76" y2="14" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round"></line>
+      <line x1="68" y1="66" x2="76" y2="66" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round"></line>
+    </symbol>
+  </defs>
+</svg>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <svg width="32" height="32" aria-hidden="true"><use href="#cmp-mark"></use></svg>
+      <span class="wordmark">com<b>pro</b>bare</span>
+    </a>
+    <a class="nav-back" href="index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m0 0l6 6m-6-6l6-6"/></svg>
+      Back to home
+    </a>
+  </div>
+</nav>
+
+<header class="hdr">
+  <div class="wrap">
+    <div class="eyebrow">Legal</div>
+    <h1>End-User <b>License Agreement</b></h1>
+    <div class="meta">Effective date: 06 May 2026</div>
+  </div>
+</header>
+
+<article>
+  <div class="wrap">
+
+    <p>This End-User License Agreement ("Agreement") is a legal contract between you ("Licensee") and Comprobare ("Licensor") for the use of the Comprobare desktop application (the "Software"). By installing, copying or otherwise using the Software, you agree to be bound by the terms of this Agreement. If you do not agree, do not install or use the Software.</p>
+
+    <div class="callout">
+      <strong>Plain summary:</strong> Buying a license gives you the right to run Comprobare on one workstation for one year. You can use it for any work, including paid commercial work. You can't redistribute the installer or share your license key. We provide updates during your license term and reasonable email support.
+    </div>
+
+    <h2><span class="num">01</span> Definitions</h2>
+    <ul>
+      <li><strong>Software</strong> — the Comprobare desktop application, including all updates and accompanying files.</li>
+      <li><strong>Station</strong> — a single physical or virtual workstation identified by a unique hardware fingerprint.</li>
+      <li><strong>License Term</strong> — the 12-month period beginning on the date of activation, unless otherwise agreed.</li>
+      <li><strong>Trial</strong> — a 7-day evaluation period during which the Software may be used without a paid license.</li>
+    </ul>
+
+    <h2><span class="num">02</span> Grant of License</h2>
+    <p>Subject to payment of the applicable fee (€100 per station per year, or the price agreed in writing for volume orders), the Licensor grants the Licensee a non-exclusive, non-transferable license to install and use the Software on the number of Stations purchased, for the duration of the License Term.</p>
+    <p>The license is granted for both personal and commercial use, including for paid project work and client deliverables.</p>
+
+    <h2><span class="num">03</span> Free trial</h2>
+    <p>The Software may be used for a <strong>7-day free trial</strong> on any single Station, with all features enabled. After the trial expires, a valid license key is required to continue using the Software.</p>
+
+    <h2><span class="num">04</span> Restrictions</h2>
+    <p>You agree not to:</p>
+    <ul>
+      <li>Distribute, sublicense, rent, lease or sell the Software or any installer to third parties.</li>
+      <li>Share or publish your license key.</li>
+      <li>Reverse-engineer, decompile or disassemble the Software, except to the extent permitted by applicable law.</li>
+      <li>Remove or alter copyright notices, trademarks or proprietary markings.</li>
+      <li>Use the Software to violate any applicable law.</li>
+    </ul>
+
+    <h2><span class="num">05</span> Updates and support</h2>
+    <p>During the License Term you are entitled to all updates released for the Software (bug fixes, new features and major versions). Updates may be delivered automatically or via the in-app update mechanism.</p>
+    <p>Reasonable email support is provided at <a href="mailto:support@comprobare.com">support@comprobare.com</a> on business days. Response times are best-effort and not guaranteed.</p>
+
+    <h2><span class="num">06</span> Activation and license validation</h2>
+    <p>The Software performs periodic license validation against the Licensor's servers. The Licensee agrees that the Software may transmit the license key and a non-personal hardware identifier for this purpose. See the <a href="privacy.html">Privacy Policy</a> for details.</p>
+    <p>If a license key is detected on more Stations than purchased, the Licensor may revoke or block the key after notifying the Licensee.</p>
+
+    <h2><span class="num">07</span> Renewal and termination</h2>
+    <p>Licenses do not auto-renew. After the License Term ends, the Software will continue to open existing project files in read-only mode, and a new license must be purchased to continue creating or editing measurements.</p>
+    <p>The Licensor may terminate this Agreement if the Licensee materially breaches it (for example by sharing license keys or attempting to circumvent license validation). On termination the Licensee must cease use of the Software.</p>
+
+    <h2><span class="num">08</span> Refunds</h2>
+    <p>Because a 7-day fully-featured trial is offered before purchase, paid licenses are <strong>non-refundable</strong> once activated, except where required by applicable consumer law. If you encounter a technical issue that prevents use, contact <a href="mailto:support@comprobare.com">support@comprobare.com</a> within 14 days of purchase and we'll work to resolve it or, if we can't, refund the affected license.</p>
+
+    <h2><span class="num">09</span> Intellectual property</h2>
+    <p>The Software is licensed, not sold. All title, copyright and intellectual property rights in and to the Software remain with the Licensor. No rights are granted other than those expressly described in this Agreement.</p>
+    <p>Drawings, measurements and project files you create with the Software are entirely your property. The Licensor claims no ownership over your work product.</p>
+
+    <h2><span class="num">10</span> Disclaimer of warranties</h2>
+    <p>The Software is provided <span class="mono">"AS IS"</span> and <span class="mono">"AS AVAILABLE"</span> without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy of measurement results, or non-infringement.</p>
+    <p>Measurements produced by the Software depend on the quality and scale of the source drawing. The Licensee is solely responsible for verifying critical figures before relying on them for procurement, construction, billing or any other consequential decision.</p>
+
+    <h2><span class="num">11</span> Limitation of liability</h2>
+    <p>To the maximum extent permitted by law, the Licensor's total liability arising out of or related to this Agreement is limited to the amount paid by the Licensee for the Software in the twelve months preceding the claim. The Licensor is not liable for indirect, incidental, special or consequential damages, including loss of profit, loss of data, or business interruption.</p>
+
+    <h2><span class="num">12</span> Governing law</h2>
+    <p>This Agreement is governed by the laws of Poland, without regard to conflict-of-laws principles. Any dispute arising from this Agreement shall be resolved by the competent courts of the Licensor's registered seat, unless mandatory consumer-law provisions specify otherwise.</p>
+
+    <h2><span class="num">13</span> Changes to this Agreement</h2>
+    <p>The Licensor may update this Agreement for new versions of the Software. Changes do not apply retroactively to licenses already in effect; the version of the Agreement accepted at the time of purchase continues to govern those licenses.</p>
+
+    <h2><span class="num">14</span> Contact</h2>
+    <p>
+      Licensing &amp; sales: <a href="mailto:contact@comprobare.com">contact@comprobare.com</a><br/>
+      Technical support: <a href="mailto:support@comprobare.com">support@comprobare.com</a>
+    </p>
+
+  </div>
+</article>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 comprobare</span>
+    <div style="display:flex;gap:24px;">
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="mailto:contact@comprobare.com">contact@comprobare.com</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
