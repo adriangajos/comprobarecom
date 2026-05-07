@@ -469,6 +469,134 @@
   .foot-bottom .lang { display: flex; gap: 16px; }
   .foot-bottom .lang span.active { color: var(--blue-light); }
 
+  /* ── ANNOUNCEMENT BAR ─────────────────────────── */
+  .announce {
+    background: linear-gradient(90deg, rgba(0,120,212,0.22), rgba(79,195,247,0.12) 60%, transparent);
+    border-bottom: 1px solid rgba(79,195,247,0.18);
+    padding: 11px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .announce-inner {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 13px; color: var(--neutral-200);
+    flex-wrap: wrap;
+  }
+  .announce .new-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--blue-primary); color: white;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 1.5px; padding: 3px 9px; border-radius: 4px;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .announce .new-pill::after {
+    content: ''; position: absolute; inset: -2px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 2px rgba(79,195,247,0.45);
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(79,195,247,0.55); }
+    70%  { box-shadow: 0 0 0 12px rgba(79,195,247,0); }
+    100% { box-shadow: 0 0 0 0 rgba(79,195,247,0); }
+  }
+  .announce b { color: var(--white); font-weight: 500; }
+  .announce .arrow {
+    margin-left: auto; color: var(--blue-light); font-size: 13px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: gap .2s;
+  }
+  .announce .arrow:hover { gap: 10px; text-decoration: none; }
+  @media (max-width: 720px) { .announce .arrow { margin-left: 0; } }
+
+  /* ── REVEAL-ON-SCROLL ─────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.delay-1 { transition-delay: .08s; }
+  .reveal.delay-2 { transition-delay: .16s; }
+  .reveal.delay-3 { transition-delay: .24s; }
+  .reveal.delay-4 { transition-delay: .32s; }
+  .reveal.delay-5 { transition-delay: .40s; }
+
+  /* slide variants */
+  .reveal.from-left  { transform: translateX(-32px); }
+  .reveal.from-left.visible  { transform: translateX(0); }
+  .reveal.from-right { transform: translateX(32px); }
+  .reveal.from-right.visible { transform: translateX(0); }
+  .reveal.zoom { transform: scale(.96); opacity: 0; }
+  .reveal.zoom.visible { transform: scale(1); opacity: 1; }
+
+  /* ── HERO PARALLAX TILT ───────────────────────── */
+  .hero-frame {
+    transform: perspective(1400px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)) translateZ(0);
+    transition: transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+
+  /* ── animated dimension underline on big numbers */
+  .anim-dim {
+    position: relative; display: inline-block; padding-bottom: 6px;
+  }
+  .anim-dim::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: var(--blue-light);
+    transition: right 1.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .anim-dim.visible::after { right: 0; }
+  .anim-dim::before {
+    content: ''; position: absolute; left: 0; bottom: -2px; width: 1px; height: 5px;
+    background: var(--blue-light); opacity: 0;
+    transition: opacity .3s 1.3s;
+  }
+  .anim-dim.visible::before { opacity: 1; }
+
+  /* ── animated count-up wrapper ───────────────── */
+  .count {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── feature card hover lift ─────────────────── */
+  .feat .ico svg { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+  .feat:hover .ico svg { transform: scale(1.1) rotate(-3deg); }
+
+  /* ── step image zoom on view ─────────────────── */
+  .step-vis img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); transform: scale(1.04); }
+  .step.visible .step-vis img { transform: scale(1); }
+
+  /* ── ribbon highlight on hero frame ──────────── */
+  .hero-frame::before {
+    content: ''; position: absolute;
+    top: -50%; left: -60%; width: 50%; height: 200%;
+    background: linear-gradient(110deg, transparent, rgba(79,195,247,0.07) 45%, rgba(79,195,247,0.18) 50%, rgba(79,195,247,0.07) 55%, transparent);
+    transform: skewX(-18deg);
+    pointer-events: none;
+    animation: sheen 7s ease-in-out 1.4s infinite;
+  }
+  @keyframes sheen {
+    0%, 60%, 100% { transform: translateX(0) skewX(-18deg); opacity: 0; }
+    62%           { opacity: 1; }
+    78%           { opacity: 1; }
+    80%           { transform: translateX(380%) skewX(-18deg); opacity: 0; }
+  }
+
+  /* draw-in for ::after gradient on hero frame */
+  .hero-frame { z-index: 1; }
+
+  /* respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .anim-dim::after, .anim-dim::before { transition: none !important; }
+    .hero-frame::before { animation: none !important; display: none; }
+    .hero-frame { transition: none !important; transform: none !important; }
+    .announce .new-pill::after { animation: none !important; }
+    .step-vis img { transform: none !important; transition: none !important; }
+  }
+
   /* mini icon - logo */
   .logo-icon-svg { width: 32px; height: 32px; flex-shrink: 0; }
 
@@ -523,30 +651,31 @@
   </div>
 </nav>
 
+<!-- ── ANNOUNCE BAR ─────────────────────────────── -->
 <!-- ── HERO ─────────────────────────────────────── -->
 <section class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow hero-eyebrow">Desktop measurement tool for Windows</span>
-      <h1>Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b></h1>
-      <p class="hero-lede">
+      <span class="eyebrow hero-eyebrow reveal">Desktop measurement tool for Windows</span>
+      <h1 class="reveal delay-1">Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b></h1>
+      <p class="hero-lede reveal delay-2">
         Pull exact areas and lengths off any architectural or technical drawing —
-        digital or scanned — without buying expensive CAD software or learning complex tools.
+        digital, scanned, or even bad-quality PDFs — without buying expensive CAD software or learning complex tools.
       </p>
-      <div class="hero-actions">
+      <div class="hero-actions reveal delay-3">
         <a class="btn btn-primary" href="https://storage.googleapis.com/comprobare-ce8a1-updates/updates/comprobare_setup.exe">
           Download latest version
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v14m0 0l-6-6m6 6l6-6M5 21h14"/></svg>
         </a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
-      <div class="hero-meta">
+      <div class="hero-meta reveal delay-4">
         <span><span class="dot"></span>7&#8209;day free trial</span>
         <span>Windows 10 / 11</span>
         <span>EN · PL</span>
       </div>
     </div>
-    <div style="position:relative">
+    <div style="position:relative" class="reveal zoom delay-2" id="hero-tilt">
       <div class="hero-dim"><span>application window · 16:9</span></div>
       <div class="hero-frame">
         <img src="assets/screen-hero.png" alt="Comprobare main window — detailed engine room plan with measured rooms on the main deck (Paint Store, Wardrobe) and live measurement results panel" />
@@ -582,26 +711,26 @@
     </p>
 
     <div class="what-grid">
-      <div class="what-cell">
+      <div class="what-cell reveal delay-1">
         <div class="num">01 / AREAS</div>
         <h3>Measure <b>areas</b></h3>
         <p>Rooms, floors, walls, plots of land — anything with an outline. Trace the perimeter and the area is calculated instantly, with optional height and multiplier factors.</p>
         <div class="what-vis">
-          <span class="lbl">AREA</span><span class="val">2 387.25 m²</span>
+          <span class="lbl">AREA</span><span class="val"><span class="count" data-count="2387.25" data-decimals="2">0.00</span> m²</span>
         </div>
       </div>
-      <div class="what-cell">
+      <div class="what-cell reveal delay-2">
         <div class="num">02 / LENGTHS</div>
         <h3>Measure <b>lengths</b></h3>
         <p>Pipes, cables, edges, perimeters, distances. Click point to point, or follow a polyline. Totals add up across whatever segments you've drawn.</p>
         <div class="what-vis">
-          <span class="lbl">LENGTH</span><span class="val">169.68 m</span>
+          <span class="lbl">LENGTH</span><span class="val"><span class="count" data-count="169.68" data-decimals="2">0.00</span> m</span>
         </div>
       </div>
-      <div class="what-cell">
+      <div class="what-cell reveal delay-3">
         <div class="num">03 / SCANS</div>
-        <h3>Convert <b>scanned plans</b></h3>
-        <p>Photographed or scanned paper plans become clean measurable drawings — three quality settings to match your scan quality.</p>
+        <h3>Convert <b>scans &amp; bad PDFs</b></h3>
+        <p>Photographed paper plans, scanned documents, low-quality PDFs — all become clean, measurable drawings. Three quality settings to match what you've got. <span style="color:var(--blue-light);font-weight:500;">New in this release.</span></p>
         <div class="what-vis">
           <span class="lbl">QUALITY</span>
           <span class="val">low &nbsp;·&nbsp; med &nbsp;·&nbsp; high</span>
@@ -610,20 +739,20 @@
     </div>
 
     <!-- big showcase -->
-    <div class="showcase">
+    <div class="showcase reveal">
       <img src="assets/screen-ship.png" alt="Ship hull plan with multiple area and length measurements drawn in orange and green" />
       <div class="showcase-cap">
         <div class="left">
           <div class="stat">
-            <div class="v">5 527.30 m²</div>
+            <div class="v"><span class="count" data-count="5527.30" data-decimals="2">0.00</span> m²</div>
             <div class="l">Hull · 3 areas</div>
           </div>
           <div class="stat">
-            <div class="v">297.31 m²</div>
+            <div class="v"><span class="count" data-count="297.31" data-decimals="2">0.00</span> m²</div>
             <div class="l">Other areas</div>
           </div>
           <div class="stat">
-            <div class="v">90.36 m</div>
+            <div class="v"><span class="count" data-count="90.36" data-decimals="2">0.00</span> m</div>
             <div class="l">Top of railing</div>
           </div>
         </div>
@@ -641,42 +770,42 @@
     <p class="section-sub">The features estimators actually ask for, surfaced as plain buttons — no CAD experience required.</p>
 
     <div class="features">
-      <div class="feat">
+      <div class="feat reveal delay-1">
         <div class="ico">
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
         </div>
         <h3>Subtract zones automatically</h3>
         <p>Mark off doorways, columns, openings, or any zone you don't want counted — they're subtracted from the totals automatically.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal delay-2">
         <div class="ico">
           <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="18" cy="18" r="2"/></svg>
         </div>
         <h3>Group measurements</h3>
         <p>Combine related items — "all windows on floor 1", "all pipes in basement" — into a single named group with one total.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal delay-3">
         <div class="ico">
           <svg viewBox="0 0 24 24"><path d="M4 4h12l4 4v12a2 2 0 0 1-2 2H4z"/><path d="M14 4v6h6"/></svg>
         </div>
         <h3>One project, one file</h3>
         <p>Drawing, measurements, groups, settings — all kept in a single <span class="mono" style="color:var(--blue-light);font-size:12px">.cpb</span> file. Reopen tomorrow and pick up where you left off.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal delay-1">
         <div class="ico">
           <svg viewBox="0 0 24 24"><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/><circle cx="12" cy="12" r="9"/></svg>
         </div>
         <h3>Polish + English</h3>
         <p>Full localisation in both languages. Switch the entire interface from Settings — menus, dialogs, status bar, exports.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal delay-2">
         <div class="ico">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
         </div>
         <h3>Light or dark theme</h3>
         <p>Match the time of day and your monitor. Both themes share the same exact contrast ratios for measurements and dimension lines.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal delay-3">
         <div class="ico">
           <svg viewBox="0 0 24 24"><path d="M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9c2.5 0 4.7 1 6.4 2.6"/><path d="M21 3v6h-6"/></svg>
         </div>
@@ -695,7 +824,7 @@
     <p class="section-sub">A four-step flow that's the same whether you're measuring a 2-bedroom apartment or a 90-metre ship hull.</p>
 
     <div class="steps">
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">01<span>STEP</span></div>
         <div class="step-body">
           <h3>Open or convert your drawing</h3>
@@ -707,7 +836,7 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">02<span>STEP</span></div>
         <div class="step-body">
           <h3>Set the scale once</h3>
@@ -719,7 +848,7 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">03<span>STEP</span></div>
         <div class="step-body">
           <h3>Click around the parts you care about</h3>
@@ -731,7 +860,7 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">04<span>STEP</span></div>
         <div class="step-body">
           <h3>Save, reuse, export</h3>
@@ -754,23 +883,23 @@
     <p class="section-sub">If "expensive CAD software" or "a week of training" was the only thing standing between you and accurate numbers — that's exactly the gap Comprobare fills.</p>
 
     <div class="who-grid">
-      <div class="who-cell">
+      <div class="who-cell reveal delay-1">
         <div class="role">Estimators</div>
         <div class="desc">Bid faster with exact takeoff quantities, not ruler-on-paper guesses.</div>
       </div>
-      <div class="who-cell">
+      <div class="who-cell reveal delay-2">
         <div class="role">Contractors</div>
         <div class="desc">Order the right amount of material the first time. Re-measure changes in seconds.</div>
       </div>
-      <div class="who-cell">
+      <div class="who-cell reveal delay-3">
         <div class="role">Architects</div>
         <div class="desc">Verify areas on plans without opening a full CAD seat just to count m².</div>
       </div>
-      <div class="who-cell">
+      <div class="who-cell reveal delay-4">
         <div class="role">Engineers</div>
         <div class="desc">Quantify pipes, cables and routes directly from technical drawings.</div>
       </div>
-      <div class="who-cell">
+      <div class="who-cell reveal delay-5">
         <div class="role">Surveyors</div>
         <div class="desc">Digitise scanned plans and pull lengths and areas from any source drawing.</div>
       </div>
@@ -787,22 +916,22 @@
     <h2 class="section-h2">Four things, every time.</h2>
 
     <div class="why-grid">
-      <div class="why">
+      <div class="why reveal delay-1">
         <div class="big">01 — FAST</div>
         <h3><b>Minutes,</b><br/>not hours.</h3>
         <p>Measure a typical floor plan in the time it takes to make coffee. No menu-diving, no learning curve.</p>
       </div>
-      <div class="why">
+      <div class="why reveal delay-2">
         <div class="big">02 — ACCURATE</div>
         <h3><b>Exact</b> numbers, every time.</h3>
         <p>Snap-to-line, fixed scale, sub-millimetre precision. No manual ruler errors, no rounding to the nearest brick.</p>
       </div>
-      <div class="why">
+      <div class="why reveal delay-3">
         <div class="big">03 — SIMPLE</div>
         <h3>Clear buttons, <b>no CAD.</b></h3>
         <p>If you can use a web browser, you can use Comprobare. The whole interface is a labelled ribbon — that's it.</p>
       </div>
-      <div class="why">
+      <div class="why reveal delay-4">
         <div class="big">04 — KEPT TOGETHER</div>
         <h3>One file, <b>one place.</b></h3>
         <p>Drawing, measurements, groups, settings — all in one <span class="mono" style="color:var(--blue-light);">.cpb</span>. Email it, archive it, reopen it.</p>
@@ -926,12 +1055,111 @@
       <span>© 2026 comprobare</span>
       <div class="lang">
         <span class="active">EN</span>
-        <span>PL</span>
       </div>
       <span>made for Windows · DXF · PDF · CPB</span>
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  // Reveal-on-scroll observer
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) {
+        en.target.classList.add('visible');
+        if (en.target.classList.contains('count')) startCount(en.target);
+        en.target.querySelectorAll && en.target.querySelectorAll('.count').forEach(startCount);
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
+
+  // Scroll-driven parallax on every revealed block
+  var parallaxEls = [];
+  document.querySelectorAll('section.block, .showcase, .step, .feat, .who-cell, .hero-frame, .price-card').forEach(function(el){
+    parallaxEls.push(el);
+  });
+  var lastY = 0, ticking = false;
+  function onScroll(){
+    lastY = window.scrollY;
+    if (!ticking){
+      requestAnimationFrame(function(){
+        var vh = window.innerHeight;
+        parallaxEls.forEach(function(el){
+          var r = el.getBoundingClientRect();
+          var center = r.top + r.height/2 - vh/2;
+          var depth = parseFloat(el.dataset.depth || '0.04');
+          el.style.transform = 'translate3d(0,' + (-center * depth).toFixed(1) + 'px,0)';
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  document.querySelectorAll('.reveal, .anim-dim, .count').forEach(function(el){ io.observe(el); });
+
+  // Count-up
+  var started = new WeakSet();
+  function startCount(el){
+    if (started.has(el)) return;
+    started.add(el);
+    var target = parseFloat(el.getAttribute('data-count'));
+    var dec = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    if (isNaN(target)) return;
+    var dur = 1400, t0 = performance.now();
+    function tick(now){
+      var p = Math.min(1, (now - t0) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      var v = target * eased;
+      el.textContent = formatNum(v, dec);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  function formatNum(v, dec){
+    var s = v.toFixed(dec);
+    var parts = s.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '\u202F');
+    return parts.join('.');
+  }
+
+  // Hero parallax tilt
+  var tilt = document.getElementById('hero-tilt');
+  if (tilt && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !window.matchMedia('(max-width: 980px)').matches){
+    var frame = tilt.querySelector('.hero-frame');
+    tilt.addEventListener('mousemove', function(e){
+      var r = tilt.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      frame.style.setProperty('--ry', (x * 6).toFixed(2) + 'deg');
+      frame.style.setProperty('--rx', (-y * 5).toFixed(2) + 'deg');
+    });
+    tilt.addEventListener('mouseleave', function(){
+      frame.style.setProperty('--ry', '0deg');
+      frame.style.setProperty('--rx', '0deg');
+    });
+
+    // Subtle scroll-driven parallax on hero image
+    var heroImg = frame.querySelector('img');
+    window.addEventListener('scroll', function(){
+      var y = window.scrollY;
+      if (y < 800) heroImg.style.transform = 'translateY(' + (y * 0.04).toFixed(1) + 'px)';
+    }, { passive: true });
+  }
+
+  // Nav shadow on scroll
+  var nav = document.querySelector('nav');
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 8) nav.style.boxShadow = '0 8px 24px rgba(0,0,0,0.35)';
+    else nav.style.boxShadow = 'none';
+  }, { passive: true });
+})();
+</script>
 
 </body>
 </html>
