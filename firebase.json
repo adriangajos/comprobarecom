@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20",
+    "ignore": [
+      "node_modules",
+      ".git",
+      ".gitignore",
+      ".smtp_pass.txt",
+      "test-smtp.js",
+      "test-pdf.js",
+      "test-out.pdf",
+      "firebase-debug.log"
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

@@ -154,10 +154,12 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     gap: 56px;
-    align-items: center;
+    align-items: stretch;
   }
+  #hero-tilt { display: flex; }
   @media (max-width: 980px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; align-items: center; }
+    #hero-tilt { display: block; }
   }
   .hero-eyebrow { margin-bottom: 28px; }
   .hero h1 {
@@ -204,8 +206,19 @@
     box-shadow:
       0 30px 80px rgba(0,0,0,0.45),
       0 0 0 1px rgba(79,195,247,0.04);
+    height: 100%;
+    width: 100%;
   }
-  .hero-frame img { width: 100%; height: auto; display: block; }
+  .hero-frame img {
+    width: 100%; height: 100%; object-fit: cover;
+    object-position: left center; display: block;
+    transition: object-position 1.4s cubic-bezier(.2,.7,.2,1);
+  }
+  #hero-tilt:hover .hero-frame img { object-position: right center; }
+  @media (max-width: 980px) {
+    .hero-frame { height: auto; }
+    .hero-frame img { height: auto; object-fit: contain; object-position: center; }
+  }
   .hero-frame::after {
     content: ''; position: absolute; inset: 0;
     pointer-events: none;
@@ -350,7 +363,7 @@
   .steps { margin-top: 64px; display: flex; flex-direction: column; gap: 28px; }
   .step {
     display: grid;
-    grid-template-columns: 100px 1fr minmax(0, 1.1fr);
+    grid-template-columns: 100px 1fr;
     gap: 36px;
     align-items: center;
     background: var(--neutral-800);
@@ -815,28 +828,6 @@
         </div>
       </div>
     </div>
-
-    <!-- big showcase -->
-    <div class="showcase reveal">
-      <img src="assets/screen-ship.png" alt="Ship hull plan with multiple area and length measurements drawn in orange and green" />
-      <div class="showcase-cap">
-        <div class="left">
-          <div class="stat">
-            <div class="v"><span class="count" data-count="5527.30" data-decimals="2">0.00</span> m²</div>
-            <div class="l">Hull · 3 areas</div>
-          </div>
-          <div class="stat">
-            <div class="v"><span class="count" data-count="297.31" data-decimals="2">0.00</span> m²</div>
-            <div class="l">Other areas</div>
-          </div>
-          <div class="stat">
-            <div class="v"><span class="count" data-count="90.36" data-decimals="2">0.00</span> m</div>
-            <div class="l">Top of railing</div>
-          </div>
-        </div>
-        <div class="right">scale 1:125 · 42 lines · X 149.898  Y 1.455</div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -909,9 +900,6 @@
           <p>Drop in a DXF or PDF. For paper plans, "Convert PDF" turns a scan into a clean, measurable drawing — pick low / med / high to match scan quality.</p>
           <div class="meta">DXF · PDF · scanned PDF · CPB</div>
         </div>
-        <div class="step-vis contain">
-          <img src="assets/screen-app.png" alt="Home ribbon with Convert PDF, Open CPB, Save As CPB and Open DXF buttons" />
-        </div>
       </div>
 
       <div class="step reveal">
@@ -920,9 +908,6 @@
           <h3>Set the scale once</h3>
           <p>Calibrate from a known dimension on the drawing, or type the scale directly (1:50, 1:125, etc). Comprobare locks the scale into the project — every measurement after that is in real units.</p>
           <div class="meta">Calibrate · enter scale · 1:1 to 1:5000</div>
-        </div>
-        <div class="step-vis contain" style="background:#1f2125;">
-          <img src="assets/screen-scale.png" alt="Scale ribbon tab with Calibrate and Enter Scale buttons" />
         </div>
       </div>
 
@@ -933,9 +918,6 @@
           <p>Trace areas with a polygon, lay down lengths point to point, mark off zones to subtract. Each measurement appears in the right-hand panel with its area, length, factor and total — colour-coded.</p>
           <div class="meta">Areas · lengths · factors · subtractions</div>
         </div>
-        <div class="step-vis" style="height:280px;">
-          <img src="assets/screen-results.png" alt="Measurement results panel showing Hull group with three areas totalling 5527.30 m squared" style="object-fit:contain;background:var(--neutral-850);"/>
-        </div>
       </div>
 
       <div class="step reveal">
@@ -944,9 +926,6 @@
           <h3>Save, reuse, export</h3>
           <p>Save the whole project as <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span>. Save snapshots of measurement sets to the memory panel — reopen them next time, or load them onto a similar drawing in seconds.</p>
           <div class="meta">.cpb · snapshots · copy · export PDF</div>
-        </div>
-        <div class="step-vis" style="height:280px;">
-          <img src="assets/screen-memory.png" alt="Measurements memory panel with saved sets: Seachests, AFT Rooms, Steering room, Hull" style="object-fit:contain;background:var(--neutral-850);"/>
         </div>
       </div>
     </div>
@@ -1054,14 +1033,14 @@
         <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:10px;">
           <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Everything in the trial</li>
           <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Free version updates for 12 months</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Email support · <a href="mailto:gs@plaszowska25.pl" style="color:var(--blue-light);">gs@plaszowska25.pl</a></li>
+          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span><a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email support</a></li>
           <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Volume discounts for 5+ stations</li>
         </ul>
-        <a class="btn btn-primary payu-purchase-button" href="mailto:gs@plaszowska25.pl?subject=Comprobare%20license%20purchase" style="width:100%;justify-content:center;">
-          Buy via PayU
+        <a class="btn btn-primary payu-purchase-button" href="order.html" style="width:100%;justify-content:center;">
+          Buy License
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
-        <p style="font-family:var(--font-mono);font-size:10.5px;color:var(--neutral-500);margin-top:14px;text-align:center;letter-spacing:1px;">Secure payment · PayU · cards / BLIK / transfer</p>
+        <p style="font-family:var(--font-mono);font-size:10.5px;color:var(--neutral-500);margin-top:14px;text-align:center;letter-spacing:1px;">Proforma invoice · pay by bank transfer</p>
         <p class="purchase-terms-link" style="font-size:12px;color:var(--neutral-400);margin-top:12px;text-align:center;">
           <a href="purchase-terms.html" style="color:var(--blue-light);">Purchase terms</a>
         </p>
@@ -1069,7 +1048,7 @@
     </div>
 
     <p style="font-size:13px;color:var(--neutral-500);margin-top:28px;text-align:center;">
-      Need a quote for a team or company-wide license? Call <a href="tel:+48606838358" style="color:var(--blue-light);">+48 606 838358</a> or email <a href="mailto:gs@plaszowska25.pl" style="color:var(--blue-light);">gs@plaszowska25.pl</a>
+      Need a quote for a team or company-wide license? <a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email us</a>
     </p>
   </div>
 </section>
@@ -1108,7 +1087,6 @@
           <svg class="logo-icon-svg" aria-hidden="true"><use href="#cmp-mark"></use></svg>
           <span class="wordmark">com<b>pro</b>bare</span>
         </a>
-        <p>GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ<br/>ul. Płaszowska 25/1, 30-713 Kraków<br/>KRS 0001144358 · NIP 6793317716 · REGON 540426181</p>
       </div>
       <div class="foot-col">
         <h4>Product</h4>
@@ -1120,8 +1098,7 @@
       </div>
       <div class="foot-col">
         <h4>Contact</h4>
-        <a href="tel:+48606838358">+48 606 838358</a>
-        <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
+        <a href="mailto:comprobareapp@gmail.com">Email us</a>
       </div>
       <div class="foot-col">
         <h4>Legal</h4>
@@ -1146,9 +1123,6 @@
 
 <script>
 (function(){
-  // Paste the PayU Payment Link URL here after creating it in the PayU merchant panel.
-  var PAYU_PAYMENT_URL = '';
-
   var translations = {
     en: {
       title: 'comprobare - measure plans and drawings, fast',
@@ -1262,16 +1236,12 @@
         licensePrice: '€100',
         licenseUnit: '/ year / station',
         licenseBody: 'One workstation, one year, every feature. Free updates for the duration of your license.',
-        licenseItems: ['Everything in the trial', 'Free version updates for 12 months', 'Email support · gs@plaszowska25.pl', 'Volume discounts for 5+ stations'],
-        payuBtn: 'Buy via PayU',
-        payuFallbackBtn: 'Request PayU payment link',
-        payuNote: 'Secure payment · PayU · cards / BLIK / transfer',
-        payuFallbackNote: 'PayU checkout will open here after the payment link is connected.',
+        licenseItems: ['Everything in the trial', 'Free version updates for 12 months', 'Email support', 'Volume discounts for 5+ stations'],
+        payuBtn: 'Buy License',
+        payuNote: 'Proforma invoice · pay by bank transfer',
         quote: 'Need a quote for a team or company-wide license?',
-        quotePhoneText: 'Call',
-        quotePhone: '+48 606 838358',
-        quoteJoin: 'or email',
-        quoteMail: 'gs@plaszowska25.pl',
+        quoteLink: 'Email us',
+        quoteMail: 'comprobareapp@gmail.com',
         terms: 'Purchase terms'
       },
       cta: {
@@ -1401,16 +1371,12 @@
         licensePrice: '€100',
         licenseUnit: '/ rok / stanowisko',
         licenseBody: 'Jedno stanowisko, jeden rok, wszystkie funkcje. Darmowe aktualizacje przez cały okres licencji.',
-        licenseItems: ['Wszystko z triala', 'Darmowe aktualizacje przez 12 miesięcy', 'Wsparcie mailowe · gs@plaszowska25.pl', 'Rabat dla 5+ stanowisk'],
-        payuBtn: 'Kup przez PayU',
-        payuFallbackBtn: 'Poproś o link płatności PayU',
-        payuNote: 'Bezpieczna płatność · PayU · karty / BLIK / przelew',
-        payuFallbackNote: 'Płatność PayU będzie dostępna tutaj po podłączeniu linku płatności.',
+        licenseItems: ['Wszystko z triala', 'Darmowe aktualizacje przez 12 miesięcy', 'Wsparcie mailowe', 'Rabat dla 5+ stanowisk'],
+        payuBtn: 'Kup licencję',
+        payuNote: 'Faktura proforma · płatność przelewem',
         quote: 'Potrzebujesz oferty dla zespołu lub firmy?',
-        quotePhoneText: 'Zadzwoń',
-        quotePhone: '+48 606 838358',
-        quoteJoin: 'lub napisz',
-        quoteMail: 'gs@plaszowska25.pl',
+        quoteLink: 'Napisz do nas',
+        quoteMail: 'comprobareapp@gmail.com',
         terms: 'Warunki zakupu'
       },
       cta: {
@@ -1586,27 +1552,26 @@
       if (c1Price) c1Price.textContent = t.pricing.licensePrice;
       if (c1Unit) c1Unit.textContent = t.pricing.licenseUnit;
       c1.querySelector('p').textContent = t.pricing.licenseBody;
-      c1.querySelectorAll('ul li').forEach(function(li, i){ if (t.pricing.licenseItems[i]) li.childNodes[1].nodeValue = t.pricing.licenseItems[i]; });
+      c1.querySelectorAll('ul li').forEach(function(li, i){
+        if (!t.pricing.licenseItems[i]) return;
+        var liLink = li.querySelector('a');
+        if (liLink) liLink.textContent = t.pricing.licenseItems[i];
+        else li.childNodes[1].nodeValue = t.pricing.licenseItems[i];
+      });
       var payuButton = c1.querySelector('.payu-purchase-button');
-      var hasPayuUrl = /^https?:\/\//.test(PAYU_PAYMENT_URL);
       if (payuButton) {
-        payuButton.childNodes[0].nodeValue = hasPayuUrl ? t.pricing.payuBtn : t.pricing.payuFallbackBtn;
-        payuButton.href = hasPayuUrl ? PAYU_PAYMENT_URL : 'mailto:' + t.pricing.quoteMail + '?subject=Comprobare%20license%20purchase';
-        if (hasPayuUrl) {
-          payuButton.setAttribute('target', '_blank');
-          payuButton.setAttribute('rel', 'noopener');
-        } else {
-          payuButton.removeAttribute('target');
-          payuButton.removeAttribute('rel');
-        }
+        payuButton.childNodes[0].nodeValue = t.pricing.payuBtn;
+        payuButton.href = 'order.html';
+        payuButton.removeAttribute('target');
+        payuButton.removeAttribute('rel');
       }
       var payuNote = c1.querySelector('p[style*="font-family"]');
-      if (payuNote) payuNote.textContent = hasPayuUrl ? t.pricing.payuNote : t.pricing.payuFallbackNote;
+      if (payuNote) payuNote.textContent = t.pricing.payuNote;
       var termsLink = c1.querySelector('.purchase-terms-link a');
       if (termsLink) termsLink.textContent = t.pricing.terms;
     }
     var pricingQuote = document.querySelector('#pricing > .wrap > p:last-child');
-    if (pricingQuote) pricingQuote.innerHTML = t.pricing.quote + ' ' + t.pricing.quotePhoneText + ' <a href="tel:+48606838358" style="color:var(--blue-light);">' + t.pricing.quotePhone + '</a> ' + t.pricing.quoteJoin + ' <a href="mailto:' + t.pricing.quoteMail + '" style="color:var(--blue-light);">' + t.pricing.quoteMail + '</a>';
+    if (pricingQuote) pricingQuote.innerHTML = t.pricing.quote + ' <a href="mailto:' + t.pricing.quoteMail + '" style="color:var(--blue-light);">' + t.pricing.quoteLink + '</a>';
     var ctaH2 = document.querySelector('.cta h2');
     if (ctaH2) ctaH2.innerHTML = t.cta.h2;
     var ctaP = document.querySelector('.cta p');
@@ -1729,13 +1694,6 @@
       frame.style.setProperty('--ry', '0deg');
       frame.style.setProperty('--rx', '0deg');
     });
-
-    // Subtle scroll-driven parallax on hero image
-    var heroImg = frame.querySelector('img');
-    window.addEventListener('scroll', function(){
-      var y = window.scrollY;
-      if (y < 800) heroImg.style.transform = 'translateY(' + (y * 0.04).toFixed(1) + 'px)';
-    }, { passive: true });
   }
 
   // Nav shadow on scroll

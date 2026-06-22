@@ -1,0 +1,5 @@
+node_modules/
+.env
+*.log
+.runtimeconfig.json
+.smtp_pass.txt
