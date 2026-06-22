@@ -67,6 +67,8 @@ const UNIT_GROSS = 100; // EUR, incl. VAT
 const VAT_RATE = 0.23;
 const CURRENCY = "EUR";
 const PROFORMA_VALID_DAYS = 7;
+// Numbering starts after this value, so the first issued proforma is 101.
+const PROFORMA_START = 100;
 
 // Public order endpoint — allow any origin (CORS is not a meaningful control
 // here since the endpoint can be called server-side regardless; abuse is
@@ -116,13 +118,15 @@ async function nextProformaNumber() {
   const ref = db.collection("counters").doc("proforma");
   const seq = await db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
-    let current = 0;
-    if (snap.exists && snap.get("year") === year) current = snap.get("seq") || 0;
+    let current = PROFORMA_START;
+    if (snap.exists && snap.get("year") === year) {
+      current = Math.max(snap.get("seq") || 0, PROFORMA_START);
+    }
     const next = current + 1;
     tx.set(ref, { year, seq: next }, { merge: true });
     return next;
   });
-  return `PF/${year}/${String(seq).padStart(4, "0")}`;
+  return `PF/${year}/${String(seq).padStart(3, "0")}`;
 }
 
 // Draw the Comprobare logo mark (from the 80x80 SVG symbol) at (x, y), scaled.
