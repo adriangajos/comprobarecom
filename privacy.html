@@ -56,6 +56,30 @@
     display: inline-flex; align-items: center; gap: 8px;
   }
   .nav-back:hover { color: var(--white); text-decoration: none; }
+  .lang-switch {
+    display: inline-flex;
+    gap: 6px;
+    padding: 4px;
+    border: 1px solid #2e3135;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.02);
+  }
+  .lang-switch button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--neutral-400);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: var(--blue-primary);
+    color: var(--white);
+  }
 
   .hdr { padding: 80px 0 32px; }
   .hdr .eyebrow {
@@ -127,10 +151,16 @@
       <svg width="32" height="32" aria-hidden="true"><use href="#cmp-mark"></use></svg>
       <span class="wordmark">com<b>pro</b>bare</span>
     </a>
-    <a class="nav-back" href="index.html">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m0 0l6 6m-6-6l6-6"/></svg>
-      Back to home
-    </a>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div class="lang-switch" aria-label="Language switcher">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="pl">PL</button>
+      </div>
+      <a class="nav-back" href="index.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m0 0l6 6m-6-6l6-6"/></svg>
+        Back to home
+      </a>
+    </div>
   </div>
 </nav>
 
@@ -145,61 +175,7 @@
 <article>
   <div class="wrap">
 
-    <p>This privacy policy describes how Comprobare ("we", "us", "the application") collects, uses and protects information when you use the Comprobare desktop application or visit <a href="https://comprobare.com">comprobare.com</a>. We aim to keep this short and plain.</p>
-
-    <div class="callout">
-      <strong>The short version:</strong> Comprobare is a desktop application. Your drawings and measurements stay on your computer — we never upload them. We only handle the small amount of data needed to run the website, deliver updates, and process license payments.
-    </div>
-
-    <h2>1. Who we are</h2>
-    <p>Comprobare is operated by the Comprobare team. For any questions about privacy or your data, contact us at <a href="mailto:contact@comprobare.com">contact@comprobare.com</a>.</p>
-
-    <h2>2. Data the desktop application handles</h2>
-    <h3>Stays on your computer</h3>
-    <p>Drawings (DXF, PDF, scanned plans), measurements, groups, project files (<span class="mono">.cpb</span>), application settings and language preferences are stored locally on your device. They are not transmitted to us.</p>
-
-    <h3>Sent to us only when needed</h3>
-    <ul>
-      <li><strong>License key validation</strong> — when you activate or renew a license, your key and a non-personal hardware identifier are sent to our license server to confirm the license is valid for the station.</li>
-      <li><strong>Update checks</strong> — the application periodically checks our update server for a newer version. The check sends only your current version number and operating system.</li>
-      <li><strong>Crash reports</strong> — if the application crashes, you may be asked whether to send a diagnostic report. This contains technical information about the failure and never includes your drawings.</li>
-    </ul>
-
-    <h2>3. Data we collect on the website</h2>
-    <p>The website uses minimal analytics to understand which pages are visited (page URL, referrer, country, browser type). We do not use cross-site advertising trackers. The site uses a single functional cookie to remember your language preference.</p>
-
-    <h2>4. Payments</h2>
-    <p>License purchases are processed by <strong>PayU</strong>, a third-party payment provider. When you pay, you provide your details directly to PayU; we receive only the confirmation and the data needed to issue an invoice (your name, company name, billing address, VAT number, email). We never see or store your card details.</p>
-    <p>PayU's own privacy policy is available on their website.</p>
-
-    <h2>5. Why we hold your data</h2>
-    <ul>
-      <li>To deliver the application and updates you've licensed.</li>
-      <li>To verify that licenses are used on the number of stations they were purchased for.</li>
-      <li>To issue invoices and meet our tax/accounting obligations.</li>
-      <li>To respond to support requests sent to <a href="mailto:support@comprobare.com">support@comprobare.com</a>.</li>
-    </ul>
-
-    <h2>6. How long we keep it</h2>
-    <p>License records are kept for as long as the license is active and for the period required by accounting law afterwards (typically 5 years in the EU). Support emails are kept for up to 24 months. Update-check and analytics logs are anonymised and retained for no more than 12 months.</p>
-
-    <h2>7. Your rights</h2>
-    <p>Under GDPR and applicable laws you have the right to access, correct, export or delete the personal data we hold about you, and to object to its processing. To exercise any of these rights, email <a href="mailto:contact@comprobare.com">contact@comprobare.com</a>. We will respond within 30 days.</p>
-
-    <h2>8. Sharing with third parties</h2>
-    <p>We share data only with the providers required to run the service: PayU (payments), our hosting provider (serving the website and the installer), and our update / license server provider. We do not sell personal data, and we do not share it for advertising.</p>
-
-    <h2>9. Security</h2>
-    <p>License and update servers are accessed over HTTPS. License keys are stored hashed. We follow industry-standard practices for protecting our infrastructure, but no system is perfectly secure — please report any suspected vulnerability to <a href="mailto:contact@comprobare.com">contact@comprobare.com</a>.</p>
-
-    <h2>10. Changes to this policy</h2>
-    <p>If we make material changes to this policy, we will update the date at the top and, where appropriate, notify license holders by email. Continued use of the application after changes constitutes acceptance.</p>
-
-    <h2>11. Contact</h2>
-    <p>
-      General &amp; privacy: <a href="mailto:contact@comprobare.com">contact@comprobare.com</a><br/>
-      Technical support: <a href="mailto:support@comprobare.com">support@comprobare.com</a>
-    </p>
+    <div id="privacy-body"></div>
 
   </div>
 </article>
@@ -210,10 +186,150 @@
     <div style="display:flex;gap:24px;">
       <a href="index.html">Home</a>
       <a href="license.html">License</a>
-      <a href="mailto:contact@comprobare.com">contact@comprobare.com</a>
+      <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
     </div>
   </div>
 </footer>
 
+<script>
+(function(){
+  var t = {
+    en: {
+      title: 'Privacy Policy — comprobare',
+      desc: 'Privacy policy for the Comprobare desktop application and comprobare.com.',
+      eyebrow: 'Legal',
+      h1: 'Privacy <b>Policy</b>',
+      meta: 'Last updated: 06 May 2026',
+      back: 'Back to home',
+      body: `
+        <p>This privacy policy describes how Comprobare ("we", "us", "the application") collects, uses and protects information when you use the Comprobare desktop application or visit <a href="https://comprobare.com">comprobare.com</a>. We aim to keep this short and plain.</p>
+        <div class="callout">
+          <strong>The short version:</strong> Comprobare is a desktop application. Your drawings and measurements stay on your computer — we never upload them. We only handle the small amount of data needed to run the website, deliver updates, and process license payments.
+        </div>
+        <h2>1. Who we are</h2>
+        <p>GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ, ul. Płaszowska 25/1, 30-713 Kraków, KRS 0001144358, NIP 6793317716, REGON 540426181. For any questions about privacy or your data, contact us at <a href="tel:+48606838358">+48 606 838358</a> or <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>.</p>
+        <h2>2. Data the desktop application handles</h2>
+        <h3>Stays on your computer</h3>
+        <p>Drawings (DXF, PDF, scanned plans), measurements, groups, project files (<span class="mono">.cpb</span>), application settings and language preferences are stored locally on your device. They are not transmitted to us.</p>
+        <h3>Sent to us only when needed</h3>
+        <ul>
+          <li><strong>License key validation</strong> — when you activate or renew a license, your key and a non-personal hardware identifier are sent to our license server to confirm the license is valid for the station.</li>
+          <li><strong>Update checks</strong> — the application periodically checks our update server for a newer version. The check sends only your current version number and operating system.</li>
+          <li><strong>Crash reports</strong> — if the application crashes, you may be asked whether to send a diagnostic report. This contains technical information about the failure and never includes your drawings.</li>
+        </ul>
+        <h2>3. Data we collect on the website</h2>
+        <p>The website uses minimal analytics to understand which pages are visited (page URL, referrer, country, browser type). We do not use cross-site advertising trackers. The site uses a single functional cookie to remember your language preference.</p>
+        <h2>4. Payments</h2>
+        <p>License purchases are processed by <strong>PayU</strong>, a third-party payment provider. When you pay, you provide your details directly to PayU; we receive only the confirmation and the data needed to issue an invoice (your name, company name, billing address, VAT number, email). We never see or store your card details.</p>
+        <p>PayU's own privacy policy is available on their website.</p>
+        <h2>5. Why we hold your data</h2>
+        <ul>
+          <li>To deliver the application and updates you've licensed.</li>
+          <li>To verify that licenses are used on the number of stations they were purchased for.</li>
+          <li>To issue invoices and meet our tax/accounting obligations.</li>
+          <li>To respond to support requests sent to <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>.</li>
+        </ul>
+        <h2>6. How long we keep it</h2>
+        <p>License records are kept for as long as the license is active and for the period required by accounting law afterwards (typically 5 years in the EU). Support emails are kept for up to 24 months. Update-check and analytics logs are anonymised and retained for no more than 12 months.</p>
+        <h2>7. Your rights</h2>
+        <p>Under GDPR and applicable laws you have the right to access, correct, export or delete the personal data we hold about you, and to object to its processing. To exercise any of these rights, email <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>. We will respond within 30 days.</p>
+        <h2>8. Sharing with third parties</h2>
+        <p>We share data only with the providers required to run the service: PayU (payments), our hosting provider (serving the website and the installer), and our update / license server provider. We do not sell personal data, and we do not share it for advertising.</p>
+        <h2>9. Security</h2>
+        <p>License and update servers are accessed over HTTPS. License keys are stored hashed. We follow industry-standard practices for protecting our infrastructure, but no system is perfectly secure — please report any suspected vulnerability to <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>.</p>
+        <h2>10. Changes to this policy</h2>
+        <p>If we make material changes to this policy, we will update the date at the top and, where appropriate, notify license holders by email. Continued use of the application after changes constitutes acceptance.</p>
+        <h2>11. Contact</h2>
+        <p>
+          General &amp; privacy: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a><br/>
+          Technical support: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
+        </p>
+      `,
+      footer: ['Home', 'License', 'gs@plaszowska25.pl']
+    },
+    pl: {
+      title: 'Polityka prywatności — comprobare',
+      desc: 'Polityka prywatności dla aplikacji Comprobare i strony comprobare.com.',
+      eyebrow: 'Formalne',
+      h1: 'Polityka <b>prywatności</b>',
+      meta: 'Ostatnia aktualizacja: 06 May 2026',
+      back: 'Powrót do strony głównej',
+      body: `
+        <p>Niniejsza polityka prywatności opisuje, w jaki sposób Comprobare ("my", "nas", "aplikacja") zbiera, wykorzystuje i chroni informacje podczas korzystania z aplikacji desktopowej Comprobare lub odwiedzania strony <a href="https://comprobare.com">comprobare.com</a>. Staramy się, aby była krótka i zrozumiała.</p>
+        <div class="callout">
+          <strong>W skrócie:</strong> Comprobare to aplikacja desktopowa. Twoje rysunki i pomiary zostają na Twoim komputerze — niczego nie wysyłamy na serwer. Przetwarzamy tylko niewielki zakres danych potrzebny do działania strony, dostarczania aktualizacji i obsługi płatności za licencję.
+        </div>
+        <h2>1. Kim jesteśmy</h2>
+        <p>GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ, ul. Płaszowska 25/1, 30-713 Kraków, KRS 0001144358, NIP 6793317716, REGON 540426181. W sprawach związanych z prywatnością lub danymi napisz na <a href="tel:+48606838358">+48 606 838358</a> lub <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>.</p>
+        <h2>2. Dane obsługiwane przez aplikację</h2>
+        <h3>Pozostają na Twoim komputerze</h3>
+        <p>Rysunki (DXF, PDF, zeskanowane plany), pomiary, grupy, pliki projektów (<span class="mono">.cpb</span>), ustawienia aplikacji i preferencje języka są przechowywane lokalnie na Twoim urządzeniu. Nie są do nas przesyłane.</p>
+        <h3>Wysyłane tylko wtedy, gdy to konieczne</h3>
+        <ul>
+          <li><strong>Weryfikacja klucza licencyjnego</strong> — podczas aktywacji lub odnowienia licencji Twój klucz oraz nieosobowy identyfikator sprzętu są wysyłane do naszego serwera licencyjnego, aby potwierdzić poprawność licencji dla danego stanowiska.</li>
+          <li><strong>Sprawdzanie aktualizacji</strong> — aplikacja okresowo sprawdza nasz serwer aktualizacji w poszukiwaniu nowszej wersji. Sprawdzenie wysyła wyłącznie numer bieżącej wersji i system operacyjny.</li>
+          <li><strong>Raporty awarii</strong> — jeśli aplikacja ulegnie awarii, możesz zostać poproszony o wysłanie raportu diagnostycznego. Zawiera on techniczne informacje o błędzie i nigdy nie zawiera Twoich rysunków.</li>
+        </ul>
+        <h2>3. Dane zbierane na stronie</h2>
+        <p>Strona korzysta z minimalnej analityki, aby rozumieć, które podstrony są odwiedzane (adres URL, referrer, kraj, typ przeglądarki). Nie używamy trackerów reklamowych między stronami. Serwis używa jednego funkcjonalnego pliku cookie do zapamiętania preferencji języka.</p>
+        <h2>4. Płatności</h2>
+        <p>Zakupy licencji są obsługiwane przez <strong>PayU</strong>, zewnętrznego operatora płatności. Podczas płatności podajesz dane bezpośrednio do PayU; my otrzymujemy wyłącznie potwierdzenie oraz dane potrzebne do wystawienia faktury (imię i nazwisko, nazwa firmy, adres rozliczeniowy, numer VAT, e-mail). Nigdy nie widzimy ani nie przechowujemy danych karty.</p>
+        <p>Własna polityka prywatności PayU jest dostępna na ich stronie.</p>
+        <h2>5. Po co przechowujemy dane</h2>
+        <ul>
+          <li>Aby dostarczyć aplikację i aktualizacje objęte licencją.</li>
+          <li>Aby sprawdzić, czy licencje są używane na liczbie stanowisk, dla których zostały kupione.</li>
+          <li>Aby wystawiać faktury i spełniać obowiązki podatkowo-księgowe.</li>
+          <li>Aby odpowiadać na zgłoszenia wysłane na <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>.</li>
+        </ul>
+        <h2>6. Jak długo je przechowujemy</h2>
+        <p>Rekordy licencji przechowujemy tak długo, jak licencja jest aktywna, oraz przez okres wymagany przepisami księgowymi po jej zakończeniu (zwykle 5 lat w UE). Wiadomości do wsparcia przechowujemy do 24 miesięcy. Logi sprawdzania aktualizacji i analityki są anonimizowane i przechowywane nie dłużej niż 12 miesięcy.</p>
+        <h2>7. Twoje prawa</h2>
+        <p>Na podstawie RODO i obowiązujących przepisów masz prawo dostępu, poprawiania, eksportu lub usunięcia danych osobowych, które posiadamy, oraz prawo sprzeciwu wobec ich przetwarzania. Aby skorzystać z tych praw, napisz na <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>. Odpowiemy w ciągu 30 dni.</p>
+        <h2>8. Udostępnianie podmiotom trzecim</h2>
+        <p>Udostępniamy dane wyłącznie dostawcom niezbędnym do działania usługi: PayU (płatności), dostawcy hostingu (strona i instalator) oraz dostawcy serwera aktualizacji / licencji. Nie sprzedajemy danych osobowych i nie udostępniamy ich do celów reklamowych.</p>
+        <h2>9. Bezpieczeństwo</h2>
+        <p>Serwery licencji i aktualizacji są dostępne przez HTTPS. Klucze licencyjne są przechowywane w formie hashowanej. Stosujemy standardowe praktyki ochrony infrastruktury, ale żaden system nie jest w pełni bezpieczny — prosimy o zgłaszanie podejrzanych luk na <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>.</p>
+        <h2>10. Zmiany w polityce</h2>
+        <p>Jeżeli wprowadzimy istotne zmiany w tej polityce, zaktualizujemy datę u góry i, jeśli będzie to właściwe, powiadomimy posiadaczy licencji e-mailem. Dalsze korzystanie z aplikacji po zmianach oznacza ich akceptację.</p>
+        <h2>11. Kontakt</h2>
+        <p>
+          Ogólne / prywatność: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a><br/>
+          Pomoc techniczna: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
+        </p>
+      `,
+      footer: ['Strona główna', 'Regulamin', 'gs@plaszowska25.pl']
+    }
+  };
+
+  function apply(lang){
+    var x = t[lang] || t.en;
+    document.documentElement.lang = lang;
+    document.title = x.title;
+    document.querySelector('meta[name="description"]').setAttribute('content', x.desc);
+    document.querySelector('.hdr .eyebrow').textContent = x.eyebrow;
+    document.querySelector('.hdr h1').innerHTML = x.h1;
+    document.querySelector('.hdr .meta').textContent = x.meta;
+    document.querySelector('.nav-back').lastChild.textContent = x.back;
+    document.getElementById('privacy-body').innerHTML = x.body;
+    var footerLinks = document.querySelectorAll('.foot-inner a');
+    if (footerLinks[0]) footerLinks[0].textContent = x.footer[0];
+    if (footerLinks[1]) footerLinks[1].textContent = x.footer[1];
+    if (footerLinks[2]) footerLinks[2].textContent = x.footer[2];
+    document.querySelectorAll('[data-lang]').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === lang ? 'true' : 'false');
+    });
+    localStorage.setItem('comprobare-lang', lang);
+  }
+
+  document.querySelectorAll('[data-lang]').forEach(function(btn){
+    btn.addEventListener('click', function(){ apply(btn.getAttribute('data-lang')); });
+  });
+  apply(localStorage.getItem('comprobare-lang') || 'en');
+})();
+</script>
+
 </body>
 </html>
+

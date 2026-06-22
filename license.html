@@ -56,6 +56,30 @@
     display: inline-flex; align-items: center; gap: 8px;
   }
   .nav-back:hover { color: var(--white); text-decoration: none; }
+  .lang-switch {
+    display: inline-flex;
+    gap: 6px;
+    padding: 4px;
+    border: 1px solid #2e3135;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.02);
+  }
+  .lang-switch button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--neutral-400);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: var(--blue-primary);
+    color: var(--white);
+  }
 
   .hdr { padding: 80px 0 32px; }
   .hdr .eyebrow {
@@ -131,10 +155,16 @@
       <svg width="32" height="32" aria-hidden="true"><use href="#cmp-mark"></use></svg>
       <span class="wordmark">com<b>pro</b>bare</span>
     </a>
-    <a class="nav-back" href="index.html">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m0 0l6 6m-6-6l6-6"/></svg>
-      Back to home
-    </a>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div class="lang-switch" aria-label="Language switcher">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="pl">PL</button>
+      </div>
+      <a class="nav-back" href="index.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m0 0l6 6m-6-6l6-6"/></svg>
+        Back to home
+      </a>
+    </div>
   </div>
 </nav>
 
@@ -149,74 +179,7 @@
 <article>
   <div class="wrap">
 
-    <p>This End-User License Agreement ("Agreement") is a legal contract between you ("Licensee") and Comprobare ("Licensor") for the use of the Comprobare desktop application (the "Software"). By installing, copying or otherwise using the Software, you agree to be bound by the terms of this Agreement. If you do not agree, do not install or use the Software.</p>
-
-    <div class="callout">
-      <strong>Plain summary:</strong> Buying a license gives you the right to run Comprobare on one workstation for one year. You can use it for any work, including paid commercial work. You can't redistribute the installer or share your license key. We provide updates during your license term and reasonable email support.
-    </div>
-
-    <h2><span class="num">01</span> Definitions</h2>
-    <ul>
-      <li><strong>Software</strong> — the Comprobare desktop application, including all updates and accompanying files.</li>
-      <li><strong>Station</strong> — a single physical or virtual workstation identified by a unique hardware fingerprint.</li>
-      <li><strong>License Term</strong> — the 12-month period beginning on the date of activation, unless otherwise agreed.</li>
-      <li><strong>Trial</strong> — a 7-day evaluation period during which the Software may be used without a paid license.</li>
-    </ul>
-
-    <h2><span class="num">02</span> Grant of License</h2>
-    <p>Subject to payment of the applicable fee (€100 per station per year, or the price agreed in writing for volume orders), the Licensor grants the Licensee a non-exclusive, non-transferable license to install and use the Software on the number of Stations purchased, for the duration of the License Term.</p>
-    <p>The license is granted for both personal and commercial use, including for paid project work and client deliverables.</p>
-
-    <h2><span class="num">03</span> Free trial</h2>
-    <p>The Software may be used for a <strong>7-day free trial</strong> on any single Station, with all features enabled. After the trial expires, a valid license key is required to continue using the Software.</p>
-
-    <h2><span class="num">04</span> Restrictions</h2>
-    <p>You agree not to:</p>
-    <ul>
-      <li>Distribute, sublicense, rent, lease or sell the Software or any installer to third parties.</li>
-      <li>Share or publish your license key.</li>
-      <li>Reverse-engineer, decompile or disassemble the Software, except to the extent permitted by applicable law.</li>
-      <li>Remove or alter copyright notices, trademarks or proprietary markings.</li>
-      <li>Use the Software to violate any applicable law.</li>
-    </ul>
-
-    <h2><span class="num">05</span> Updates and support</h2>
-    <p>During the License Term you are entitled to all updates released for the Software (bug fixes, new features and major versions). Updates may be delivered automatically or via the in-app update mechanism.</p>
-    <p>Reasonable email support is provided at <a href="mailto:support@comprobare.com">support@comprobare.com</a> on business days. Response times are best-effort and not guaranteed.</p>
-
-    <h2><span class="num">06</span> Activation and license validation</h2>
-    <p>The Software performs periodic license validation against the Licensor's servers. The Licensee agrees that the Software may transmit the license key and a non-personal hardware identifier for this purpose. See the <a href="privacy.html">Privacy Policy</a> for details.</p>
-    <p>If a license key is detected on more Stations than purchased, the Licensor may revoke or block the key after notifying the Licensee.</p>
-
-    <h2><span class="num">07</span> Renewal and termination</h2>
-    <p>Licenses do not auto-renew. After the License Term ends, the Software will continue to open existing project files in read-only mode, and a new license must be purchased to continue creating or editing measurements.</p>
-    <p>The Licensor may terminate this Agreement if the Licensee materially breaches it (for example by sharing license keys or attempting to circumvent license validation). On termination the Licensee must cease use of the Software.</p>
-
-    <h2><span class="num">08</span> Refunds</h2>
-    <p>Because a 7-day fully-featured trial is offered before purchase, paid licenses are <strong>non-refundable</strong> once activated, except where required by applicable consumer law. If you encounter a technical issue that prevents use, contact <a href="mailto:support@comprobare.com">support@comprobare.com</a> within 14 days of purchase and we'll work to resolve it or, if we can't, refund the affected license.</p>
-
-    <h2><span class="num">09</span> Intellectual property</h2>
-    <p>The Software is licensed, not sold. All title, copyright and intellectual property rights in and to the Software remain with the Licensor. No rights are granted other than those expressly described in this Agreement.</p>
-    <p>Drawings, measurements and project files you create with the Software are entirely your property. The Licensor claims no ownership over your work product.</p>
-
-    <h2><span class="num">10</span> Disclaimer of warranties</h2>
-    <p>The Software is provided <span class="mono">"AS IS"</span> and <span class="mono">"AS AVAILABLE"</span> without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy of measurement results, or non-infringement.</p>
-    <p>Measurements produced by the Software depend on the quality and scale of the source drawing. The Licensee is solely responsible for verifying critical figures before relying on them for procurement, construction, billing or any other consequential decision.</p>
-
-    <h2><span class="num">11</span> Limitation of liability</h2>
-    <p>To the maximum extent permitted by law, the Licensor's total liability arising out of or related to this Agreement is limited to the amount paid by the Licensee for the Software in the twelve months preceding the claim. The Licensor is not liable for indirect, incidental, special or consequential damages, including loss of profit, loss of data, or business interruption.</p>
-
-    <h2><span class="num">12</span> Governing law</h2>
-    <p>This Agreement is governed by the laws of Poland, without regard to conflict-of-laws principles. Any dispute arising from this Agreement shall be resolved by the competent courts of the Licensor's registered seat, unless mandatory consumer-law provisions specify otherwise.</p>
-
-    <h2><span class="num">13</span> Changes to this Agreement</h2>
-    <p>The Licensor may update this Agreement for new versions of the Software. Changes do not apply retroactively to licenses already in effect; the version of the Agreement accepted at the time of purchase continues to govern those licenses.</p>
-
-    <h2><span class="num">14</span> Contact</h2>
-    <p>
-      Licensing &amp; sales: <a href="mailto:contact@comprobare.com">contact@comprobare.com</a><br/>
-      Technical support: <a href="mailto:support@comprobare.com">support@comprobare.com</a>
-    </p>
+    <div id="license-body"></div>
 
   </div>
 </article>
@@ -227,10 +190,172 @@
     <div style="display:flex;gap:24px;">
       <a href="index.html">Home</a>
       <a href="privacy.html">Privacy</a>
-      <a href="mailto:contact@comprobare.com">contact@comprobare.com</a>
+      <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
     </div>
   </div>
 </footer>
 
+<script>
+(function(){
+  var t = {
+    en: {
+      title: 'License Agreement — comprobare',
+      desc: 'End-user license agreement for the Comprobare desktop application.',
+      eyebrow: 'Legal',
+      h1: 'End-User <b>License Agreement</b>',
+      meta: 'Effective date: 06 May 2026',
+      back: 'Back to home',
+      body: `
+        <p>This End-User License Agreement ("Agreement") is a legal contract between you ("Licensee") and GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ("Licensor") for the use of the Comprobare desktop application (the "Software"). By installing, copying or otherwise using the Software, you agree to be bound by the terms of this Agreement. If you do not agree, do not install or use the Software.</p>
+        <div class="callout">
+          <strong>Plain summary:</strong> Buying a license gives you the right to run Comprobare on one workstation for one year. You can use it for any work, including paid commercial work. You can't redistribute the installer or share your license key. We provide updates during your license term and reasonable email support.
+        </div>
+        <h2><span class="num">01</span> Definitions</h2>
+        <ul>
+          <li><strong>Software</strong> — the Comprobare desktop application, including all updates and accompanying files.</li>
+          <li><strong>Station</strong> — a single physical or virtual workstation identified by a unique hardware fingerprint.</li>
+          <li><strong>License Term</strong> — the 12-month period beginning on the date of activation, unless otherwise agreed.</li>
+          <li><strong>Trial</strong> — a 7-day evaluation period during which the Software may be used without a paid license.</li>
+        </ul>
+        <h2><span class="num">02</span> Grant of License</h2>
+        <p>Subject to payment of the applicable fee (€100 per station per year, or the price agreed in writing for volume orders), the Licensor grants the Licensee a non-exclusive, non-transferable license to install and use the Software on the number of Stations purchased, for the duration of the License Term.</p>
+        <p>The license is granted for both personal and commercial use, including for paid project work and client deliverables.</p>
+        <h2><span class="num">03</span> Free trial</h2>
+        <p>The Software may be used for a <strong>7-day free trial</strong> on any single Station, with all features enabled. After the trial expires, a valid license key is required to continue using the Software.</p>
+        <h2><span class="num">04</span> Restrictions</h2>
+        <p>You agree not to:</p>
+        <ul>
+          <li>Distribute, sublicense, rent, lease or sell the Software or any installer to third parties.</li>
+          <li>Share or publish your license key.</li>
+          <li>Reverse-engineer, decompile or disassemble the Software, except to the extent permitted by applicable law.</li>
+          <li>Remove or alter copyright notices, trademarks or proprietary markings.</li>
+          <li>Use the Software to violate any applicable law.</li>
+        </ul>
+        <h2><span class="num">05</span> Updates and support</h2>
+        <p>During the License Term you are entitled to all updates released for the Software (bug fixes, new features and major versions). Updates may be delivered automatically or via the in-app update mechanism.</p>
+        <p>Reasonable email support is provided at <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a> on business days. Response times are best-effort and not guaranteed.</p>
+        <h2><span class="num">06</span> Activation and license validation</h2>
+        <p>The Software performs periodic license validation against the Licensor's servers. The Licensee agrees that the Software may transmit the license key and a non-personal hardware identifier for this purpose. See the <a href="privacy.html">Privacy Policy</a> for details.</p>
+        <p>If a license key is detected on more Stations than purchased, the Licensor may revoke or block the key after notifying the Licensee.</p>
+        <h2><span class="num">07</span> Renewal and termination</h2>
+        <p>Licenses do not auto-renew. After the License Term ends, the Software will continue to open existing project files in read-only mode, and a new license must be purchased to continue creating or editing measurements.</p>
+        <p>The Licensor may terminate this Agreement if the Licensee materially breaches it (for example by sharing license keys or attempting to circumvent license validation). On termination the Licensee must cease use of the Software.</p>
+        <h2><span class="num">08</span> Refunds</h2>
+        <p>Because a 7-day fully-featured trial is offered before purchase, paid licenses are <strong>non-refundable</strong> once activated, except where required by applicable consumer law. If you encounter a technical issue that prevents use, contact <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a> within 14 days of purchase and we'll work to resolve it or, if we can't, refund the affected license.</p>
+        <h2><span class="num">09</span> Intellectual property</h2>
+        <p>The Software is licensed, not sold. All title, copyright and intellectual property rights in and to the Software remain with the Licensor. No rights are granted other than those expressly described in this Agreement.</p>
+        <p>Drawings, measurements and project files you create with the Software are entirely your property. The Licensor claims no ownership over your work product.</p>
+        <h2><span class="num">10</span> Disclaimer of warranties</h2>
+        <p>The Software is provided <span class="mono">"AS IS"</span> and <span class="mono">"AS AVAILABLE"</span> without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy of measurement results, or non-infringement.</p>
+        <p>Measurements produced by the Software depend on the quality and scale of the source drawing. The Licensee is solely responsible for verifying critical figures before relying on them for procurement, construction, billing or any other consequential decision.</p>
+        <h2><span class="num">11</span> Limitation of liability</h2>
+        <p>To the maximum extent permitted by law, the Licensor's total liability arising out of or related to this Agreement is limited to the amount paid by the Licensee for the Software in the twelve months preceding the claim. The Licensor is not liable for indirect, incidental, special or consequential damages, including loss of profit, loss of data, or business interruption.</p>
+        <h2><span class="num">12</span> Governing law</h2>
+        <p>This Agreement is governed by the laws of Poland, without regard to conflict-of-laws principles. Any dispute arising from this Agreement shall be resolved by the competent courts of the Licensor's registered seat, unless mandatory consumer-law provisions specify otherwise.</p>
+        <h2><span class="num">13</span> Changes to this Agreement</h2>
+        <p>The Licensor may update this Agreement for new versions of the Software. Changes do not apply retroactively to licenses already in effect; the version of the Agreement accepted at the time of purchase continues to govern those licenses.</p>
+        <h2><span class="num">14</span> Contact</h2>
+        <p>
+          Licensing &amp; sales: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a><br/>
+          Technical support: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
+        </p>
+      `,
+      footer: ['Home', 'Privacy', 'gs@plaszowska25.pl']
+    },
+    pl: {
+      title: 'Regulamin licencji — comprobare',
+      desc: 'Regulamin licencji końcowego użytkownika dla aplikacji desktopowej Comprobare.',
+      eyebrow: 'Formalne',
+      h1: 'Regulamin <b>licencji</b>',
+      meta: 'Data wejścia w życie: 06 May 2026',
+      back: 'Powrót do strony głównej',
+      body: `
+        <p>Niniejszy Regulamin Licencji Użytkownika Końcowego ("Umowa") stanowi wiążącą umowę prawną pomiędzy Tobą ("Licencjobiorca") a GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ("Licencjodawca") dotyczącą korzystania z aplikacji desktopowej Comprobare ("Oprogramowanie"). Instalując, kopiując lub w inny sposób używając Oprogramowania, akceptujesz warunki niniejszej Umowy. Jeśli się z nimi nie zgadzasz, nie instaluj ani nie używaj Oprogramowania.</p>
+        <div class="callout">
+          <strong>Krótko:</strong> Zakup licencji daje prawo do uruchamiania Comprobare na jednym stanowisku przez rok. Możesz używać programu do dowolnej pracy, także komercyjnej. Nie wolno redystrybuować instalatora ani udostępniać klucza licencyjnego. Zapewniamy aktualizacje przez okres licencji oraz rozsądne wsparcie mailowe.
+        </div>
+        <h2><span class="num">01</span> Definicje</h2>
+        <ul>
+          <li><strong>Oprogramowanie</strong> — aplikacja desktopowa Comprobare wraz ze wszystkimi aktualizacjami i plikami towarzyszącymi.</li>
+          <li><strong>Stanowisko</strong> — pojedyncza fizyczna lub wirtualna stacja robocza z unikalnym odciskiem sprzętowym.</li>
+          <li><strong>Okres Licencji</strong> — 12-miesięczny okres rozpoczynający się w dniu aktywacji, o ile nie uzgodniono inaczej.</li>
+          <li><strong>Trial</strong> — 7-dniowy okres ewaluacyjny, podczas którego Oprogramowanie może być używane bez płatnej licencji.</li>
+        </ul>
+        <h2><span class="num">02</span> Udzielenie licencji</h2>
+        <p>Po uiszczeniu właściwej opłaty (€100 za stanowisko rocznie lub cena ustalona pisemnie dla zamówień zbiorczych) Licencjodawca udziela Licencjobiorcy niewyłącznej, nieprzenoszalnej licencji na instalację i korzystanie z Oprogramowania na liczbie Stanowisk objętych zakupem, przez cały Okres Licencji.</p>
+        <p>Licencja obejmuje użytek prywatny i komercyjny, w tym płatne projekty oraz dostarczanie rezultatów klientom.</p>
+        <h2><span class="num">03</span> Darmowy trial</h2>
+        <p>Oprogramowanie może być używane w ramach <strong>7-dniowego bezpłatnego triala</strong> na jednym Stanowisku, ze wszystkimi funkcjami włączonymi. Po wygaśnięciu triala wymagany jest ważny klucz licencyjny, aby kontynuować korzystanie z programu.</p>
+        <h2><span class="num">04</span> Ograniczenia</h2>
+        <p>Nie wolno Ci:</p>
+        <ul>
+          <li>Dystrybuować, sublicencjonować, wynajmować, leasingować ani sprzedawać Oprogramowania lub instalatora osobom trzecim.</li>
+          <li>Udostępniać ani publikować klucza licencyjnego.</li>
+          <li>Inżynieria wsteczna, dekompilacja lub dezasemblacja Oprogramowania, poza zakresem dozwolonym przez prawo.</li>
+          <li>Usuwać lub zmieniać oznaczeń praw autorskich, znaków towarowych lub oznaczeń własnościowych.</li>
+          <li>Wykorzystywać Oprogramowania z naruszeniem obowiązującego prawa.</li>
+        </ul>
+        <h2><span class="num">05</span> Aktualizacje i wsparcie</h2>
+        <p>Przez cały Okres Licencji przysługują Ci wszystkie aktualizacje wydane dla Oprogramowania (poprawki błędów, nowe funkcje i wydania główne). Aktualizacje mogą być dostarczane automatycznie lub przez mechanizm aktualizacji w aplikacji.</p>
+        <p>Rozsądne wsparcie mailowe jest dostępne pod adresem <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a> w dni robocze. Czas odpowiedzi jest orientacyjny i nie jest gwarantowany.</p>
+        <h2><span class="num">06</span> Aktywacja i weryfikacja licencji</h2>
+        <p>Oprogramowanie okresowo weryfikuje licencję na serwerach Licencjodawcy. Licencjobiorca zgadza się, że w tym celu Oprogramowanie może przesyłać klucz licencyjny oraz nieosobowy identyfikator sprzętu. Szczegóły znajdują się w <a href="privacy.html">Polityce prywatności</a>.</p>
+        <p>Jeżeli klucz licencyjny zostanie wykryty na większej liczbie Stanowisk niż zakupiono, Licencjodawca może cofnąć lub zablokować klucz po powiadomieniu Licencjobiorcy.</p>
+        <h2><span class="num">07</span> Odnowienie i rozwiązanie</h2>
+        <p>Licencje nie odnawiają się automatycznie. Po zakończeniu Okresu Licencji Oprogramowanie nadal otwiera istniejące pliki projektów w trybie tylko do odczytu, a nowa licencja jest wymagana do dalszego tworzenia i edycji pomiarów.</p>
+        <p>Licencjodawca może rozwiązać tę Umowę, jeśli Licencjobiorca dopuści się istotnego naruszenia jej postanowień (na przykład poprzez udostępnianie kluczy licencyjnych lub próbę obejścia weryfikacji licencji). Po rozwiązaniu Umowy Licencjobiorca musi zaprzestać korzystania z Oprogramowania.</p>
+        <h2><span class="num">08</span> Zwroty</h2>
+        <p>Ponieważ przed zakupem oferowany jest 7-dniowy trial z pełną funkcjonalnością, płatne licencje są <strong>bezzwrotne</strong> po aktywacji, chyba że obowiązujące przepisy konsumenckie stanowią inaczej. Jeśli napotkasz problem techniczny uniemożliwiający korzystanie z programu, skontaktuj się pod adresem <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a> w ciągu 14 dni od zakupu, a postaramy się go rozwiązać lub, jeśli nie będzie to możliwe, zwrócić licencję, której dotyczy problem.</p>
+        <h2><span class="num">09</span> Własność intelektualna</h2>
+        <p>Oprogramowanie jest licencjonowane, a nie sprzedawane. Wszelkie prawa własności, autorskie i prawa własności intelektualnej do Oprogramowania pozostają przy Licencjodawcy. Nie są udzielane żadne prawa inne niż wyraźnie opisane w tej Umowie.</p>
+        <p>Rysunki, pomiary i pliki projektów tworzone za pomocą Oprogramowania są wyłącznie Twoją własnością. Licencjodawca nie rości sobie żadnych praw do Twoich rezultatów pracy.</p>
+        <h2><span class="num">10</span> Wyłączenie gwarancji</h2>
+        <p>Oprogramowanie jest dostarczane <span class="mono">"W STANIE, W JAKIM JEST"</span> oraz <span class="mono">"W MIARĘ DOSTĘPNOŚCI"</span>, bez jakichkolwiek gwarancji, wyraźnych ani dorozumianych, w tym w szczególności gwarancji przydatności handlowej, przydatności do określonego celu, dokładności wyników pomiarów lub nienaruszania praw osób trzecich.</p>
+        <p>Pomiarów wykonanych przez Oprogramowanie nie należy traktować jako absolutnych, ponieważ zależą one od jakości i skali rysunku źródłowego. Licencjobiorca ponosi wyłączną odpowiedzialność za weryfikację kluczowych wartości przed użyciem ich w zakupach, budowie, rozliczeniach lub innych decyzjach o skutkach finansowych.</p>
+        <h2><span class="num">11</span> Ograniczenie odpowiedzialności</h2>
+        <p>W maksymalnym zakresie dopuszczalnym przez prawo całkowita odpowiedzialność Licencjodawcy wynikająca z tej Umowy lub z nią związana ogranicza się do kwoty zapłaconej przez Licencjobiorcę za Oprogramowanie w okresie 12 miesięcy poprzedzających roszczenie. Licencjodawca nie odpowiada za szkody pośrednie, uboczne, szczególne ani następcze, w tym utracone korzyści, utratę danych lub przerwy w działalności.</p>
+        <h2><span class="num">12</span> Prawo właściwe</h2>
+        <p>Umowa podlega prawu polskiemu, bez względu na zasady kolizyjne. Wszelkie spory wynikające z tej Umowy będą rozstrzygane przez właściwe sądy miejsca siedziby Licencjodawcy, chyba że bezwzględnie obowiązujące przepisy konsumenckie stanowią inaczej.</p>
+        <h2><span class="num">13</span> Zmiany w Umowie</h2>
+        <p>Licencjodawca może aktualizować tę Umowę dla nowych wersji Oprogramowania. Zmiany nie działają wstecz wobec licencji już obowiązujących; wersja Umowy zaakceptowana w momencie zakupu nadal reguluje te licencje.</p>
+        <h2><span class="num">14</span> Kontakt</h2>
+        <p>
+          Sprzedaż i licencje: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a><br/>
+          Wsparcie techniczne: <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
+        </p>
+      `,
+      footer: ['Strona główna', 'Polityka prywatności', 'gs@plaszowska25.pl']
+    }
+  };
+
+  function apply(lang){
+    var x = t[lang] || t.en;
+    document.documentElement.lang = lang;
+    document.title = x.title;
+    document.querySelector('meta[name="description"]').setAttribute('content', x.desc);
+    document.querySelector('.hdr .eyebrow').textContent = x.eyebrow;
+    document.querySelector('.hdr h1').innerHTML = x.h1;
+    document.querySelector('.hdr .meta').textContent = x.meta;
+    document.querySelector('.nav-back').lastChild.textContent = x.back;
+    document.getElementById('license-body').innerHTML = x.body;
+    var footerLinks = document.querySelectorAll('.foot-inner a');
+    if (footerLinks[0]) footerLinks[0].textContent = x.footer[0];
+    if (footerLinks[1]) footerLinks[1].textContent = x.footer[1];
+    if (footerLinks[2]) footerLinks[2].textContent = x.footer[2];
+    document.querySelectorAll('[data-lang]').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === lang ? 'true' : 'false');
+    });
+    localStorage.setItem('comprobare-lang', lang);
+  }
+
+  document.querySelectorAll('[data-lang]').forEach(function(btn){
+    btn.addEventListener('click', function(){ apply(btn.getAttribute('data-lang')); });
+  });
+  apply(localStorage.getItem('comprobare-lang') || 'en');
+})();
+</script>
+
 </body>
 </html>
+

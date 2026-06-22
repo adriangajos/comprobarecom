@@ -79,8 +79,34 @@
     transition: background .15s;
   }
   .nav-cta:hover { background: var(--blue-deep); }
+  .lang-switch {
+    display: inline-flex;
+    gap: 6px;
+    margin-left: 10px;
+    padding: 4px;
+    border: 1px solid #2e3135;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.02);
+  }
+  .lang-switch button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--neutral-400);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: var(--blue-primary);
+    color: var(--white);
+  }
   @media (max-width: 760px) {
-    .nav-links a:not(.nav-cta) { display: none; }
+    .nav-links a:not(.nav-cta),
+    .lang-switch { display: none; }
   }
 
   /* ── shared ──────────────────────────────────── */
@@ -467,7 +493,55 @@
     font-family: var(--font-mono); font-size: 11px; color: var(--neutral-500);
   }
   .foot-bottom .lang { display: flex; gap: 16px; }
-  .foot-bottom .lang span.active { color: var(--blue-light); }
+  .foot-bottom .lang button {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+  }
+  .foot-bottom .lang button.active { color: var(--blue-light); }
+
+  .compliance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 42px;
+  }
+  .compliance-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid #2a2d31;
+    border-radius: 14px;
+    padding: 28px 24px;
+    min-height: 220px;
+  }
+  .compliance-card h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: -0.2px;
+  }
+  .compliance-card p,
+  .compliance-card li {
+    color: var(--neutral-300);
+    font-size: 14.5px;
+  }
+  .compliance-card ul {
+    margin: 12px 0 0 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .compliance-note {
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--neutral-500);
+    line-height: 1.55;
+  }
+  @media (max-width: 980px) {
+    .compliance-grid { grid-template-columns: 1fr; }
+  }
 
   /* ── ANNOUNCEMENT BAR ─────────────────────────── */
   .announce {
@@ -647,6 +721,10 @@
       <a href="#pricing">Pricing</a>
       <a href="#who">Who it's for</a>
       <a href="https://storage.googleapis.com/comprobare-ce8a1-updates/updates/comprobare_setup.exe" class="nav-cta">Download</a>
+      <div class="lang-switch" aria-label="Language switcher">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="pl">PL</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -976,19 +1054,22 @@
         <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:10px;">
           <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Everything in the trial</li>
           <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Free version updates for 12 months</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Email support · <a href="mailto:support@comprobare.com" style="color:var(--blue-light);">support@comprobare.com</a></li>
+          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Email support · <a href="mailto:gs@plaszowska25.pl" style="color:var(--blue-light);">gs@plaszowska25.pl</a></li>
           <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Volume discounts for 5+ stations</li>
         </ul>
-        <a class="btn btn-primary" href="https://secure.payu.com/" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+        <a class="btn btn-primary payu-purchase-button" href="mailto:gs@plaszowska25.pl?subject=Comprobare%20license%20purchase" style="width:100%;justify-content:center;">
           Buy via PayU
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
         <p style="font-family:var(--font-mono);font-size:10.5px;color:var(--neutral-500);margin-top:14px;text-align:center;letter-spacing:1px;">Secure payment · PayU · cards / BLIK / transfer</p>
+        <p class="purchase-terms-link" style="font-size:12px;color:var(--neutral-400);margin-top:12px;text-align:center;">
+          <a href="purchase-terms.html" style="color:var(--blue-light);">Purchase terms</a>
+        </p>
       </div>
     </div>
 
     <p style="font-size:13px;color:var(--neutral-500);margin-top:28px;text-align:center;">
-      Need a quote for a team or company-wide license? Email <a href="mailto:contact@comprobare.com" style="color:var(--blue-light);">contact@comprobare.com</a>
+      Need a quote for a team or company-wide license? Call <a href="tel:+48606838358" style="color:var(--blue-light);">+48 606 838358</a> or email <a href="mailto:gs@plaszowska25.pl" style="color:var(--blue-light);">gs@plaszowska25.pl</a>
     </p>
   </div>
 </section>
@@ -1027,7 +1108,7 @@
           <svg class="logo-icon-svg" aria-hidden="true"><use href="#cmp-mark"></use></svg>
           <span class="wordmark">com<b>pro</b>bare</span>
         </a>
-        <p>A desktop measurement tool for architectural and technical drawings — by people who got tired of estimating by hand.</p>
+        <p>GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ<br/>ul. Płaszowska 25/1, 30-713 Kraków<br/>KRS 0001144358 · NIP 6793317716 · REGON 540426181</p>
       </div>
       <div class="foot-col">
         <h4>Product</h4>
@@ -1039,13 +1120,14 @@
       </div>
       <div class="foot-col">
         <h4>Contact</h4>
-        <a href="mailto:contact@comprobare.com">contact@comprobare.com</a>
-        <a href="mailto:support@comprobare.com">support@comprobare.com</a>
+        <a href="tel:+48606838358">+48 606 838358</a>
+        <a href="mailto:gs@plaszowska25.pl">gs@plaszowska25.pl</a>
       </div>
       <div class="foot-col">
         <h4>Legal</h4>
         <a href="privacy.html">Privacy policy</a>
         <a href="license.html">License</a>
+        <a href="purchase-terms.html">Purchase terms</a>
       </div>
     </div>
 
@@ -1054,7 +1136,8 @@
     <div class="foot-bottom">
       <span>© 2026 comprobare</span>
       <div class="lang">
-        <span class="active">EN</span>
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="pl">PL</button>
       </div>
       <span>made for Windows · DXF · PDF · CPB</span>
     </div>
@@ -1063,6 +1146,509 @@
 
 <script>
 (function(){
+  // Paste the PayU Payment Link URL here after creating it in the PayU merchant panel.
+  var PAYU_PAYMENT_URL = '';
+
+  var translations = {
+    en: {
+      title: 'comprobare - measure plans and drawings, fast',
+      description: 'Comprobare is a desktop tool that helps you measure plans and drawings quickly and accurately. Areas, lengths, scanned plans - one file, one place.',
+      nav: ['What it does', 'How it works', 'Pricing', "Who it's for", 'Download'],
+      hero: {
+        eyebrow: 'Desktop measurement tool for Windows',
+        h1: 'Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b>',
+        lede: 'Pull exact areas and lengths off any architectural or technical drawing - digital, scanned, or even bad-quality PDFs - without buying expensive CAD software or learning complex tools.',
+        primary: 'Download latest version',
+        ghost: 'See how it works',
+        meta: ['7-day free trial', 'Windows 10 / 11', 'EN · PL']
+      },
+      strip: {
+        label: 'Built for',
+        pills: ['Estimators', 'Contractors', 'Architects', 'Engineers', 'Surveyors'],
+        code: 'DXF · PDF · CPB'
+      },
+      what: {
+        eyebrow: 'What it does',
+        h2: 'Three things, done well — <b>areas, lengths, scans.</b>',
+        sub: 'Open a drawing, set the scale, click around the parts you care about. Comprobare tracks every measurement with units, factors, and group totals so you do not have to keep notes on the side.',
+        cards: [
+          {
+            num: '01 / AREAS',
+            title: 'Measure <b>areas</b>',
+            body: 'Rooms, floors, walls, plots of land — anything with an outline. Trace the perimeter and the area is calculated instantly, with optional height and multiplier factors.',
+            label: 'AREA'
+          },
+          {
+            num: '02 / LENGTHS',
+            title: 'Measure <b>lengths</b>',
+            body: 'Pipes, cables, edges, perimeters, distances. Click point to point, or follow a polyline. Totals add up across whatever segments you have drawn.',
+            label: 'LENGTH'
+          },
+          {
+            num: '03 / SCANS',
+            title: 'Convert <b>scans & bad PDFs</b>',
+            body: 'Photographed paper plans, scanned documents, low-quality PDFs — all become clean, measurable drawings. Three quality settings to match what you have got.',
+            label: 'QUALITY',
+            range: 'low · med · high',
+            extra: 'New in this release.'
+          }
+        ],
+        showcase: [
+          'Hull · 3 areas',
+          'Other areas',
+          'Top of railing',
+          'scale 1:125 · 42 lines · X 149.898  Y 1.455'
+        ]
+      },
+      features: {
+        eyebrow: 'Everything you need',
+        h2: 'Built for real takeoff work, <b>not demos.</b>',
+        sub: 'The features estimators actually ask for, surfaced as plain buttons — no CAD experience required.',
+        cards: [
+          ['Subtract zones automatically', 'Mark off doorways, columns, openings, or any zone you do not want counted — they are subtracted from the totals automatically.'],
+          ['Group measurements', 'Combine related items — "all windows on floor 1", "all pipes in basement" — into a single named group with one total.'],
+          ['One project, one file', 'Drawing, measurements, groups, settings — all kept in a single .cpb file. Reopen tomorrow and pick up where you left off.'],
+          ['Polish + English', 'Full localisation in both languages. Switch the entire interface from Settings — menus, dialogs, status bar, exports.'],
+          ['Light or dark theme', 'Match the time of day and your monitor. Both themes share the same exact contrast ratios for measurements and dimension lines.'],
+          ['Export & print', 'Copy measurements to Excel, export the marked-up drawing as PDF, save as DXF, or print directly with measurement results inline.']
+        ]
+      },
+      how: {
+        eyebrow: 'How it works',
+        h2: 'From file to figure in <b>under five minutes.</b>',
+        sub: 'A four-step flow that is the same whether you are measuring a 2-bedroom apartment or a 90-metre ship hull.',
+        steps: [
+          ['01', 'Open or convert your drawing', 'Drop in a DXF or PDF. For paper plans, "Convert PDF" turns a scan into a clean, measurable drawing — pick low / med / high to match scan quality.', 'DXF · PDF · scanned PDF · CPB'],
+          ['02', 'Set the scale once', 'Calibrate from a known dimension on the drawing, or type the scale directly (1:50, 1:125, etc). Comprobare locks the scale into the project — every measurement after that is in real units.', 'Calibrate · enter scale · 1:1 to 1:5000'],
+          ['03', 'Click around the parts you care about', 'Trace areas with a polygon, lay down lengths point to point, mark off zones to subtract. Each measurement appears in the right-hand panel with its area, length, factor and total — colour-coded.', 'Areas · lengths · factors · subtractions'],
+          ['04', 'Save, reuse, export', 'Save the whole project as .cpb. Save snapshots of measurement sets to the memory panel — reopen them next time, or load them onto a similar drawing in seconds.', '.cpb · snapshots · copy · export PDF']
+        ]
+      },
+      who: {
+        eyebrow: "Who it's for",
+        h2: 'Anyone who pulls quantities <b>off a drawing.</b>',
+        sub: 'If "expensive CAD software" or "a week of training" was the only thing standing between you and accurate numbers — that is exactly the gap Comprobare fills.',
+        roles: [
+          ['Estimators', 'Bid faster with exact takeoff quantities, not ruler-on-paper guesses.'],
+          ['Contractors', 'Order the right amount of material the first time. Re-measure changes in seconds.'],
+          ['Architects', 'Verify areas on plans without opening a full CAD seat just to count m².'],
+          ['Engineers', 'Quantify pipes, cables and routes directly from technical drawings.'],
+          ['Surveyors', 'Digitise scanned plans and pull lengths and areas from any source drawing.']
+        ],
+        line: '— and anyone else who needs to count m and m² without learning AutoCAD.'
+      },
+      why: {
+        eyebrow: 'Why people use it',
+        h2: 'Four things, every time.',
+        cards: [
+          ['01 — FAST', '<b>Minutes,</b><br/>not hours.', 'Measure a typical floor plan in the time it takes to make coffee. No menu-diving, no learning curve.'],
+          ['02 — ACCURATE', '<b>Exact</b> numbers, every time.', 'Snap-to-line, fixed scale, sub-millimetre precision. No manual ruler errors, no rounding to the nearest brick.'],
+          ['03 — SIMPLE', 'Clear buttons, <b>no CAD.</b>', 'If you can use a web browser, you can use Comprobare. The whole interface is a labelled ribbon — that is it.'],
+          ['04 — KEPT TOGETHER', 'One file, <b>one place.</b>', 'Drawing, measurements, groups, settings — all in one .cpb. Email it, archive it, reopen it.']
+        ]
+      },
+      pricing: {
+        eyebrow: 'Pricing',
+        h2: 'One plan. <b>One price.</b>',
+        sub: 'No tiers, no per-feature paywalls, no surprises. Try it for 7 days, free. If it earns its keep, license a station for a year.',
+        trial: 'Free trial',
+        trialPrice: '7',
+        trialUnit: 'days, free',
+        trialBody: 'Full features. No credit card. No watermarks on exports. Just download and start measuring.',
+        trialItems: ['All measurement tools', 'PDF / DXF / scan import', 'Export to PDF, copy to Excel'],
+        trialBtn: 'Download latest version',
+        licenseTag: 'License',
+        licenseLabel: 'Standard',
+        licensePrice: '€100',
+        licenseUnit: '/ year / station',
+        licenseBody: 'One workstation, one year, every feature. Free updates for the duration of your license.',
+        licenseItems: ['Everything in the trial', 'Free version updates for 12 months', 'Email support · gs@plaszowska25.pl', 'Volume discounts for 5+ stations'],
+        payuBtn: 'Buy via PayU',
+        payuFallbackBtn: 'Request PayU payment link',
+        payuNote: 'Secure payment · PayU · cards / BLIK / transfer',
+        payuFallbackNote: 'PayU checkout will open here after the payment link is connected.',
+        quote: 'Need a quote for a team or company-wide license?',
+        quotePhoneText: 'Call',
+        quotePhone: '+48 606 838358',
+        quoteJoin: 'or email',
+        quoteMail: 'gs@plaszowska25.pl',
+        terms: 'Purchase terms'
+      },
+      cta: {
+        h2: 'Ready to measure <b>your first plan?</b>',
+        p: 'Download for Windows · 7-day free trial · no credit card · full features.',
+        primary: 'Download latest version',
+        secondary: 'See pricing'
+      },
+      footer: {
+        brand: 'GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ | ul. Płaszowska 25/1, 30-713 Kraków | KRS 0001144358 | NIP 6793317716 | REGON 540426181',
+        product: 'Product',
+        contact: 'Contact',
+        legal: 'Legal',
+        links: ['What it does', 'How it works', 'Features', 'Pricing', 'Download'],
+        lang: 'made for Windows · DXF · PDF · CPB'
+      }
+    },
+    pl: {
+      title: 'comprobare - mierz plany i rysunki szybko',
+      description: 'Comprobare to narzędzie desktopowe do szybkiego i dokładnego mierzenia planów i rysunków. Powierzchnie, długości, skany - jeden plik, jedno miejsce.',
+      nav: ['Co robi', 'Jak działa', 'Cennik', 'Dla kogo', 'Pobierz'],
+      hero: {
+        eyebrow: 'Narzędzie desktopowe do pomiarów dla Windows',
+        h1: 'Mierz plany <span class="accent">i rysunki</span><br/>szybko. <b>Dokładnie.</b>',
+        lede: 'Wyciągaj dokładne powierzchnie i długości z dowolnego rysunku technicznego lub architektonicznego - cyfrowego, zeskanowanego albo słabej jakości PDF - bez kupowania drogich narzędzi CAD i bez uczenia się skomplikowanego oprogramowania.',
+        primary: 'Pobierz najnowszą wersję',
+        ghost: 'Zobacz, jak działa',
+        meta: ['7-dniowy darmowy okres próbny', 'Windows 10 / 11', 'EN · PL']
+      },
+      strip: {
+        label: 'Dla',
+        pills: ['Kosztorysantów', 'Wykonawców', 'Architektów', 'Inżynierów', 'Geodetów'],
+        code: 'DXF · PDF · CPB'
+      },
+      what: {
+        eyebrow: 'Co robi',
+        h2: 'Trzy rzeczy, ale dobrze — <b>powierzchnie, długości, skany.</b>',
+        sub: 'Otwórz rysunek, ustaw skalę, klikaj elementy, które chcesz policzyć. Comprobare śledzi każdy pomiar z jednostkami, współczynnikami i sumami grup, więc nie musisz prowadzić notatek obok.',
+        cards: [
+          {
+            num: '01 / POWIERZCHNIE',
+            title: 'Mierz <b>powierzchnie</b>',
+            body: 'Pomieszczenia, podłogi, ściany, działki — wszystko z obrysem. Obrysujesz kształt, a powierzchnia liczy się od razu, z opcjonalną wysokością i współczynnikami.',
+            label: 'POW.'
+          },
+          {
+            num: '02 / DŁUGOŚCI',
+            title: 'Mierz <b>długości</b>',
+            body: 'Rury, kable, krawędzie, obwody, odległości. Klikaj punkt po punkcie albo prowadź łamaną. Suma zlicza wszystkie narysowane odcinki.',
+            label: 'DŁUGOŚĆ'
+          },
+          {
+            num: '03 / SKANY',
+            title: 'Konwertuj <b>skany i słabe PDF-y</b>',
+            body: 'Fotografowane plany papierowe, skany i niskiej jakości PDF-y stają się czystymi, mierzalnymi rysunkami. Trzy ustawienia jakości dopasowane do źródła.',
+            label: 'JAKOŚĆ',
+            range: 'niski · średni · wysoki',
+            extra: 'Nowość w tej wersji.'
+          }
+        ],
+        showcase: [
+          'Kadłub · 3 powierzchnie',
+          'Inne powierzchnie',
+          'Góra relingu',
+          'skala 1:125 · 42 linie · X 149.898  Y 1.455'
+        ]
+      },
+      features: {
+        eyebrow: 'Wszystko, czego potrzebujesz',
+        h2: 'Stworzone do prawdziwej pracy, <b>nie do dem.</b>',
+        sub: 'Funkcje, o które naprawdę proszą kosztorysanci, pokazane jako zwykłe przyciski — bez znajomości CAD.',
+        cards: [
+          ['Automatyczne odejmowanie stref', 'Zaznacz drzwi, kolumny, otwory albo dowolny obszar, którego nie chcesz liczyć — zostanie odjęty od sumy automatycznie.'],
+          ['Grupowanie pomiarów', 'Łącz powiązane elementy — "wszystkie okna na 1. piętrze", "wszystkie rury w piwnicy" — w jedną nazwaną grupę z jedną sumą.'],
+          ['Jeden projekt, jeden plik', 'Rysunek, pomiary, grupy, ustawienia — wszystko w jednym pliku .cpb. Otwórz jutro i kontynuuj od tego samego miejsca.'],
+          ['Polski + angielski', 'Pełna lokalizacja w obu językach. Przełącz cały interfejs w Ustawieniach — menu, dialogi, pasek stanu i eksport.'],
+          ['Jasny lub ciemny motyw', 'Dopasuj wygląd do pory dnia i monitora. Oba motywy zachowują te same współczynniki kontrastu dla pomiarów i linii wymiarowych.'],
+          ['Eksport i druk', 'Kopiuj pomiary do Excela, eksportuj oznaczony rysunek do PDF, zapisuj jako DXF albo drukuj bezpośrednio z wynikami pomiarów.']
+        ]
+      },
+      how: {
+        eyebrow: 'Jak działa',
+        h2: 'Od pliku do wyniku w <b>mniej niż pięć minut.</b>',
+        sub: 'Ten sam czterostopniowy proces działa zarówno dla mieszkania 2-pokojowego, jak i 90-metrowego kadłuba statku.',
+        steps: [
+          ['01', 'Otwórz lub skonwertuj rysunek', 'Wczytaj DXF albo PDF. Dla planów papierowych "Konwertuj PDF" zamienia skan na czysty, mierzalny rysunek — wybierz niski / średni / wysoki poziom jakości.', 'DXF · PDF · zeskanowany PDF · CPB'],
+          ['02', 'Ustaw skalę tylko raz', 'Skalibruj na znanym wymiarze z rysunku albo wpisz skalę bezpośrednio (1:50, 1:125 itd.). Comprobare zapisuje skalę w projekcie — każdy kolejny pomiar jest w rzeczywistych jednostkach.', 'Kalibracja · wpisz skalę · 1:1 do 1:5000'],
+          ['03', 'Klikaj elementy, które chcesz policzyć', 'Obrysuj powierzchnie wielokątem, rysuj długości punkt po punkcie, zaznacz obszary do odjęcia. Każdy pomiar trafia do panelu po prawej z powierzchnią, długością, współczynnikiem i sumą — kolorystycznie oznaczony.', 'Powierzchnie · długości · współczynniki · odjęcia'],
+          ['04', 'Zapisz, użyj ponownie, wyeksportuj', 'Zapisz cały projekt jako .cpb. Zapisuj migawki zestawów pomiarów do panelu pamięci — otwórz je następnym razem albo naładuj na podobny rysunek w kilka sekund.', '.cpb · migawki · kopiuj · eksport PDF']
+        ]
+      },
+      who: {
+        eyebrow: 'Dla kogo',
+        h2: 'Dla każdego, kto wyciąga ilości <b>z rysunku.</b>',
+        sub: 'Jeśli "drogie CAD" albo "tydzień szkolenia" było jedyną przeszkodą między Tobą a dokładnymi liczbami — to właśnie tę lukę wypełnia Comprobare.',
+        roles: [
+          ['Kosztorysanci', 'Wygrywaj szybciej dzięki dokładnym ilościom, a nie zgadywaniu linijką na papierze.'],
+          ['Wykonawcy', 'Zamawiaj właściwą ilość materiału za pierwszym razem. Zmiany licz w kilka sekund.'],
+          ['Architekci', 'Weryfikuj powierzchnie bez uruchamiania pełnej licencji CAD tylko po to, by policzyć m².'],
+          ['Inżynierowie', 'Obliczaj rury, kable i trasy bezpośrednio z rysunków technicznych.'],
+          ['Geodeci', 'Digitalizuj skany planów i licz długości oraz powierzchnie z dowolnego źródła.']
+        ],
+        line: '— i dla wszystkich innych, którzy muszą liczyć m i m² bez nauki AutoCAD-a.'
+      },
+      why: {
+        eyebrow: 'Dlaczego ludzie tego używają',
+        h2: 'Zawsze te same cztery rzeczy.',
+        cards: [
+          ['01 — SZYBKO', '<b>Minuty,</b><br/>nie godziny.', 'Zmierz typowy rzut w czasie potrzebnym na kawę. Bez przeklikiwania menu i bez stromego progu wejścia.'],
+          ['02 — DOKŁADNIE', '<b>Dokładne</b> liczby za każdym razem.', 'Przyciąganie do linii, stała skala, precyzja poniżej milimetra. Bez błędów ręcznej linijki i bez zaokrągleń.'],
+          ['03 — PROSTO', 'Czytelne przyciski, <b>bez CAD.</b>', 'Jeśli umiesz używać przeglądarki, umiesz używać Comprobare. Cały interfejs to podpisana wstążka — tyle.'],
+          ['04 — W JEDNYM MIEJSCU', 'Jeden plik, <b>jedno miejsce.</b>', 'Rysunek, pomiary, grupy i ustawienia — wszystko w jednym pliku .cpb. Wyślij mailem, archiwizuj, otwieraj ponownie.']
+        ]
+      },
+      pricing: {
+        eyebrow: 'Cennik',
+        h2: 'Jeden plan. <b>Jedna cena.</b>',
+        sub: 'Bez poziomów, bez paywalla per funkcja, bez niespodzianek. Przetestuj za darmo przez 7 dni. Jeśli się sprawdzi, licencja na stanowisko na rok.',
+        trial: 'Darmowy trial',
+        trialPrice: '7',
+        trialUnit: 'dni, bez opłat',
+        trialBody: 'Pełna funkcjonalność. Bez karty płatniczej. Bez znaków wodnych na eksporcie. Pobierasz i mierzysz.',
+        trialItems: ['Wszystkie narzędzia pomiarowe', 'Import PDF / DXF / skanów', 'Eksport do PDF, kopiowanie do Excela'],
+        trialBtn: 'Pobierz najnowszą wersję',
+        licenseTag: 'Licencja',
+        licenseLabel: 'Standard',
+        licensePrice: '€100',
+        licenseUnit: '/ rok / stanowisko',
+        licenseBody: 'Jedno stanowisko, jeden rok, wszystkie funkcje. Darmowe aktualizacje przez cały okres licencji.',
+        licenseItems: ['Wszystko z triala', 'Darmowe aktualizacje przez 12 miesięcy', 'Wsparcie mailowe · gs@plaszowska25.pl', 'Rabat dla 5+ stanowisk'],
+        payuBtn: 'Kup przez PayU',
+        payuFallbackBtn: 'Poproś o link płatności PayU',
+        payuNote: 'Bezpieczna płatność · PayU · karty / BLIK / przelew',
+        payuFallbackNote: 'Płatność PayU będzie dostępna tutaj po podłączeniu linku płatności.',
+        quote: 'Potrzebujesz oferty dla zespołu lub firmy?',
+        quotePhoneText: 'Zadzwoń',
+        quotePhone: '+48 606 838358',
+        quoteJoin: 'lub napisz',
+        quoteMail: 'gs@plaszowska25.pl',
+        terms: 'Warunki zakupu'
+      },
+      cta: {
+        h2: 'Gotowy, żeby zmierzyć <b>pierwszy plan?</b>',
+        p: 'Pobierz dla Windows · 7-dniowy trial · bez karty płatniczej · pełna funkcjonalność.',
+        primary: 'Pobierz najnowszą wersję',
+        secondary: 'Zobacz cennik'
+      },
+      footer: {
+        brand: 'Narzędzie desktopowe do pomiarów rysunków architektonicznych i technicznych — dla osób, które miały dość ręcznego szacowania.',
+        product: 'Produkt',
+        contact: 'Kontakt',
+        legal: 'Formalne',
+        links: ['Co robi', 'Jak działa', 'Funkcje', 'Cennik', 'Pobierz'],
+        lang: 'dla Windows · DXF · PDF · CPB'
+      }
+    }
+  };
+
+  function setLanguage(lang) {
+    var t = translations[lang] || translations.en;
+    function setHtml(sel, value) {
+      var el = document.querySelector(sel);
+      if (el) el.innerHTML = value;
+    }
+    function setText(sel, value) {
+      var el = document.querySelector(sel);
+      if (el) el.textContent = value;
+    }
+    document.documentElement.lang = lang;
+    document.title = t.title;
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute('content', t.description);
+
+    var navLinks = document.querySelectorAll('nav .nav-links > a');
+    if (navLinks[0]) navLinks[0].textContent = t.nav[0];
+    if (navLinks[1]) navLinks[1].textContent = t.nav[1];
+    if (navLinks[2]) navLinks[2].textContent = t.nav[2];
+    if (navLinks[3]) navLinks[3].textContent = t.nav[3];
+    if (navLinks[4]) navLinks[4].textContent = t.nav[4];
+
+    var heroEyebrow = document.querySelector('.hero-eyebrow');
+    if (heroEyebrow) heroEyebrow.textContent = t.hero.eyebrow;
+    var heroH1 = document.querySelector('.hero h1');
+    if (heroH1) heroH1.innerHTML = t.hero.h1;
+    var heroLede = document.querySelector('.hero-lede');
+    if (heroLede) heroLede.textContent = t.hero.lede;
+    var heroBtns = document.querySelectorAll('.hero-actions .btn');
+    if (heroBtns[0]) heroBtns[0].childNodes[0].nodeValue = t.hero.primary;
+    if (heroBtns[1]) heroBtns[1].textContent = t.hero.ghost;
+    var heroMeta = document.querySelector('.hero-meta');
+    if (heroMeta) heroMeta.innerHTML = '<span><span class="dot"></span>' + t.hero.meta[0] + '</span><span>' + t.hero.meta[1] + '</span><span>' + t.hero.meta[2] + '</span>';
+
+    var stripLabel = document.querySelector('.strip .label');
+    if (stripLabel) stripLabel.textContent = t.strip.label;
+    var stripPills = document.querySelectorAll('.strip-pills span');
+    stripPills.forEach(function(el, i){ if (t.strip.pills[i]) el.textContent = t.strip.pills[i]; });
+    var stripCode = document.querySelector('.strip .label[style*="font-family"]');
+    if (stripCode) stripCode.textContent = t.strip.code;
+
+    setText('#what .eyebrow', t.what.eyebrow);
+    setHtml('#what .section-h2', t.what.h2);
+    setText('#what .section-sub', t.what.sub);
+    var whatCells = document.querySelectorAll('#what .what-cell');
+    whatCells.forEach(function(cell, i){
+      var card = t.what.cards[i];
+      if (!card) return;
+      var num = cell.querySelector('.num');
+      var h3 = cell.querySelector('h3');
+      var p = cell.querySelector('p');
+      var lbl = cell.querySelector('.lbl');
+      var extra = cell.querySelector('p span[style*="color:var(--blue-light)"]');
+      if (num) num.textContent = card.num;
+      if (h3) h3.innerHTML = card.title;
+      if (p) {
+        p.childNodes[0].nodeValue = card.body + ' ';
+        if (extra) extra.textContent = card.extra || '';
+      }
+      if (lbl) lbl.textContent = card.label;
+      var val = cell.querySelector('.val');
+      if (val && i === 2) val.childNodes[0].nodeValue = card.range + ' ';
+    });
+    var showcase = document.querySelector('#what .showcase-cap');
+    if (showcase) {
+      var sLeft = showcase.querySelectorAll('.stat .l');
+      if (sLeft[0]) sLeft[0].textContent = t.what.showcase[0];
+      if (sLeft[1]) sLeft[1].textContent = t.what.showcase[1];
+      if (sLeft[2]) sLeft[2].textContent = t.what.showcase[2];
+      var right = showcase.querySelector('.right');
+      if (right) right.textContent = t.what.showcase[3];
+    }
+
+    setText('#features .eyebrow', t.features.eyebrow);
+    setHtml('#features .section-h2', t.features.h2);
+    setText('#features .section-sub', t.features.sub);
+    document.querySelectorAll('#features .feat').forEach(function(card, i){
+      var data = t.features.cards[i];
+      if (!data) return;
+      var h3 = card.querySelector('h3');
+      var p = card.querySelector('p');
+      if (h3) h3.textContent = data[0];
+      if (p) p.textContent = data[1];
+    });
+
+    setText('#how .eyebrow', t.how.eyebrow);
+    setHtml('#how .section-h2', t.how.h2);
+    setText('#how .section-sub', t.how.sub);
+    document.querySelectorAll('#how .step').forEach(function(step, i){
+      var data = t.how.steps[i];
+      if (!data) return;
+      var num = step.querySelector('.step-num');
+      var h3 = step.querySelector('.step-body h3');
+      var p = step.querySelector('.step-body p');
+      var meta = step.querySelector('.meta');
+      if (num) num.innerHTML = data[0] + '<span>STEP</span>';
+      if (h3) h3.textContent = data[1];
+      if (p) p.textContent = data[2];
+      if (meta) meta.textContent = data[3];
+    });
+
+    setText('#who .eyebrow', t.who.eyebrow);
+    setHtml('#who .section-h2', t.who.h2);
+    setText('#who .section-sub', t.who.sub);
+    document.querySelectorAll('#who .who-cell').forEach(function(cell, i){
+      var data = t.who.roles[i];
+      if (!data) return;
+      var role = cell.querySelector('.role');
+      var desc = cell.querySelector('.desc');
+      if (role) role.textContent = data[0];
+      if (desc) desc.textContent = data[1];
+    });
+    setText('#who .who-line', t.who.line);
+
+    setText('#why .eyebrow', t.why.eyebrow);
+    setHtml('#why .section-h2', t.why.h2);
+    document.querySelectorAll('#why .why').forEach(function(card, i){
+      var data = t.why.cards[i];
+      if (!data) return;
+      var big = card.querySelector('.big');
+      var h3 = card.querySelector('h3');
+      var p = card.querySelector('p');
+      if (big) big.textContent = data[0];
+      if (h3) h3.innerHTML = data[1];
+      if (p) p.textContent = data[2];
+    });
+
+    var pricingEyebrow = document.querySelector('#pricing .eyebrow');
+    if (pricingEyebrow) pricingEyebrow.textContent = t.pricing.eyebrow;
+    var pricingH2 = document.querySelector('#pricing .section-h2');
+    if (pricingH2) pricingH2.innerHTML = t.pricing.h2;
+    var pricingSub = document.querySelector('#pricing .section-sub');
+    if (pricingSub) pricingSub.textContent = t.pricing.sub;
+
+    var priceCards = document.querySelectorAll('#pricing .price-card');
+    if (priceCards[0]) {
+      var c0 = priceCards[0];
+      c0.querySelector('div').textContent = t.pricing.trial;
+      var c0Price = c0.querySelectorAll('span')[0];
+      var c0Unit = c0.querySelectorAll('span')[1];
+      if (c0Price) c0Price.textContent = t.pricing.trialPrice;
+      if (c0Unit) c0Unit.textContent = t.pricing.trialUnit;
+      c0.querySelector('p').textContent = t.pricing.trialBody;
+      c0.querySelectorAll('ul li').forEach(function(li, i){ if (t.pricing.trialItems[i]) li.childNodes[1].nodeValue = t.pricing.trialItems[i]; });
+      c0.querySelector('.btn').childNodes[0].nodeValue = t.pricing.trialBtn;
+    }
+    if (priceCards[1]) {
+      var c1 = priceCards[1];
+      c1.querySelector('div').textContent = t.pricing.licenseTag;
+      var c1Label = c1.querySelectorAll('div')[1];
+      if (c1Label) c1Label.textContent = t.pricing.licenseLabel;
+      var c1Price = c1.querySelectorAll('span')[0];
+      var c1Unit = c1.querySelectorAll('span')[1];
+      if (c1Price) c1Price.textContent = t.pricing.licensePrice;
+      if (c1Unit) c1Unit.textContent = t.pricing.licenseUnit;
+      c1.querySelector('p').textContent = t.pricing.licenseBody;
+      c1.querySelectorAll('ul li').forEach(function(li, i){ if (t.pricing.licenseItems[i]) li.childNodes[1].nodeValue = t.pricing.licenseItems[i]; });
+      var payuButton = c1.querySelector('.payu-purchase-button');
+      var hasPayuUrl = /^https?:\/\//.test(PAYU_PAYMENT_URL);
+      if (payuButton) {
+        payuButton.childNodes[0].nodeValue = hasPayuUrl ? t.pricing.payuBtn : t.pricing.payuFallbackBtn;
+        payuButton.href = hasPayuUrl ? PAYU_PAYMENT_URL : 'mailto:' + t.pricing.quoteMail + '?subject=Comprobare%20license%20purchase';
+        if (hasPayuUrl) {
+          payuButton.setAttribute('target', '_blank');
+          payuButton.setAttribute('rel', 'noopener');
+        } else {
+          payuButton.removeAttribute('target');
+          payuButton.removeAttribute('rel');
+        }
+      }
+      var payuNote = c1.querySelector('p[style*="font-family"]');
+      if (payuNote) payuNote.textContent = hasPayuUrl ? t.pricing.payuNote : t.pricing.payuFallbackNote;
+      var termsLink = c1.querySelector('.purchase-terms-link a');
+      if (termsLink) termsLink.textContent = t.pricing.terms;
+    }
+    var pricingQuote = document.querySelector('#pricing > .wrap > p:last-child');
+    if (pricingQuote) pricingQuote.innerHTML = t.pricing.quote + ' ' + t.pricing.quotePhoneText + ' <a href="tel:+48606838358" style="color:var(--blue-light);">' + t.pricing.quotePhone + '</a> ' + t.pricing.quoteJoin + ' <a href="mailto:' + t.pricing.quoteMail + '" style="color:var(--blue-light);">' + t.pricing.quoteMail + '</a>';
+    var ctaH2 = document.querySelector('.cta h2');
+    if (ctaH2) ctaH2.innerHTML = t.cta.h2;
+    var ctaP = document.querySelector('.cta p');
+    if (ctaP) ctaP.textContent = t.cta.p;
+    var ctaBtns = document.querySelectorAll('.cta .btn');
+    if (ctaBtns[0]) ctaBtns[0].childNodes[0].nodeValue = t.cta.primary;
+    if (ctaBtns[1]) ctaBtns[1].textContent = t.cta.secondary;
+
+    var footerBrand = document.querySelector('.foot-brand p');
+    if (footerBrand) footerBrand.textContent = t.footer.brand;
+    var footerCols = document.querySelectorAll('.foot-col');
+    if (footerCols[0]) {
+      footerCols[0].querySelector('h4').textContent = t.footer.product;
+      footerCols[0].querySelectorAll('a').forEach(function(a, i){ if (t.footer.links[i]) a.textContent = t.footer.links[i]; });
+    }
+    if (footerCols[1]) footerCols[1].querySelector('h4').textContent = t.footer.contact;
+    if (footerCols[2]) footerCols[2].querySelector('h4').textContent = t.footer.legal;
+    if (footerCols[2]) footerCols[2].querySelectorAll('a')[0].textContent = lang === 'pl' ? 'Polityka prywatności' : 'Privacy policy';
+    if (footerCols[2]) footerCols[2].querySelectorAll('a')[1].textContent = lang === 'pl' ? 'Regulamin' : 'License';
+    if (footerCols[2]) footerCols[2].querySelectorAll('a')[2].textContent = lang === 'pl' ? 'Warunki zakupu' : 'Purchase terms';
+
+    var footerBottom = document.querySelector('.foot-bottom');
+    if (footerBottom) {
+      var bottomBits = footerBottom.querySelectorAll('span');
+      if (bottomBits[1]) bottomBits[1].textContent = t.footer.lang;
+    }
+
+    document.querySelectorAll('[data-lang]').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === lang ? 'true' : 'false');
+    });
+    localStorage.setItem('comprobare-lang', lang);
+  }
+
+  var savedLang = localStorage.getItem('comprobare-lang') || (navigator.language && navigator.language.toLowerCase().indexOf('pl') === 0 ? 'pl' : 'en');
+  document.querySelectorAll('[data-lang]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      setLanguage(btn.getAttribute('data-lang'));
+    });
+  });
+  setLanguage(savedLang);
+
   // Reveal-on-scroll observer
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(en){
@@ -1163,3 +1749,4 @@
 
 </body>
 </html>
+
