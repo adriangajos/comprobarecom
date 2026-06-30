@@ -483,19 +483,40 @@ async function sendFulfilment(docRef, order, totals, orderNumber, licenseKeys) {
   if (invoice?.pdf) attachments.push({ filename: `invoice-${safeName}.pdf`, content: invoice.pdf });
 
   const bodies = paidEmailBodies({ orderNumber, totals, licenseKeys });
-  // Until SaldeoSmart is wired, flag the missing VAT invoice to the seller (BCC).
-  const sellerNote = invoice ? "" : "\n\n[ACTION] VAT invoice NOT auto-issued — issue manually.";
+  const transporter = makeTransporter();
 
-  await makeTransporter().sendMail({
+  // Customer-facing email (to buyer, BCC seller for their records). Kept clean —
+  // no internal notes leak here.
+  await transporter.sendMail({
     from: SELLER.mailFrom,
     to: order.email,
     bcc: SELLER.notifyEmail,
     replyTo: SELLER.email,
     subject: bodies.subject,
-    text: bodies.text + sellerNote,
+    text: bodies.text,
     html: bodies.html,
     attachments,
   });
+
+  // Separate internal reminder to the seller only, while SaldeoSmart isn't wired.
+  if (!invoice) {
+    try {
+      await transporter.sendMail({
+        from: SELLER.mailFrom,
+        to: SELLER.notifyEmail,
+        subject: `[ACTION] Issue VAT invoice — ${orderNumber}`,
+        text:
+          `Paid order needs a VAT invoice issued manually (SaldeoSmart not wired yet).\n\n` +
+          `Order: ${orderNumber}\nAmount: ${eur(totals.gross)} (net ${eur(totals.net)}, VAT ${eur(totals.vat)})\n` +
+          `Licenses: ${totals.qty}\n\n` +
+          `Buyer: ${order.name}\nVAT/NIP: ${order.vatNumber}\n` +
+          `Address: ${String(order.address).replace(/\r?\n/g, ", ")}\n` +
+          `Email: ${order.email}\nPhone: ${order.phone || "-"}\n`,
+      });
+    } catch (e) {
+      logger.error("payu.sellerReminder.failed", { orderNumber, err: String(e) });
+    }
+  }
 
   await docRef.set(
     { confirmedAt: FieldValue.serverTimestamp(), invoiceNumber: invoice?.number || null, invoiceIssued: !!invoice },
