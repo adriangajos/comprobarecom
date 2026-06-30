@@ -304,6 +304,9 @@
   // 'https://createorder-xxxxxxxx-uc.a.run.app'  (Gen2)  or
   // 'https://us-central1-comprobare-ce8a1.cloudfunctions.net/createOrder' (Gen1)
   var ORDER_API_URL = 'https://europe-central2-comprobare-ce8a1.cloudfunctions.net/createOrder';
+  // PayU online payment (EUR). Primary path: the buyer pays by card/transfer
+  // and is redirected to PayU; confirmation + license key + invoice come by email.
+  var PAYU_API_URL = 'https://europe-central2-comprobare-ce8a1.cloudfunctions.net/createPayuOrder';
   // Fallback recipient if the backend URL is not configured yet.
   var SELLER_EMAIL = 'comprobareapp@gmail.com';
   // Price shown on site is GROSS (includes 23% VAT).
@@ -316,7 +319,7 @@
       back: '← Back to pricing',
       eyebrow: 'Order a license',
       title: 'Buy a <b>Comprobare</b> license',
-      lede: "Choose how many stations you need and enter your billing details. We'll email you a proforma invoice with payment details — your license keys are sent once we receive the payment.",
+      lede: "Choose how many stations you need and enter your billing details. You'll pay securely via PayU (card or bank transfer) — your license keys and VAT invoice are emailed the moment the payment is confirmed.",
       formTitle: 'Your order',
       formSub: 'All fields marked with <span class="req" style="color:var(--blue-light)">*</span> are required.',
       legendLicenses: 'Licenses',
@@ -329,28 +332,31 @@
       vatHint: 'Used on the invoice. Enter your tax/VAT identification number.',
       emailLabel: 'Email <span class="req">*</span>',
       phoneLabel: 'Contact number <span class="req">*</span>',
-      submit: 'Send the order',
-      sending: 'Sending…',
-      legal: 'By sending the order you request a proforma invoice. The purchase is subject to our <a href="purchase-terms.html">purchase terms</a>.',
+      submit: 'Pay now',
+      sending: 'Redirecting to payment…',
+      legal: 'You will be redirected to PayU to pay securely by card or bank transfer. The purchase is subject to our <a href="purchase-terms.html">purchase terms</a>.',
       summaryTitle: 'Summary',
       sumQty: 'Licenses',
       sumNet: 'Net',
       sumVat: 'VAT 23%',
       sumTotal: 'Total (incl. VAT)',
       sumPerUnit: '€100.00 / license · incl. 23% VAT',
-      sumNote1: '<b>How it works:</b> after you send the order we email you a proforma invoice with our bank details.',
-      sumNote2: 'Pay by bank transfer. Your license key(s) arrive by email once the payment is on our account.',
+      sumNote1: '<b>How it works:</b> you pay securely via PayU (card or bank transfer) in EUR.',
+      sumNote2: 'Your license key(s) and a VAT invoice are emailed to you right after the payment is confirmed.',
       successTitle: 'Order received',
       successLine: 'Your proforma invoice {pf}is on its way to <span class="email-to">{email}</span>.',
       successInfo: 'Your license key(s) will be sent to your email <b>once the payment is credited to our account</b>. Bank transfers usually take 1–2 business days.',
       successBack: 'Back to homepage',
       pfNumber: '(no. <span class="proforma-no">{no}</span>) ',
+      payuReturnLine: 'Thank you — we\'re confirming your payment.',
+      payuReturnInfo: 'As soon as the payment is confirmed (usually within a minute), your license key(s) and VAT invoice are emailed to you. You can close this page.',
       footTerms: 'Purchase terms',
       footPrivacy: 'Privacy policy',
       errRequired: 'Please fill in all required fields.',
       errEmail: 'Please enter a valid email address.',
       errQty: 'Number of licenses must be at least 1.',
-      errSend: 'Something went wrong sending your order. Please try again or email us at ' + SELLER_EMAIL + '.',
+      errSend: 'Something went wrong starting the payment. Please try again or email us at ' + SELLER_EMAIL + '.',
+      errPayuCancelled: 'The payment was not completed. You can try again below.',
       mailSubject: 'Comprobare license order',
       mailIntro: 'I would like to order Comprobare licenses. Please send a proforma invoice.'
     },
@@ -359,7 +365,7 @@
       back: '← Wróć do cennika',
       eyebrow: 'Zamów licencję',
       title: 'Kup licencję <b>Comprobare</b>',
-      lede: 'Wybierz liczbę stanowisk i podaj dane do faktury. Wyślemy Ci e-mailem fakturę proforma z danymi do płatności — klucze licencyjne wysyłamy po zaksięgowaniu wpłaty.',
+      lede: 'Wybierz liczbę stanowisk i podaj dane do faktury. Zapłacisz bezpiecznie przez PayU (karta lub przelew) — klucze licencyjne i fakturę VAT wyślemy e-mailem zaraz po potwierdzeniu płatności.',
       formTitle: 'Twoje zamówienie',
       formSub: 'Wszystkie pola oznaczone <span class="req" style="color:var(--blue-light)">*</span> są wymagane.',
       legendLicenses: 'Licencje',
@@ -372,28 +378,31 @@
       vatHint: 'Użyjemy go na fakturze. Podaj numer NIP / VAT.',
       emailLabel: 'E-mail <span class="req">*</span>',
       phoneLabel: 'Telefon kontaktowy <span class="req">*</span>',
-      submit: 'Wyślij zamówienie',
-      sending: 'Wysyłanie…',
-      legal: 'Wysyłając zamówienie prosisz o fakturę proforma. Zakup podlega naszym <a href="purchase-terms.html">warunkom zakupu</a>.',
+      submit: 'Zapłać teraz',
+      sending: 'Przekierowanie do płatności…',
+      legal: 'Zostaniesz przekierowany do PayU, aby bezpiecznie zapłacić kartą lub przelewem. Zakup podlega naszym <a href="purchase-terms.html">warunkom zakupu</a>.',
       summaryTitle: 'Podsumowanie',
       sumQty: 'Licencje',
       sumNet: 'Netto',
       sumVat: 'VAT 23%',
       sumTotal: 'Razem (z VAT)',
       sumPerUnit: '100,00 € / licencja · z 23% VAT',
-      sumNote1: '<b>Jak to działa:</b> po wysłaniu zamówienia wyślemy Ci e-mailem fakturę proforma z naszymi danymi do przelewu.',
-      sumNote2: 'Zapłać przelewem. Klucze licencyjne wyślemy e-mailem po zaksięgowaniu wpłaty na naszym koncie.',
+      sumNote1: '<b>Jak to działa:</b> płacisz bezpiecznie przez PayU (karta lub przelew) w EUR.',
+      sumNote2: 'Klucz(e) licencyjny oraz fakturę VAT wyślemy e-mailem zaraz po potwierdzeniu płatności.',
       successTitle: 'Zamówienie przyjęte',
       successLine: 'Faktura proforma {pf}jest w drodze na adres <span class="email-to">{email}</span>.',
       successInfo: 'Klucze licencyjne wyślemy na Twój e-mail <b>po zaksięgowaniu wpłaty na naszym koncie</b>. Przelewy zwykle docierają w 1–2 dni robocze.',
       successBack: 'Wróć na stronę główną',
       pfNumber: '(nr <span class="proforma-no">{no}</span>) ',
+      payuReturnLine: 'Dziękujemy — potwierdzamy Twoją płatność.',
+      payuReturnInfo: 'Gdy tylko płatność zostanie potwierdzona (zwykle w ciągu minuty), wyślemy Ci e-mailem klucz(e) licencyjny i fakturę VAT. Możesz zamknąć tę stronę.',
       footTerms: 'Warunki zakupu',
       footPrivacy: 'Polityka prywatności',
       errRequired: 'Uzupełnij wszystkie wymagane pola.',
       errEmail: 'Podaj poprawny adres e-mail.',
       errQty: 'Liczba licencji musi wynosić co najmniej 1.',
-      errSend: 'Coś poszło nie tak przy wysyłce zamówienia. Spróbuj ponownie lub napisz na ' + SELLER_EMAIL + '.',
+      errSend: 'Coś poszło nie tak przy rozpoczęciu płatności. Spróbuj ponownie lub napisz na ' + SELLER_EMAIL + '.',
+      errPayuCancelled: 'Płatność nie została zakończona. Możesz spróbować ponownie poniżej.',
       mailSubject: 'Zamówienie licencji Comprobare',
       mailIntro: 'Chcę zamówić licencje Comprobare. Proszę o wystawienie faktury proforma.'
     }
@@ -543,15 +552,16 @@
     submitBtn.disabled = true;
     submitLabel.textContent = I18N[lang].sending;
 
-    fetch(ORDER_API_URL, {
+    // Primary path: create a PayU order and redirect the buyer to pay.
+    fetch(PAYU_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(p)
     })
     .then(function(res){ return res.json().then(function(j){ return { ok: res.ok, body: j }; }); })
     .then(function(r){
-      if (!r.ok || !r.body || r.body.ok === false) throw new Error('bad response');
-      showSuccess(p, r.body.proformaNumber, true);
+      if (!r.ok || !r.body || r.body.ok === false || !r.body.redirectUri) throw new Error('bad response');
+      window.location.href = r.body.redirectUri;
     })
     .catch(function(){
       submitBtn.disabled = false;
@@ -559,6 +569,25 @@
       showError(I18N[lang].errSend);
     });
   });
+
+  // ── return from PayU ──────────────────────────────────────────────────────
+  // PayU sends the buyer back to continueUrl (?payu=return). On cancel/failure
+  // it appends &error=... . The real confirmation arrives by email (webhook).
+  (function handlePayuReturn(){
+    var qs = new URLSearchParams(window.location.search);
+    if (qs.get('payu') !== 'return') return;
+    var t = I18N[lang];
+    if (qs.get('error')) {
+      // Payment not completed — let them try again.
+      showError(t.errPayuCancelled);
+      return;
+    }
+    document.getElementById('order-form').style.display = 'none';
+    document.getElementById('success-line1').innerHTML = t.payuReturnLine;
+    document.querySelector('#success [data-i18n="successInfo"]').innerHTML = t.payuReturnInfo;
+    document.getElementById('success').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  })();
 
   applyI18n();
 })();

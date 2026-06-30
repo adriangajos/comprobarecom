@@ -23,6 +23,13 @@ import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import nodemailer from "nodemailer";
 import PDFDocument from "pdfkit";
 import { fileURLToPath } from "url";
+import {
+  payuBaseUrl,
+  getAccessToken,
+  createPayuOrder as payuCreateOrder,
+  verifyNotificationSignature,
+} from "./payu.js";
+import { createLicensesInTx } from "./license.js";
 
 initializeApp();
 const db = getFirestore();
@@ -40,6 +47,27 @@ const SMTP_PASS = defineSecret("SMTP_PASS");
 const SMTP_HOST = "smtp.gmail.com";
 const SMTP_PORT = 465; // SSL
 const SMTP_USER = "comprobareapp@gmail.com";
+
+// ── PayU (EUR shop "eur", REST API / Checkout) ──────────────────────────────
+// Secrets set via: firebase functions:secrets:set PAYU_POS_ID / PAYU_CLIENT_ID
+// / PAYU_CLIENT_SECRET / PAYU_SECOND_KEY. NEVER hardcode these — this repo is
+// published to GitHub Pages.
+const PAYU_POS_ID = defineSecret("PAYU_POS_ID");
+const PAYU_CLIENT_ID = defineSecret("PAYU_CLIENT_ID");
+const PAYU_CLIENT_SECRET = defineSecret("PAYU_CLIENT_SECRET");
+const PAYU_SECOND_KEY = defineSecret("PAYU_SECOND_KEY");
+// "sandbox" → secure.snd.payu.com, "production" → secure.payu.com.
+const PAYU_ENV = "production";
+// The production shop is EUR. The sandbox shop is PLN-locked (the "Dodaj sklep"
+// form forces PLN), so we test in PLN there — currency is irrelevant to the
+// license/webhook logic. Production keeps EUR (= CURRENCY, declared below;
+// kept as a literal here to avoid a temporal-dead-zone reference).
+const PAYU_CURRENCY = PAYU_ENV === "sandbox" ? "PLN" : "EUR";
+// Deployed function base (region europe-central2, project comprobare-ce8a1).
+const FN_BASE = "https://europe-central2-comprobare-ce8a1.cloudfunctions.net";
+// Where PayU sends the buyer back after the payment screen. The real
+// confirmation comes from the async notification, not this redirect.
+const CONTINUE_URL = "https://comprobare.com/order.html?payu=return";
 
 // ── Seller / invoice configuration — EDIT THESE ─────────────────────────────
 const SELLER = {
@@ -65,6 +93,9 @@ const SELLER = {
 const PRODUCT_NAME = "Comprobare license — 1 station / 1 year";
 const UNIT_GROSS = 100; // EUR, incl. VAT
 const VAT_RATE = 0.23;
+// License plan: each ordered unit = 1 station for 1 year (1 device). 0 = perpetual.
+const LICENSE_DURATION_DAYS = 365;
+const MAX_DEVICES_PER_LICENSE = 1;
 const CURRENCY = "EUR";
 const PROFORMA_VALID_DAYS = 7;
 // Numbering starts after this value, so the first issued proforma is 101.
@@ -79,6 +110,14 @@ const CORS = true;
 // ── helpers ─────────────────────────────────────────────────────────────────
 const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 const eur = (n) => `${round2(n).toFixed(2)} ${CURRENCY}`;
+
+// Server-side totals (gross = €100/license incl. VAT). Never trust client amounts.
+function computeTotals(qty) {
+  const gross = round2(UNIT_GROSS * qty);
+  const net = round2(gross / (1 + VAT_RATE));
+  const vat = round2(gross - net);
+  return { qty, net, vat, gross };
+}
 
 function sanitize(s, max = 500) {
   // Strip control characters but keep newlines (the address may span lines).
@@ -317,6 +356,129 @@ function emailBodies(lang, { proformaNumber, totals, dates }) {
   };
 }
 
+// Payment-confirmation email (always English, like the proforma).
+// `licenseKeys` is an array of key strings when auto-issued, else null.
+function paidEmailBodies({ orderNumber, totals, licenseKeys }) {
+  const keysBlockHtml = licenseKeys && licenseKeys.length
+    ? `<p>Your license key${licenseKeys.length > 1 ? "s" : ""}:</p>` +
+      `<p style="font-family:Consolas,monospace;font-size:15px;color:#0078d4">` +
+      licenseKeys.map((k) => `<b>${k}</b>`).join("<br>") + `</p>`
+    : `<p>Your license key(s) will arrive in a separate email shortly.</p>`;
+  const keysBlockText = licenseKeys && licenseKeys.length
+    ? `\nYour license key(s):\n${licenseKeys.join("\n")}\n`
+    : `\nYour license key(s) will arrive in a separate email shortly.\n`;
+  return {
+    subject: `Payment received ${orderNumber} — Comprobare`,
+    text:
+      `Hello,\n\nThank you — your payment has been received in full.\n\n` +
+      `Order: ${orderNumber}\nLicenses: ${totals.qty}\n` +
+      `Paid: ${eur(totals.gross)} (incl. VAT ${eur(totals.vat)})\n` +
+      keysBlockText +
+      `\nA VAT invoice will follow by email.\n\nBest regards,` +
+      textSignature(),
+    html:
+      `<div style="font-family:Arial,Helvetica,sans-serif;color:#1a1c1f;font-size:14px;line-height:1.6">` +
+      `<p>Hello,</p><p>Thank you — your payment has been received in full.</p>` +
+      `<p>Order: <b>${orderNumber}</b><br>Licenses: <b>${totals.qty}</b><br>` +
+      `Paid: <b>${eur(totals.gross)}</b> (incl. VAT ${eur(totals.vat)})</p>` +
+      keysBlockHtml +
+      `<p>A VAT invoice will follow by email.</p><p>Best regards,</p>` +
+      htmlSignature() + `</div>`,
+  };
+}
+
+function makeTransporter() {
+  return nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: SMTP_PORT,
+    secure: SMTP_PORT === 465,
+    auth: { user: SMTP_USER, pass: SMTP_PASS.value() },
+  });
+}
+
+// TODO(phase 3): issue a VAT invoice via the SaldeoSmart REST API and return
+// { number, pdf } (pdf as a Buffer to attach), or null if not configured yet.
+async function issueSaldeoInvoice(/* order, totals, orderNumber */) {
+  return null;
+}
+
+/**
+ * Mark a PAID order processed and mint its license keys — ATOMICALLY.
+ * Keys are created inside the transaction together with the order's `paid`
+ * flag, so PayU notification retries can never produce duplicate keys.
+ * Returns { keys, justCreated }; on a retry of an already-processed order it
+ * returns the existing keys with justCreated=false.
+ */
+async function markPaidAndIssueKeys(docRef, payuOrderId) {
+  return db.runTransaction(async (tx) => {
+    const snap = await tx.get(docRef); // read first
+    if (!snap.exists) throw new Error("order_not_found");
+    if (snap.get("keysIssued")) {
+      return { keys: snap.get("licenseKeys") || [], justCreated: false };
+    }
+
+    const qty = parseInt(snap.get("qty"), 10) || 1;
+    const keys = await createLicensesInTx(db, tx, {
+      count: qty,
+      email: snap.get("email"),
+      planDays: LICENSE_DURATION_DAYS,
+      orderId: payuOrderId || snap.id,
+      maxDevices: MAX_DEVICES_PER_LICENSE,
+    });
+
+    tx.set(
+      docRef,
+      {
+        status: "paid",
+        paidAt: FieldValue.serverTimestamp(),
+        payuOrderId: payuOrderId || null,
+        licenseKeys: keys,
+        keysIssued: true,
+      },
+      { merge: true }
+    );
+    return { keys, justCreated: true };
+  });
+}
+
+/**
+ * Post-payment side effects (run AFTER the transaction commits): issue the VAT
+ * invoice and email the buyer their keys + invoice, BCC the seller. Guarded by
+ * a `confirmedAt` flag so PayU retries don't re-send. Best-effort — failures
+ * are logged and will be retried on the next notification (keys already exist).
+ */
+async function sendFulfilment(docRef, order, totals, orderNumber, licenseKeys) {
+  let invoice = null;
+  try {
+    invoice = await issueSaldeoInvoice(order, totals, orderNumber);
+  } catch (e) {
+    logger.error("payu.saldeoInvoice.failed", { orderNumber, err: String(e) });
+  }
+
+  const bodies = paidEmailBodies({ orderNumber, totals, licenseKeys });
+  const attachments = invoice?.pdf
+    ? [{ filename: `invoice-${orderNumber.replace(/\//g, "_")}.pdf`, content: invoice.pdf }]
+    : [];
+  // Until SaldeoSmart is wired, flag the missing invoice to the seller (BCC).
+  const sellerNote = invoice ? "" : "\n\n[ACTION] VAT invoice NOT auto-issued — issue manually.";
+
+  await makeTransporter().sendMail({
+    from: SELLER.mailFrom,
+    to: order.email,
+    bcc: SELLER.notifyEmail,
+    replyTo: SELLER.email,
+    subject: bodies.subject,
+    text: bodies.text + sellerNote,
+    html: bodies.html,
+    attachments,
+  });
+
+  await docRef.set(
+    { confirmedAt: FieldValue.serverTimestamp(), invoiceNumber: invoice?.number || null, invoiceIssued: !!invoice },
+    { merge: true }
+  );
+}
+
 // ── HTTP endpoint ────────────────────────────────────────────────────────────
 export const createOrder = onRequest(
   { secrets: [SMTP_PASS], cors: CORS },
@@ -333,11 +495,8 @@ export const createOrder = onRequest(
         return;
       }
 
-      // Server-side totals (gross = €100/license incl. VAT).
-      const gross = round2(UNIT_GROSS * data.qty);
-      const net = round2(gross / (1 + VAT_RATE));
-      const vat = round2(gross - net);
-      const totals = { qty: data.qty, net, vat, gross };
+      const totals = computeTotals(data.qty);
+      const { gross } = totals;
 
       const now = new Date();
       const due = new Date(now.getTime() + PROFORMA_VALID_DAYS * 86400000);
@@ -390,6 +549,148 @@ export const createOrder = onRequest(
     } catch (err) {
       logger.error("order.failed", err);
       res.status(500).json({ ok: false, error: "server_error" });
+    }
+  }
+);
+
+// ── PayU: create an online (card/transfer) payment in EUR ────────────────────
+// Validates + recomputes totals server-side, persists the order as
+// `payu_pending`, creates the PayU order, and returns { redirectUri } for the
+// browser to send the buyer to PayU. Fulfilment happens in payuNotify.
+export const createPayuOrder = onRequest(
+  { secrets: [PAYU_POS_ID, PAYU_CLIENT_ID, PAYU_CLIENT_SECRET], cors: CORS },
+  async (req, res) => {
+    if (req.method !== "POST") {
+      res.status(405).json({ ok: false, error: "method_not_allowed" });
+      return;
+    }
+    try {
+      const { errors, data } = validate(req.body || {});
+      if (errors.length) {
+        res.status(400).json({ ok: false, error: "invalid_input", fields: errors });
+        return;
+      }
+
+      const totals = computeTotals(data.qty);
+      const orderNumber = await nextProformaNumber();
+      const docId = orderNumber.replace(/\//g, "_");
+      const docRef = db.collection("orders").doc(docId);
+
+      await docRef.set({
+        proformaNumber: orderNumber,
+        ...data,
+        ...totals,
+        currency: CURRENCY,
+        method: "payu",
+        payuEnv: PAYU_ENV,
+        status: "payu_pending",
+        createdAt: FieldValue.serverTimestamp(),
+      });
+
+      const baseUrl = payuBaseUrl(PAYU_ENV);
+      const accessToken = await getAccessToken({
+        baseUrl,
+        clientId: PAYU_CLIENT_ID.value(),
+        clientSecret: PAYU_CLIENT_SECRET.value(),
+      });
+
+      const customerIp =
+        (req.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
+        req.socket?.remoteAddress ||
+        "127.0.0.1";
+      const unitMinor = Math.round(UNIT_GROSS * 100);
+
+      const { orderId, redirectUri } = await payuCreateOrder({
+        baseUrl,
+        accessToken,
+        posId: PAYU_POS_ID.value(),
+        extOrderId: docId,
+        amountMinor: Math.round(totals.gross * 100),
+        currencyCode: PAYU_CURRENCY,
+        description: `${PRODUCT_NAME} × ${totals.qty} (${orderNumber})`,
+        products: [
+          { name: PRODUCT_NAME, unitPrice: String(unitMinor), quantity: String(totals.qty) },
+        ],
+        buyer: { email: data.email, phone: data.phone, language: data.lang },
+        customerIp,
+        notifyUrl: `${FN_BASE}/payuNotify`,
+        continueUrl: CONTINUE_URL,
+      });
+
+      await docRef.set({ payuOrderId: orderId }, { merge: true });
+
+      logger.info("payu.order.created", { orderNumber, payuOrderId: orderId, qty: totals.qty });
+      res.status(200).json({ ok: true, redirectUri, orderNumber });
+    } catch (err) {
+      logger.error("payu.order.failed", { err: String(err) });
+      res.status(500).json({ ok: false, error: "server_error" });
+    }
+  }
+);
+
+// ── PayU: async payment notification (webhook) ───────────────────────────────
+// Server-to-server. Verifies the OpenPayu-Signature, and on COMPLETED fulfils
+// the order (keys + invoice + email). Idempotent; always 200s after a valid
+// signature so PayU stops retrying.
+export const payuNotify = onRequest(
+  { secrets: [PAYU_SECOND_KEY, SMTP_PASS], cors: false },
+  async (req, res) => {
+    if (req.method !== "POST") {
+      res.status(405).send("method_not_allowed");
+      return;
+    }
+    try {
+      const valid = verifyNotificationSignature({
+        header: req.headers["openpayu-signature"],
+        rawBody: req.rawBody,
+        secondKey: PAYU_SECOND_KEY.value(),
+      });
+      if (!valid) {
+        logger.warn("payu.notify.bad_signature");
+        res.status(400).send("bad_signature");
+        return;
+      }
+
+      const order = req.body?.order || {};
+      const extOrderId = order.extOrderId;
+      const status = order.status;
+      if (!extOrderId) {
+        res.status(200).send("ok");
+        return;
+      }
+
+      const docRef = db.collection("orders").doc(extOrderId);
+      const snap = await docRef.get();
+      if (!snap.exists) {
+        logger.warn("payu.notify.unknown_order", { extOrderId });
+        res.status(200).send("ok");
+        return;
+      }
+
+      // Only the webhook's COMPLETED status confirms payment (never the redirect).
+      if (status !== "COMPLETED") {
+        await docRef.set({ payuStatus: status }, { merge: true });
+        res.status(200).send("ok");
+        return;
+      }
+
+      // Mint keys + mark paid atomically (idempotent across PayU retries).
+      const { keys, justCreated } = await markPaidAndIssueKeys(docRef, order.orderId);
+
+      // Send invoice + key email once. justCreated → first time; otherwise only
+      // if a previous attempt minted keys but failed before emailing.
+      if (justCreated || !snap.get("confirmedAt")) {
+        const data = snap.data();
+        const totals = computeTotals(data.qty);
+        await sendFulfilment(docRef, data, totals, data.proformaNumber || extOrderId, keys);
+      }
+      logger.info("payu.notify.completed", { extOrderId, justCreated, keys: keys.length });
+
+      res.status(200).send("ok");
+    } catch (err) {
+      logger.error("payu.notify.failed", { err: String(err) });
+      // 500 → PayU will retry the notification later.
+      res.status(500).send("error");
     }
   }
 );
