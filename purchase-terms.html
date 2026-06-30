@@ -258,5 +258,43 @@
   apply(localStorage.getItem('comprobare-lang') || 'en');
 })();
 </script>
+<!-- Cookie consent -->
+<div id="cookie-notice" role="dialog" aria-label="Cookie consent" style="position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;background:#16181b;border-top:1px solid #2a2d31;box-shadow:0 -4px 24px rgba(0,0,0,.35);font-family:'DM Sans','Segoe UI',Arial,sans-serif">
+  <div style="max-width:1000px;margin:0 auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;justify-content:space-between">
+    <p id="cookie-notice-text" style="margin:0;color:#d4d8dd;font-size:13.5px;line-height:1.55;flex:1 1 360px"></p>
+    <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;flex-wrap:wrap">
+      <a id="cookie-notice-link" href="privacy.html" style="color:#4fc3f7;font-size:13px;text-decoration:none;white-space:nowrap;margin-right:4px"></a>
+      <button id="cookie-reject" type="button" style="font-family:inherit;font-size:13.5px;font-weight:500;color:#d4d8dd;background:transparent;border:1px solid #2e3135;border-radius:8px;padding:9px 16px;cursor:pointer;white-space:nowrap"></button>
+      <button id="cookie-accept" type="button" style="font-family:inherit;font-size:13.5px;font-weight:600;color:#fff;background:#0078d4;border:0;border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap"></button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='comprobare-cookie-consent';
+  function applyConsent(v){
+    window.comprobareConsent=v;
+    // Non-essential cookies (e.g. analytics) must load ONLY when v==='accepted'.
+    // TODO: when adding analytics, gate its loader here: if(v==='accepted'){ loadAnalytics(); }
+  }
+  var saved=null; try{saved=localStorage.getItem(KEY);}catch(e){}
+  if(saved){ applyConsent(saved); return; }
+  var lang='en';
+  try { var l=localStorage.getItem('comprobare-lang'); if(l){lang=l;} else if(navigator.language&&navigator.language.toLowerCase().indexOf('pl')===0){lang='pl';} } catch(e){}
+  var T={
+    en:{text:'We use cookies — essential ones to run the site and, with your consent, analytics cookies to measure traffic and improve it.',link:'Privacy policy',accept:'Accept all',reject:'Reject non-essential'},
+    pl:{text:'Używamy plików cookie — niezbędnych do działania serwisu oraz, za Twoją zgodą, analitycznych do pomiaru ruchu i ulepszania strony.',link:'Polityka prywatności',accept:'Akceptuję wszystkie',reject:'Tylko niezbędne'}
+  };
+  var t=T[lang]||T.en, bar=document.getElementById('cookie-notice');
+  document.getElementById('cookie-notice-text').textContent=t.text;
+  document.getElementById('cookie-notice-link').textContent=t.link;
+  var a=document.getElementById('cookie-accept'), r=document.getElementById('cookie-reject');
+  a.textContent=t.accept; r.textContent=t.reject;
+  bar.style.display='block';
+  function choose(v){ try{localStorage.setItem(KEY,v);}catch(e){} applyConsent(v); bar.style.display='none'; }
+  a.addEventListener('click',function(){choose('accepted');});
+  r.addEventListener('click',function(){choose('rejected');});
+})();
+</script>
 </body>
 </html>
