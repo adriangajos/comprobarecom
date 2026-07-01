@@ -90,11 +90,27 @@ const SELLER = {
   mailFrom: "Comprobare <comprobareapp@gmail.com>",
 };
 
-const PRODUCT_NAME = "Comprobare license — 1 station / 1 year";
-const UNIT_GROSS = 100; // EUR, incl. VAT
+// Purchasable plans. Prices are GROSS (incl. 23% VAT), per station (1 device).
+// `durationDays === 0` → perpetual license (expires_at = null in license.js).
+// The server is the single source of truth for price + duration — the client
+// only sends a plan id, never an amount.
+const PLANS = {
+  annual: {
+    name: "Comprobare license — 1 station / 1 year",
+    grossUnit: 100, // EUR, incl. VAT
+    durationDays: 365,
+  },
+  lifetime: {
+    name: "Comprobare license — 1 station / lifetime",
+    grossUnit: 249, // EUR, incl. VAT
+    durationDays: 0, // perpetual
+  },
+};
+const DEFAULT_PLAN = "annual";
+const resolvePlan = (plan) =>
+  Object.prototype.hasOwnProperty.call(PLANS, plan) ? plan : DEFAULT_PLAN;
+
 const VAT_RATE = 0.23;
-// License plan: each ordered unit = 1 station for 1 year (1 device). 0 = perpetual.
-const LICENSE_DURATION_DAYS = 365;
 const MAX_DEVICES_PER_LICENSE = 1;
 const CURRENCY = "EUR";
 const PROFORMA_VALID_DAYS = 7;
@@ -111,9 +127,10 @@ const CORS = true;
 const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 const eur = (n) => `${round2(n).toFixed(2)} ${CURRENCY}`;
 
-// Server-side totals (gross = €100/license incl. VAT). Never trust client amounts.
-function computeTotals(qty) {
-  const gross = round2(UNIT_GROSS * qty);
+// Server-side totals (gross per plan, incl. VAT). Never trust client amounts.
+function computeTotals(qty, plan = DEFAULT_PLAN) {
+  const unit = PLANS[resolvePlan(plan)].grossUnit;
+  const gross = round2(unit * qty);
   const net = round2(gross / (1 + VAT_RATE));
   const vat = round2(gross - net);
   return { qty, net, vat, gross };
@@ -142,6 +159,8 @@ function validate(body) {
   const email = sanitize(body.email, 160);
   const phone = sanitize(body.phone, 60);
   const lang = body.lang === "pl" ? "pl" : "en";
+  // Unknown/absent plan falls back to the default; price is never taken from the client.
+  const plan = resolvePlan(body.plan);
 
   if (!name) errors.push("name");
   if (!address) errors.push("address");
@@ -149,7 +168,7 @@ function validate(body) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push("email");
   if (!phone) errors.push("phone");
 
-  return { errors, data: { qty, name, address, vatNumber, email, phone, lang } };
+  return { errors, data: { qty, name, address, vatNumber, email, phone, lang, plan } };
 }
 
 async function nextProformaNumber() {
@@ -196,6 +215,8 @@ export function buildProformaPdf({ proformaNumber, order, totals, dates, paid = 
     // Unicode fonts so Polish characters render correctly.
     doc.registerFont("Body", FONT_REGULAR);
     doc.registerFont("Bold", FONT_BOLD);
+
+    const productName = PLANS[resolvePlan(order.plan)].name;
 
     const BLUE = "#0078d4";
     const GREY = "#5a5f66";
@@ -247,7 +268,7 @@ export function buildProformaPdf({ proformaNumber, order, totals, dates, paid = 
 
     y += 22;
     doc.fillColor(DARK).fontSize(10).font("Body");
-    doc.text(PRODUCT_NAME, left + 10, y + 8, { width: 265 });
+    doc.text(productName, left + 10, y + 8, { width: 265 });
     doc.text(String(totals.qty), left + 285, y + 8, { width: 40, align: "right" });
     doc.text(eur(totals.net), left + 330, y + 8, { width: 70, align: "right" });
     doc.text("23%", left + 400, y + 8, { width: 35, align: "right" });
@@ -432,10 +453,11 @@ async function markPaidAndIssueKeys(docRef, payuOrderId) {
     }
 
     const qty = parseInt(snap.get("qty"), 10) || 1;
+    const plan = resolvePlan(snap.get("plan"));
     const keys = await createLicensesInTx(db, tx, {
       count: qty,
       email: snap.get("email"),
-      planDays: LICENSE_DURATION_DAYS,
+      planDays: PLANS[plan].durationDays,
       orderId: payuOrderId || snap.id,
       maxDevices: MAX_DEVICES_PER_LICENSE,
     });
@@ -540,7 +562,7 @@ export const createOrder = onRequest(
         return;
       }
 
-      const totals = computeTotals(data.qty);
+      const totals = computeTotals(data.qty, data.plan);
       const { gross } = totals;
 
       const now = new Date();
@@ -616,7 +638,8 @@ export const createPayuOrder = onRequest(
         return;
       }
 
-      const totals = computeTotals(data.qty);
+      const totals = computeTotals(data.qty, data.plan);
+      const planName = PLANS[data.plan].name;
       const orderNumber = await nextProformaNumber();
       const docId = orderNumber.replace(/\//g, "_");
       const docRef = db.collection("orders").doc(docId);
@@ -643,7 +666,7 @@ export const createPayuOrder = onRequest(
         (req.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
         req.socket?.remoteAddress ||
         "127.0.0.1";
-      const unitMinor = Math.round(UNIT_GROSS * 100);
+      const unitMinor = Math.round(PLANS[data.plan].grossUnit * 100);
 
       const { orderId, redirectUri } = await payuCreateOrder({
         baseUrl,
@@ -652,9 +675,9 @@ export const createPayuOrder = onRequest(
         extOrderId: docId,
         amountMinor: Math.round(totals.gross * 100),
         currencyCode: PAYU_CURRENCY,
-        description: `${PRODUCT_NAME} × ${totals.qty} (${orderNumber})`,
+        description: `${planName} × ${totals.qty} (${orderNumber})`,
         products: [
-          { name: PRODUCT_NAME, unitPrice: String(unitMinor), quantity: String(totals.qty) },
+          { name: planName, unitPrice: String(unitMinor), quantity: String(totals.qty) },
         ],
         buyer: { email: data.email, phone: data.phone, language: data.lang },
         customerIp,
@@ -726,7 +749,7 @@ export const payuNotify = onRequest(
       // if a previous attempt minted keys but failed before emailing.
       if (justCreated || !snap.get("confirmedAt")) {
         const data = snap.data();
-        const totals = computeTotals(data.qty);
+        const totals = computeTotals(data.qty, data.plan);
         await sendFulfilment(docRef, data, totals, data.proformaNumber || extOrderId, keys);
       }
       logger.info("payu.notify.completed", { extOrderId, justCreated, keys: keys.length });

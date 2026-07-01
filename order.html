@@ -115,6 +115,23 @@
   textarea { resize: vertical; min-height: 84px; }
   input.qty { max-width: 140px; text-align: center; font-family: var(--font-mono); font-size: 18px; }
 
+  /* plan selector */
+  .plan-select { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
+  @media (max-width: 540px) { .plan-select { grid-template-columns: 1fr; } }
+  .plan-option { position: relative; display: block; cursor: pointer; }
+  .plan-option input { position: absolute; opacity: 0; pointer-events: none; }
+  .plan-card {
+    display: block;
+    border: 1px solid #2e3135; background: var(--neutral-750); border-radius: 11px;
+    padding: 14px 16px; transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  .plan-option:hover .plan-card { border-color: #3a4650; }
+  .plan-option input:checked + .plan-card { border-color: var(--blue-primary); background: #1a2836; box-shadow: 0 0 0 3px rgba(0,120,212,0.15); }
+  .plan-option input:focus-visible + .plan-card { border-color: var(--blue-primary); }
+  .plan-name { display: block; font-size: 14.5px; font-weight: 600; color: var(--white); }
+  .plan-price { display: block; font-family: var(--font-mono); font-size: 12.5px; color: var(--blue-light); margin-top: 4px; }
+  .plan-desc { display: block; font-size: 12px; color: var(--neutral-400); margin-top: 6px; }
+
   .qty-control { display: flex; align-items: center; gap: 10px; }
   .qty-btn {
     width: 42px; height: 46px; flex-shrink: 0;
@@ -227,6 +244,26 @@
 
         <div class="form-msg" id="form-error"></div>
 
+        <span class="legend" data-i18n="legendPlan">License type</span>
+        <div class="plan-select" id="plan-select">
+          <label class="plan-option">
+            <input type="radio" name="plan" value="annual" checked />
+            <span class="plan-card">
+              <span class="plan-name" data-i18n="planAnnualName">1 year</span>
+              <span class="plan-price" data-i18n="planAnnualPrice">€100 / year / station</span>
+              <span class="plan-desc" data-i18n="planAnnualDesc">Renews yearly</span>
+            </span>
+          </label>
+          <label class="plan-option">
+            <input type="radio" name="plan" value="lifetime" />
+            <span class="plan-card">
+              <span class="plan-name" data-i18n="planLifetimeName">Lifetime</span>
+              <span class="plan-price" data-i18n="planLifetimePrice">€249 / station · one-time</span>
+              <span class="plan-desc" data-i18n="planLifetimeDesc">Pay once, use forever</span>
+            </span>
+          </label>
+        </div>
+
         <span class="legend" data-i18n="legendLicenses">Licenses</span>
         <div class="field">
           <label for="qty" data-i18n="qtyLabel">Number of licenses (stations) <span class="req">*</span></label>
@@ -235,7 +272,7 @@
             <input class="qty" type="number" id="qty" name="qty" min="1" max="999" step="1" value="1" inputmode="numeric" required />
             <button type="button" class="qty-btn" id="qty-plus" aria-label="increase">+</button>
           </div>
-          <div class="hint" data-i18n="qtyHint">1 license = 1 workstation, valid for 1 year.</div>
+          <div class="hint" id="qty-hint">1 license = 1 workstation, valid for 1 year.</div>
         </div>
 
         <span class="legend" data-i18n="legendBuyer">Purchaser details</span>
@@ -281,7 +318,7 @@
       <div class="line"><span data-i18n="sumVat">VAT 23%</span><span class="v" id="sum-vat">€18.70</span></div>
       <div class="divider"></div>
       <div class="line total"><span data-i18n="sumTotal">Total (incl. VAT)</span><span class="v" id="sum-total">€100.00</span></div>
-      <div class="perunit"><span data-i18n="sumPerUnit">€100.00 / license · incl. 23% VAT</span></div>
+      <div class="perunit"><span id="sum-perunit">€100.00 / license · incl. 23% VAT</span></div>
       <div class="note">
         <p data-i18n="sumNote1"><b>How it works:</b> after you send the order we email you a proforma invoice with our bank details.</p>
         <p style="margin-top:10px" data-i18n="sumNote2">Pay by bank transfer. Your license key(s) arrive by email once the payment is on our account.</p>
@@ -309,8 +346,14 @@
   var PAYU_API_URL = 'https://europe-central2-comprobare-ce8a1.cloudfunctions.net/createPayuOrder';
   // Fallback recipient if the backend URL is not configured yet.
   var SELLER_EMAIL = 'comprobareapp@gmail.com';
-  // Price shown on site is GROSS (includes 23% VAT).
-  var UNIT_GROSS = 100;      // EUR per license, incl. VAT
+  // Prices shown are GROSS (include 23% VAT), per station. The server is the
+  // source of truth for price + duration; these are for display only and the
+  // backend recomputes everything from the plan id we send.
+  var PLAN_PRICES = { annual: 100, lifetime: 249 }; // EUR per license, incl. VAT
+  var PLAN_PRODUCT = {
+    annual:   'Comprobare license — 1 station / 1 year',
+    lifetime: 'Comprobare license — 1 station / lifetime'
+  };
   var VAT_RATE   = 0.23;
 
   var I18N = {
@@ -322,9 +365,17 @@
       lede: "Choose how many stations you need and enter your billing details. You'll pay securely via PayU (card or bank transfer) — your license keys and VAT invoice are emailed the moment the payment is confirmed.",
       formTitle: 'Your order',
       formSub: 'All fields marked with <span class="req" style="color:var(--blue-light)">*</span> are required.',
+      legendPlan: 'License type',
+      planAnnualName: '1 year',
+      planAnnualPrice: '€100 / year / station',
+      planAnnualDesc: 'Renews yearly',
+      planLifetimeName: 'Lifetime',
+      planLifetimePrice: '€249 / station · one-time',
+      planLifetimeDesc: 'Pay once, use forever',
       legendLicenses: 'Licenses',
       qtyLabel: 'Number of licenses (stations) <span class="req">*</span>',
-      qtyHint: '1 license = 1 workstation, valid for 1 year.',
+      qtyHintAnnual: '1 license = 1 workstation, valid for 1 year.',
+      qtyHintLifetime: '1 license = 1 workstation, valid forever (no renewals).',
       legendBuyer: 'Purchaser details',
       nameLabel: 'Company / full name <span class="req">*</span>',
       addressLabel: 'Billing address <span class="req">*</span>',
@@ -340,7 +391,8 @@
       sumNet: 'Net',
       sumVat: 'VAT 23%',
       sumTotal: 'Total (incl. VAT)',
-      sumPerUnit: '€100.00 / license · incl. 23% VAT',
+      sumPerUnitAnnual: '€100.00 / license · incl. 23% VAT',
+      sumPerUnitLifetime: '€249.00 / license · incl. 23% VAT',
       sumNote1: '<b>How it works:</b> you pay securely via PayU (card or bank transfer) in EUR.',
       sumNote2: 'Your license key(s) and a VAT invoice are emailed to you right after the payment is confirmed.',
       successTitle: 'Order received',
@@ -368,9 +420,17 @@
       lede: 'Wybierz liczbę stanowisk i podaj dane do faktury. Zapłacisz bezpiecznie przez PayU (karta lub przelew) — klucze licencyjne i fakturę VAT wyślemy e-mailem zaraz po potwierdzeniu płatności.',
       formTitle: 'Twoje zamówienie',
       formSub: 'Wszystkie pola oznaczone <span class="req" style="color:var(--blue-light)">*</span> są wymagane.',
+      legendPlan: 'Rodzaj licencji',
+      planAnnualName: '1 rok',
+      planAnnualPrice: '€100 / rok / stanowisko',
+      planAnnualDesc: 'Odnawiana co rok',
+      planLifetimeName: 'Dożywotnia',
+      planLifetimePrice: '€249 / stanowisko · jednorazowo',
+      planLifetimeDesc: 'Płacisz raz, używasz zawsze',
       legendLicenses: 'Licencje',
       qtyLabel: 'Liczba licencji (stanowisk) <span class="req">*</span>',
-      qtyHint: '1 licencja = 1 stanowisko, ważna przez 1 rok.',
+      qtyHintAnnual: '1 licencja = 1 stanowisko, ważna przez 1 rok.',
+      qtyHintLifetime: '1 licencja = 1 stanowisko, ważna bezterminowo (bez odnawiania).',
       legendBuyer: 'Dane nabywcy',
       nameLabel: 'Firma / imię i nazwisko <span class="req">*</span>',
       addressLabel: 'Adres do faktury <span class="req">*</span>',
@@ -386,7 +446,8 @@
       sumNet: 'Netto',
       sumVat: 'VAT 23%',
       sumTotal: 'Razem (z VAT)',
-      sumPerUnit: '100,00 € / licencja · z 23% VAT',
+      sumPerUnitAnnual: '100,00 € / licencja · z 23% VAT',
+      sumPerUnitLifetime: '249,00 € / licencja · z 23% VAT',
       sumNote1: '<b>Jak to działa:</b> płacisz bezpiecznie przez PayU (karta lub przelew) w EUR.',
       sumNote2: 'Klucz(e) licencyjny oraz fakturę VAT wyślemy e-mailem zaraz po potwierdzeniu płatności.',
       successTitle: 'Zamówienie przyjęte',
@@ -444,21 +505,34 @@
     if (q > 999) q = 999;
     return q;
   }
+  function getPlan(){
+    var checked = document.querySelector('input[name="plan"]:checked');
+    var p = checked ? checked.value : 'annual';
+    return PLAN_PRICES[p] ? p : 'annual';
+  }
+  function getUnit(){ return PLAN_PRICES[getPlan()]; }
   function recalc(){
+    var t = I18N[lang];
     var q = getQty();
-    var gross = UNIT_GROSS * q;
+    var plan = getPlan();
+    var gross = getUnit() * q;
     var net = gross / (1 + VAT_RATE);
     var vat = gross - net;
     document.getElementById('sum-qty').textContent = q;
     document.getElementById('sum-net').textContent = fmtEUR(net);
     document.getElementById('sum-vat').textContent = fmtEUR(vat);
     document.getElementById('sum-total').textContent = fmtEUR(gross);
+    document.getElementById('sum-perunit').textContent =
+      plan === 'lifetime' ? t.sumPerUnitLifetime : t.sumPerUnitAnnual;
+    document.getElementById('qty-hint').textContent =
+      plan === 'lifetime' ? t.qtyHintLifetime : t.qtyHintAnnual;
   }
 
   qtyInput.addEventListener('input', recalc);
   qtyInput.addEventListener('change', function(){ qtyInput.value = getQty(); recalc(); });
   document.getElementById('qty-minus').addEventListener('click', function(){ qtyInput.value = Math.max(1, getQty() - 1); recalc(); });
   document.getElementById('qty-plus').addEventListener('click', function(){ qtyInput.value = Math.min(999, getQty() + 1); recalc(); });
+  document.querySelectorAll('input[name="plan"]').forEach(function(r){ r.addEventListener('change', recalc); });
 
   document.querySelectorAll('[data-lang]').forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -479,13 +553,16 @@
 
   function buildPayload(){
     var q = getQty();
-    var gross = UNIT_GROSS * q;
+    var plan = getPlan();
+    var unit = getUnit();
+    var gross = unit * q;
     var net = +(gross / (1 + VAT_RATE)).toFixed(2);
     var vat = +(gross - net).toFixed(2);
     return {
       quantity: q,
+      plan: plan,
       currency: 'EUR',
-      unitGross: UNIT_GROSS,
+      unitGross: unit,
       vatRate: VAT_RATE,
       net: net,
       vat: vat,
@@ -496,7 +573,7 @@
       email: document.getElementById('email').value.trim(),
       phone: document.getElementById('phone').value.trim(),
       lang: lang,
-      product: 'Comprobare license — 1 station / 1 year'
+      product: PLAN_PRODUCT[plan]
     };
   }
 
@@ -587,6 +664,16 @@
     document.querySelector('#success [data-i18n="successInfo"]').innerHTML = t.payuReturnInfo;
     document.getElementById('success').classList.add('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  })();
+
+  // Preselect a plan from ?plan=lifetime (the "Lifetime" pricing card links here).
+  (function preselectPlan(){
+    var qs = new URLSearchParams(window.location.search);
+    var plan = qs.get('plan');
+    if (plan && PLAN_PRICES[plan]) {
+      var radio = document.querySelector('input[name="plan"][value="' + plan + '"]');
+      if (radio) radio.checked = true;
+    }
   })();
 
   applyI18n();
