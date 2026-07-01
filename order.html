@@ -380,7 +380,7 @@
       nameLabel: 'Company / full name <span class="req">*</span>',
       addressLabel: 'Billing address <span class="req">*</span>',
       vatLabel: 'VAT number (NIP) <span class="req">*</span>',
-      vatHint: 'Used on the invoice. Enter your tax/VAT identification number.',
+      vatHint: 'Used on the invoice. Digits only, or a 2-letter country code + digits (e.g. PL1234567890).',
       emailLabel: 'Email <span class="req">*</span>',
       phoneLabel: 'Contact number <span class="req">*</span>',
       submit: 'Pay now',
@@ -405,7 +405,9 @@
       footTerms: 'Purchase terms',
       footPrivacy: 'Privacy policy',
       errRequired: 'Please fill in all required fields.',
-      errEmail: 'Please enter a valid email address.',
+      errVat: 'VAT number must be digits only, or a 2-letter country code followed by digits (e.g. PL1234567890).',
+      errEmail: 'Please enter a valid email address (must contain @).',
+      errPhone: 'Phone number must contain digits only, optionally starting with “+”.',
       errQty: 'Number of licenses must be at least 1.',
       errSend: 'Something went wrong starting the payment. Please try again or email us at ' + SELLER_EMAIL + '.',
       errPayuCancelled: 'The payment was not completed. You can try again below.',
@@ -435,7 +437,7 @@
       nameLabel: 'Firma / imię i nazwisko <span class="req">*</span>',
       addressLabel: 'Adres do faktury <span class="req">*</span>',
       vatLabel: 'NIP <span class="req">*</span>',
-      vatHint: 'Użyjemy go na fakturze. Podaj numer NIP / VAT.',
+      vatHint: 'Użyjemy go na fakturze. Same cyfry albo 2-literowy kod kraju i cyfry (np. PL1234567890).',
       emailLabel: 'E-mail <span class="req">*</span>',
       phoneLabel: 'Telefon kontaktowy <span class="req">*</span>',
       submit: 'Zapłać teraz',
@@ -460,7 +462,9 @@
       footTerms: 'Warunki zakupu',
       footPrivacy: 'Polityka prywatności',
       errRequired: 'Uzupełnij wszystkie wymagane pola.',
-      errEmail: 'Podaj poprawny adres e-mail.',
+      errVat: 'NIP musi zawierać same cyfry albo 2-literowy kod kraju i cyfry (np. PL1234567890).',
+      errEmail: 'Podaj poprawny adres e-mail (musi zawierać @).',
+      errPhone: 'Numer telefonu może zawierać tylko cyfry, opcjonalnie z „+” na początku.',
       errQty: 'Liczba licencji musi wynosić co najmniej 1.',
       errSend: 'Coś poszło nie tak przy rozpoczęciu płatności. Spróbuj ponownie lub napisz na ' + SELLER_EMAIL + '.',
       errPayuCancelled: 'Płatność nie została zakończona. Możesz spróbować ponownie poniżej.',
@@ -569,9 +573,9 @@
       gross: gross,
       name: document.getElementById('name').value.trim(),
       address: document.getElementById('address').value.trim(),
-      vatNumber: document.getElementById('vat').value.trim(),
+      vatNumber: document.getElementById('vat').value.trim().replace(/\s+/g, '').toUpperCase(),
       email: document.getElementById('email').value.trim(),
-      phone: document.getElementById('phone').value.trim(),
+      phone: document.getElementById('phone').value.trim().replace(/[\s()-]+/g, ''),
       lang: lang,
       product: PLAN_PRODUCT[plan]
     };
@@ -581,7 +585,9 @@
     var t = I18N[lang];
     if (p.quantity < 1) return t.errQty;
     if (!p.name || !p.address || !p.vatNumber || !p.email || !p.phone) return t.errRequired;
+    if (!/^([A-Z]{2})?[0-9]{6,14}$/.test(p.vatNumber)) return t.errVat;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) return t.errEmail;
+    if (!/^\+?[0-9]{6,15}$/.test(p.phone)) return t.errPhone;
     return null;
   }
 

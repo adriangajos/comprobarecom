@@ -155,18 +155,20 @@ function validate(body) {
 
   const name = sanitize(body.name, 200);
   const address = sanitize(body.address, 500);
-  const vatNumber = sanitize(body.vatNumber, 60);
+  // VAT: digits only, or a 2-letter country prefix + digits (spaces stripped, upper-cased).
+  const vatNumber = sanitize(body.vatNumber, 60).replace(/\s+/g, "").toUpperCase();
   const email = sanitize(body.email, 160);
-  const phone = sanitize(body.phone, 60);
+  // Phone: digits only with an optional leading "+" (spaces/brackets/hyphens stripped).
+  const phone = sanitize(body.phone, 60).replace(/[\s()-]+/g, "");
   const lang = body.lang === "pl" ? "pl" : "en";
   // Unknown/absent plan falls back to the default; price is never taken from the client.
   const plan = resolvePlan(body.plan);
 
   if (!name) errors.push("name");
   if (!address) errors.push("address");
-  if (!vatNumber) errors.push("vatNumber");
+  if (!/^([A-Z]{2})?[0-9]{6,14}$/.test(vatNumber)) errors.push("vatNumber");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push("email");
-  if (!phone) errors.push("phone");
+  if (!/^\+?[0-9]{6,15}$/.test(phone)) errors.push("phone");
 
   return { errors, data: { qty, name, address, vatNumber, email, phone, lang, plan } };
 }
