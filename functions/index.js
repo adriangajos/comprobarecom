@@ -764,3 +764,24 @@ export const payuNotify = onRequest(
     }
   }
 );
+
+// ── Download counter ─────────────────────────────────────────────────────────
+// The site's "Download" buttons point here instead of straight at the bucket.
+// We atomically bump a private lifetime counter in Firestore, then 302-redirect
+// to the real installer. The count is never exposed publicly — read it in the
+// Firebase Console → Firestore → stats/downloads (field `count`).
+const INSTALLER_URL =
+  "https://storage.googleapis.com/comprobare-ce8a1-updates/updates/comprobare_setup.exe";
+
+export const download = onRequest({ cors: false }, async (req, res) => {
+  // Best-effort count: never let a Firestore hiccup block the actual download.
+  try {
+    await db.collection("stats").doc("downloads").set(
+      { count: FieldValue.increment(1), updatedAt: FieldValue.serverTimestamp() },
+      { merge: true }
+    );
+  } catch (err) {
+    logger.error("download.count.failed", { err: String(err) });
+  }
+  res.redirect(302, INSTALLER_URL);
+});
