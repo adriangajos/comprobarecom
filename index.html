@@ -5,7 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>comprobare — measure plans and drawings, fast</title>
 <meta name="description" content="Comprobare is a desktop tool that helps you measure plans and drawings quickly and accurately. Areas, lengths, scanned plans — one file, one place." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="comprobare" />
+<meta property="og:title" content="comprobare — measure plans and drawings, fast" />
+<meta property="og:description" content="Pull exact areas and lengths off any architectural or technical drawing — digital, scanned, even bad-quality PDFs. 7-day free trial for Windows." />
+<meta property="og:url" content="https://comprobare.com/" />
+<meta property="og:image" content="https://comprobare.com/assets/screen-hero.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="comprobare — measure plans and drawings, fast" />
+<meta name="twitter:description" content="Pull exact areas and lengths off any architectural or technical drawing — digital, scanned, even bad-quality PDFs. 7-day free trial for Windows." />
+<meta name="twitter:image" content="https://comprobare.com/assets/screen-hero.png" />
 <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
+<link rel="preload" as="image" href="assets/screen-hero-window.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -104,9 +115,40 @@
     background: var(--blue-primary);
     color: var(--white);
   }
+  .nav-burger {
+    display: none;
+    appearance: none;
+    background: transparent;
+    border: 1px solid #2e3135;
+    border-radius: 8px;
+    width: 40px; height: 40px;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--neutral-200);
+  }
+  .nav-burger svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+  .nav-burger .icon-close { display: none; }
+  .nav-burger[aria-expanded="true"] .icon-open { display: none; }
+  .nav-burger[aria-expanded="true"] .icon-close { display: block; }
   @media (max-width: 760px) {
-    .nav-links a:not(.nav-cta),
-    .lang-switch { display: none; }
+    .nav-burger { display: inline-flex; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 64px; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: var(--neutral-850);
+      border-bottom: 1px solid #2a2d31;
+      padding: 8px 24px 20px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 13px 4px; font-size: 15px; border-bottom: 1px solid #1e2023; }
+    .nav-links a.nav-cta {
+      margin-top: 14px; text-align: center; border-bottom: 0;
+    }
+    .lang-switch { margin: 16px 0 0; align-self: flex-start; }
   }
 
   /* ── shared ──────────────────────────────────── */
@@ -191,12 +233,12 @@
   .btn-ghost:hover { border-color: var(--blue-light); color: var(--white); }
   .hero-meta {
     margin-top: 28px; display: flex; gap: 28px; flex-wrap: wrap;
-    font-size: 12px; color: var(--neutral-500); font-family: var(--font-mono);
+    font-size: 12px; color: var(--neutral-400); font-family: var(--font-mono);
   }
   .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
   .hero-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-accent); }
 
-  /* hero screenshot frame */
+  /* hero screenshot frame — near-square app window matches text column height */
   .hero-frame {
     position: relative;
     border: 1px solid #2a2d31;
@@ -206,18 +248,20 @@
     box-shadow:
       0 30px 80px rgba(0,0,0,0.45),
       0 0 0 1px rgba(79,195,247,0.04);
-    height: 100%;
     width: 100%;
+    height: 100%;
   }
   .hero-frame img {
-    width: 100%; height: 100%; object-fit: cover;
-    object-position: left center; display: block;
-    transition: object-position 1.4s cubic-bezier(.2,.7,.2,1);
+    width: 100%; height: 100%; display: block;
+    object-fit: cover; object-position: left top;
+    transform: scale(1);
+    transition: transform 2.4s cubic-bezier(.2,.7,.2,1);
   }
-  #hero-tilt:hover .hero-frame img { object-position: right center; }
+  /* slight zoom + slow pan to the right on hover */
+  #hero-tilt:hover .hero-frame img { transform: scale(1.06) translateX(-2.5%); }
   @media (max-width: 980px) {
     .hero-frame { height: auto; }
-    .hero-frame img { height: auto; object-fit: contain; object-position: center; }
+    .hero-frame img { height: auto; object-fit: contain; }
   }
   .hero-frame::after {
     content: ''; position: absolute; inset: 0;
@@ -260,7 +304,7 @@
     color: var(--neutral-400); flex-wrap: wrap;
     justify-content: space-between;
   }
-  .strip-inner .label { color: var(--neutral-500); letter-spacing: 2px; text-transform: uppercase; font-size: 10px; }
+  .strip-inner .label { color: var(--neutral-400); letter-spacing: 2px; text-transform: uppercase; font-size: 10px; }
   .strip-pills { display: flex; gap: 24px; flex-wrap: wrap; }
   .strip-pills span { color: var(--neutral-300); }
 
@@ -301,7 +345,7 @@
     font-family: var(--font-mono); font-size: 12px;
   }
   .what-vis .val { color: var(--blue-light); font-weight: 500; font-size: 15px; }
-  .what-vis .lbl { color: var(--neutral-500); margin-right: 8px; font-size: 11px; }
+  .what-vis .lbl { color: var(--neutral-400); margin-right: 8px; font-size: 11px; }
 
   /* ── BIG SHOWCASE (ship plan) ──────────────────── */
   .showcase {
@@ -324,10 +368,10 @@
     font-family: var(--font-mono); font-size: 16px; color: var(--blue-light); font-weight: 500;
   }
   .showcase-cap .stat .l {
-    font-size: 10px; color: var(--neutral-500); letter-spacing: 1.5px; text-transform: uppercase;
+    font-size: 10px; color: var(--neutral-400); letter-spacing: 1.5px; text-transform: uppercase;
   }
   .showcase-cap .right {
-    font-family: var(--font-mono); font-size: 11px; color: var(--neutral-500);
+    font-family: var(--font-mono); font-size: 11px; color: var(--neutral-400);
   }
 
   /* ── FEATURES grid ─────────────────────────────── */
@@ -363,7 +407,7 @@
   .steps { margin-top: 64px; display: flex; flex-direction: column; gap: 28px; }
   .step {
     display: grid;
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 100px 1fr minmax(0, 380px);
     gap: 36px;
     align-items: center;
     background: var(--neutral-800);
@@ -381,7 +425,7 @@
     line-height: 1;
     letter-spacing: -2px;
   }
-  .step-num span { color: var(--neutral-500); font-size: 12px; vertical-align: top; margin-left: 4px; }
+  .step-num span { color: var(--neutral-400); font-size: 12px; vertical-align: top; margin-left: 4px; }
   .step-body h3 {
     font-size: 22px; font-weight: 500; margin-bottom: 10px; letter-spacing: -0.3px;
   }
@@ -399,7 +443,8 @@
     display: flex; align-items: center; justify-content: center;
   }
   .step-vis img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
-  .step-vis.contain img { object-fit: contain; padding: 12px; }
+  .step-vis.contain img { object-fit: contain; padding: 12px; object-position: center; }
+  @media (max-width: 900px) { .step-vis { height: auto; max-height: 240px; } .step-vis img { height: auto; } }
 
   /* ── WHO IT'S FOR ──────────────────────────────── */
   .who {
@@ -423,10 +468,6 @@
     font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 6px;
   }
   .who-cell .desc { font-size: 12.5px; color: var(--neutral-400); line-height: 1.5; }
-  .who-line {
-    margin-top: 32px;
-    font-family: var(--font-mono); font-size: 12px; color: var(--neutral-500);
-  }
 
   /* ── WHY ───────────────────────────────────────── */
   .why-grid {
@@ -477,6 +518,81 @@
   }
   .cta .btn-white:hover { background: var(--neutral-100); }
 
+  /* ── PRICING ───────────────────────────────────── */
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 48px; }
+  @media (max-width: 1000px) { .pricing-grid { grid-template-columns: 1fr; max-width: 520px; } }
+  .price-card {
+    background: var(--neutral-750);
+    border: 1px solid #2a2d31;
+    border-radius: 14px;
+    padding: 36px 32px;
+    position: relative;
+    display: flex; flex-direction: column;
+  }
+  .price-card.featured {
+    background: linear-gradient(180deg, #1a2c44 0%, var(--neutral-750) 100%);
+    border: 1px solid var(--blue-primary);
+  }
+  .price-badge {
+    position: absolute; top: -1px; right: 24px;
+    color: white; font-size: 10px; font-weight: 600;
+    letter-spacing: 1.5px; padding: 5px 12px;
+    border-radius: 0 0 6px 6px; text-transform: uppercase;
+    background: var(--blue-primary);
+  }
+  .price-card.featured .price-badge { background: var(--green-accent); color: #0c0d0f; font-weight: 700; }
+  .price-label {
+    font-family: var(--font-mono); font-size: 11px; color: var(--blue-light);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .price-line { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+  .price-num { font-size: 54px; font-weight: 300; letter-spacing: -2px; }
+  .price-unit { font-size: 16px; color: var(--neutral-300); }
+  .price-body { color: var(--neutral-300); font-size: 14.5px; margin-bottom: 24px; }
+  .price-save {
+    font-size: 13px; color: var(--green-accent); margin: -14px 0 24px;
+  }
+  .price-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 10px; }
+  .price-list li { font-size: 14px; color: var(--neutral-200); display: flex; gap: 10px; }
+  .price-list li .tick { color: var(--blue-light); }
+  .price-card .btn { width: 100%; justify-content: center; margin-top: auto; }
+  .price-note {
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--neutral-400);
+    margin-top: 14px; text-align: center; letter-spacing: 1px;
+  }
+  .purchase-terms-link { font-size: 12px; color: var(--neutral-400); margin-top: 12px; text-align: center; }
+  .purchase-terms-link a { color: var(--blue-light); }
+
+  /* ── FAQ ───────────────────────────────────────── */
+  .faq-list { margin-top: 48px; max-width: 820px; }
+  .faq-list details {
+    border: 1px solid #2a2d31;
+    border-radius: 12px;
+    background: var(--neutral-800);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq-list summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    padding: 18px 22px;
+    font-size: 16px; font-weight: 500; color: var(--white);
+  }
+  .faq-list summary::-webkit-details-marker { display: none; }
+  .faq-list summary .faq-mark {
+    flex-shrink: 0;
+    font-family: var(--font-mono); font-size: 18px; color: var(--blue-light);
+    transition: transform .25s;
+  }
+  .faq-list details[open] summary .faq-mark { transform: rotate(45deg); }
+  .faq-list details p {
+    padding: 0 22px 20px;
+    font-size: 14.5px; color: var(--neutral-300); line-height: 1.65;
+    max-width: 700px;
+  }
+  .faq-list details p a { color: var(--blue-light); }
+
   /* ── FOOTER ────────────────────────────────────── */
   footer {
     background: var(--neutral-900);
@@ -497,13 +613,10 @@
     padding: 6px 0; transition: color .15s;
   }
   .foot-col a:hover { color: var(--blue-light); }
-  .foot-brand p {
-    font-size: 13px; color: var(--neutral-400); max-width: 280px; margin-top: 14px; line-height: 1.6;
-  }
   .foot-bottom {
     border-top: 1px solid #1e2023; padding-top: 24px;
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-    font-family: var(--font-mono); font-size: 11px; color: var(--neutral-500);
+    font-family: var(--font-mono); font-size: 11px; color: var(--neutral-400);
   }
   .foot-bottom .lang { display: flex; gap: 16px; }
   .foot-bottom .lang button {
@@ -516,131 +629,19 @@
   }
   .foot-bottom .lang button.active { color: var(--blue-light); }
 
-  .compliance-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    margin-top: 42px;
-  }
-  .compliance-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border: 1px solid #2a2d31;
-    border-radius: 14px;
-    padding: 28px 24px;
-    min-height: 220px;
-  }
-  .compliance-card h3 {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 12px;
-    letter-spacing: -0.2px;
-  }
-  .compliance-card p,
-  .compliance-card li {
-    color: var(--neutral-300);
-    font-size: 14.5px;
-  }
-  .compliance-card ul {
-    margin: 12px 0 0 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .compliance-note {
-    margin-top: 18px;
-    font-size: 13px;
-    color: var(--neutral-500);
-    line-height: 1.55;
-  }
-  @media (max-width: 980px) {
-    .compliance-grid { grid-template-columns: 1fr; }
-  }
-
-  /* ── ANNOUNCEMENT BAR ─────────────────────────── */
-  .announce {
-    background: linear-gradient(90deg, rgba(0,120,212,0.22), rgba(79,195,247,0.12) 60%, transparent);
-    border-bottom: 1px solid rgba(79,195,247,0.18);
-    padding: 11px 0;
-    overflow: hidden;
-    position: relative;
-  }
-  .announce-inner {
-    display: flex; align-items: center; gap: 14px;
-    font-size: 13px; color: var(--neutral-200);
-    flex-wrap: wrap;
-  }
-  .announce .new-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--blue-primary); color: white;
-    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-    letter-spacing: 1.5px; padding: 3px 9px; border-radius: 4px;
-    text-transform: uppercase;
-    position: relative;
-  }
-  .announce .new-pill::after {
-    content: ''; position: absolute; inset: -2px;
-    border-radius: 5px;
-    box-shadow: 0 0 0 2px rgba(79,195,247,0.45);
-    animation: pulse 2.4s ease-out infinite;
-  }
-  @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(79,195,247,0.55); }
-    70%  { box-shadow: 0 0 0 12px rgba(79,195,247,0); }
-    100% { box-shadow: 0 0 0 0 rgba(79,195,247,0); }
-  }
-  .announce b { color: var(--white); font-weight: 500; }
-  .announce .arrow {
-    margin-left: auto; color: var(--blue-light); font-size: 13px;
-    display: inline-flex; align-items: center; gap: 6px;
-    transition: gap .2s;
-  }
-  .announce .arrow:hover { gap: 10px; text-decoration: none; }
-  @media (max-width: 720px) { .announce .arrow { margin-left: 0; } }
-
   /* ── REVEAL-ON-SCROLL ─────────────────────────── */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+    transform: translateY(20px);
+    transition: opacity .45s cubic-bezier(.2,.7,.2,1), transform .45s cubic-bezier(.2,.7,.2,1);
     will-change: opacity, transform;
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal.delay-1 { transition-delay: .08s; }
-  .reveal.delay-2 { transition-delay: .16s; }
-  .reveal.delay-3 { transition-delay: .24s; }
-  .reveal.delay-4 { transition-delay: .32s; }
-  .reveal.delay-5 { transition-delay: .40s; }
-
-  /* slide variants */
-  .reveal.from-left  { transform: translateX(-32px); }
-  .reveal.from-left.visible  { transform: translateX(0); }
-  .reveal.from-right { transform: translateX(32px); }
-  .reveal.from-right.visible { transform: translateX(0); }
-  .reveal.zoom { transform: scale(.96); opacity: 0; }
-  .reveal.zoom.visible { transform: scale(1); opacity: 1; }
-
-  /* ── HERO PARALLAX TILT ───────────────────────── */
-  .hero-frame {
-    transform: perspective(1400px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)) translateZ(0);
-    transition: transform .6s cubic-bezier(.2,.7,.2,1);
-  }
-
-  /* ── animated dimension underline on big numbers */
-  .anim-dim {
-    position: relative; display: inline-block; padding-bottom: 6px;
-  }
-  .anim-dim::after {
-    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
-    height: 1px; background: var(--blue-light);
-    transition: right 1.4s cubic-bezier(.2,.7,.2,1);
-  }
-  .anim-dim.visible::after { right: 0; }
-  .anim-dim::before {
-    content: ''; position: absolute; left: 0; bottom: -2px; width: 1px; height: 5px;
-    background: var(--blue-light); opacity: 0;
-    transition: opacity .3s 1.3s;
-  }
-  .anim-dim.visible::before { opacity: 1; }
+  .reveal.delay-1 { transition-delay: .05s; }
+  .reveal.delay-2 { transition-delay: .10s; }
+  .reveal.delay-3 { transition-delay: .15s; }
+  .reveal.delay-4 { transition-delay: .20s; }
+  .reveal.delay-5 { transition-delay: .25s; }
 
   /* ── animated count-up wrapper ───────────────── */
   .count {
@@ -655,53 +656,24 @@
   .step-vis img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); transform: scale(1.04); }
   .step.visible .step-vis img { transform: scale(1); }
 
-  /* ── ribbon highlight on hero frame ──────────── */
-  .hero-frame::before {
-    content: ''; position: absolute;
-    top: -50%; left: -60%; width: 50%; height: 200%;
-    background: linear-gradient(110deg, transparent, rgba(79,195,247,0.07) 45%, rgba(79,195,247,0.18) 50%, rgba(79,195,247,0.07) 55%, transparent);
-    transform: skewX(-18deg);
-    pointer-events: none;
-    animation: sheen 7s ease-in-out 1.4s infinite;
-  }
-  @keyframes sheen {
-    0%, 60%, 100% { transform: translateX(0) skewX(-18deg); opacity: 0; }
-    62%           { opacity: 1; }
-    78%           { opacity: 1; }
-    80%           { transform: translateX(380%) skewX(-18deg); opacity: 0; }
-  }
-
-  /* draw-in for ::after gradient on hero frame */
   .hero-frame { z-index: 1; }
+
+  /* ── keyboard focus ──────────────────────────── */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 
   /* respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-    .anim-dim::after, .anim-dim::before { transition: none !important; }
-    .hero-frame::before { animation: none !important; display: none; }
-    .hero-frame { transition: none !important; transform: none !important; }
-    .announce .new-pill::after { animation: none !important; }
     .step-vis img { transform: none !important; transition: none !important; }
+    .hero-frame img { transform: none !important; transition: none !important; }
   }
 
   /* mini icon - logo */
   .logo-icon-svg { width: 32px; height: 32px; flex-shrink: 0; }
-
-  /* dim caption decoration */
-  .dim-caption {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--font-mono); font-size: 11px;
-    color: var(--blue-light); letter-spacing: 1.5px;
-  }
-  .dim-caption .bar {
-    width: 28px; height: 1px; background: var(--blue-light); opacity: .55;
-    position: relative;
-  }
-  .dim-caption .bar::before, .dim-caption .bar::after {
-    content: ''; position: absolute; top: -3px; width: 1px; height: 7px; background: var(--blue-light);
-  }
-  .dim-caption .bar::before { left: 0; }
-  .dim-caption .bar::after { right: 0; }
 
 </style>
 </head>
@@ -728,7 +700,7 @@
       <svg class="logo-icon-svg" aria-hidden="true"><use href="#cmp-mark"></use></svg>
       <span class="wordmark">com<b>pro</b>bare</span>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="nav-links">
       <a href="#what">What it does</a>
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
@@ -739,6 +711,10 @@
         <button type="button" data-lang="pl">PL</button>
       </div>
     </div>
+    <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-links" aria-label="Menu">
+      <svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
   </div>
 </nav>
 
@@ -747,29 +723,29 @@
 <section class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow hero-eyebrow reveal">Desktop measurement tool for Windows</span>
-      <h1 class="reveal delay-1">Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b></h1>
-      <p class="hero-lede reveal delay-2">
+      <span class="eyebrow hero-eyebrow">Desktop measurement tool for Windows</span>
+      <h1>Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b></h1>
+      <p class="hero-lede">
         Pull exact areas and lengths off any architectural or technical drawing —
-        digital, scanned, or even bad-quality PDFs — without buying expensive drafting software or learning complex tools.
+        digital, scanned, even bad-quality PDFs. No expensive drafting software. Nothing to learn.
       </p>
-      <div class="hero-actions reveal delay-3">
+      <div class="hero-actions">
         <a class="btn btn-primary" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download">
           Download latest version
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v14m0 0l-6-6m6 6l6-6M5 21h14"/></svg>
         </a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
-      <div class="hero-meta reveal delay-4">
+      <div class="hero-meta">
         <span><span class="dot"></span>7&#8209;day free trial</span>
         <span>Windows 10 / 11</span>
         <span>EN · PL</span>
       </div>
     </div>
-    <div style="position:relative" class="reveal zoom delay-2" id="hero-tilt">
+    <div style="position:relative" id="hero-tilt">
       <div class="hero-dim"><span>application window · 16:9</span></div>
       <div class="hero-frame">
-        <img src="assets/screen-hero.png" alt="Comprobare main window — detailed engine room plan with measured rooms on the main deck (Paint Store, Wardrobe) and live measurement results panel" />
+        <img src="assets/screen-hero-window.png" alt="Comprobare main window — sailboat general arrangement drawing loaded, with the measurement results panel ready on the right" />
       </div>
     </div>
   </div>
@@ -826,6 +802,19 @@
           <span class="lbl">QUALITY</span>
           <span class="val">low &nbsp;·&nbsp; med &nbsp;·&nbsp; high</span>
         </div>
+      </div>
+    </div>
+
+    <div class="showcase reveal">
+      <img src="assets/screen-showcase-groups.png" loading="lazy"
+           alt="Comprobare — a hull body plan with measured areas and lengths organised into named groups (Railings, Room 1), each with its own subtotal and a grand total" />
+      <div class="showcase-cap">
+        <div class="left">
+          <div class="stat"><div class="v"><span class="count" data-count="22.71" data-decimals="2">0.00</span> m²</div><div class="l">Areas — one total</div></div>
+          <div class="stat"><div class="v"><span class="count" data-count="6.04" data-decimals="2">0.00</span> m</div><div class="l">Lengths — one total</div></div>
+          <div class="stat"><div class="v">2</div><div class="l">Named groups</div></div>
+        </div>
+        <div class="right">COMPROBARE.cpb · 1:1 · unit mm → m</div>
       </div>
     </div>
   </div>
@@ -900,14 +889,20 @@
           <p>Drop in a DXF or PDF. For paper plans, "Convert PDF" turns a scan into a clean, measurable drawing — pick low / med / high to match scan quality.</p>
           <div class="meta">DXF · PDF · scanned PDF · CPB</div>
         </div>
+        <div class="step-vis">
+          <img src="assets/screen-step1-open.png" loading="lazy" alt="Comprobare with a body plan drawing loaded and ready to measure" />
+        </div>
       </div>
 
       <div class="step reveal">
         <div class="step-num">02<span>STEP</span></div>
         <div class="step-body">
           <h3>Set the scale once</h3>
-          <p>Calibrate from a known dimension on the drawing, or type the scale directly (1:50, 1:125, etc). Comprobare locks the scale into the project — every measurement after that is in real units.</p>
-          <div class="meta">Calibrate · enter scale · 1:1 to 1:5000</div>
+          <p>Calibrate from a known dimension on the drawing, or let Detect Scale set it automatically. Comprobare locks the scale into the project — every measurement after that is in real units.</p>
+          <div class="meta">Calibrate · Detect Scale</div>
+        </div>
+        <div class="step-vis contain">
+          <img src="assets/screen-step2-scale.png" loading="lazy" alt="The Scale tab with Calibrate and Detect Scale buttons" />
         </div>
       </div>
 
@@ -918,6 +913,9 @@
           <p>Trace areas with a polygon, lay down lengths point to point, mark off zones to subtract. Each measurement appears in the right-hand panel with its area, length, factor and total — colour-coded.</p>
           <div class="meta">Areas · lengths · factors · subtractions</div>
         </div>
+        <div class="step-vis">
+          <img src="assets/screen-step3-measure.png" loading="lazy" alt="Four measured areas listed in the measurement results panel with a running total of 29.52 square metres" style="object-position: top right;" />
+        </div>
       </div>
 
       <div class="step reveal">
@@ -926,6 +924,9 @@
           <h3>Save, reuse, export</h3>
           <p>Save the whole project as <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span>. Save snapshots of measurement sets to the memory panel — reopen them next time, or load them onto a similar drawing in seconds.</p>
           <div class="meta">.cpb · snapshots · copy · export PDF</div>
+        </div>
+        <div class="step-vis">
+          <img src="assets/screen-step4-memory.png" loading="lazy" alt="The measurements memory panel with a saved measurement set ready to reload" />
         </div>
       </div>
     </div>
@@ -961,8 +962,6 @@
         <div class="desc">Digitise scanned plans and pull lengths and areas from any source drawing.</div>
       </div>
     </div>
-
-    <div class="who-line">— and anyone else who needs to count m and m² without learning specialist drafting software.</div>
   </div>
 </section>
 
@@ -1002,81 +1001,112 @@
   <div class="wrap">
     <span class="eyebrow">Pricing</span>
     <h2 class="section-h2">Simple pricing. <b>Yours to keep.</b></h2>
-    <p class="section-sub">No tiers, no per-feature paywalls. Test it free for 7 days, then license per station — yearly, or once for life.</p>
+    <p class="section-sub">No tiers, no per-feature paywalls. Test it free for 7 days, then license per station — once for life, or yearly.</p>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:48px;" class="pricing-grid">
-      <div class="price-card" style="background:var(--neutral-750);border:1px solid #2a2d31;border-radius:14px;padding:36px 32px;">
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--blue-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Free trial</div>
-        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
-          <span style="font-size:54px;font-weight:300;letter-spacing:-2px;">7</span>
-          <span style="font-size:18px;color:var(--neutral-300);">days, free</span>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-label">Free trial</div>
+        <div class="price-line">
+          <span class="price-num">7</span>
+          <span class="price-unit">days, free</span>
         </div>
-        <p style="color:var(--neutral-300);font-size:14.5px;margin-bottom:28px;">Use the full app free for 7 days to try it on your own drawings.</p>
-        <a class="btn btn-ghost" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" style="width:100%;justify-content:center;">
+        <p class="price-body">Use the full app free for 7 days to try it on your own drawings. No credit card required.</p>
+        <a class="btn btn-ghost" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download">
           Download latest version
         </a>
       </div>
 
-      <div class="price-card" style="background:linear-gradient(180deg,#1a2c44 0%, var(--neutral-750) 100%);border:1px solid var(--blue-primary);border-radius:14px;padding:36px 32px;position:relative;">
-        <div style="position:absolute;top:-1px;right:24px;background:var(--blue-primary);color:white;font-size:10px;font-weight:600;letter-spacing:1.5px;padding:5px 12px;border-radius:0 0 6px 6px;text-transform:uppercase;">License</div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--blue-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Standard</div>
-        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
-          <span style="font-size:54px;font-weight:300;letter-spacing:-2px;">€100</span>
-          <span style="font-size:16px;color:var(--neutral-300);">/ year / station</span>
+      <div class="price-card">
+        <div class="price-label">Standard</div>
+        <div class="price-line">
+          <span class="price-num">€100</span>
+          <span class="price-unit">/ year / station</span>
         </div>
-        <p style="color:var(--neutral-300);font-size:14.5px;margin-bottom:24px;">One workstation, one year, every feature. Free updates for the duration of your license.</p>
-        <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:10px;">
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>All measurement tools</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>PDF / DXF / scan import</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Export to PDF, copy to Excel</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Free version updates for 12 months</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span><a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email support</a></li>
+        <p class="price-body">One workstation, one year, every feature. Free updates for the duration of your license.</p>
+        <ul class="price-list">
+          <li><span class="tick">✓</span>All measurement tools</li>
+          <li><span class="tick">✓</span>PDF / DXF / scan import</li>
+          <li><span class="tick">✓</span>Export to PDF, copy to Excel</li>
+          <li><span class="tick">✓</span>Free version updates for 12 months</li>
+          <li><span class="tick">✓</span><a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email support</a></li>
         </ul>
-        <a class="btn btn-primary payu-purchase-button" href="order.html" style="width:100%;justify-content:center;">
+        <a class="btn btn-ghost payu-purchase-button" href="order.html">
           Buy License
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
-        <p style="font-family:var(--font-mono);font-size:10.5px;color:var(--neutral-500);margin-top:14px;text-align:center;letter-spacing:1px;">Secure payment · card or transfer via PayU</p>
-        <p class="purchase-terms-link" style="font-size:12px;color:var(--neutral-400);margin-top:12px;text-align:center;">
-          <a href="purchase-terms.html" style="color:var(--blue-light);">Purchase terms</a>
+        <p class="price-note">Secure payment · card or transfer via PayU · VAT invoice</p>
+        <p class="purchase-terms-link">
+          <a href="purchase-terms.html">Purchase terms</a>
         </p>
       </div>
 
-      <div class="price-card" style="background:var(--neutral-750);border:1px solid #2a2d31;border-radius:14px;padding:36px 32px;position:relative;">
-        <div style="position:absolute;top:-1px;right:24px;background:var(--green-accent);color:#0c0d0f;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:5px 12px;border-radius:0 0 6px 6px;text-transform:uppercase;">Best value</div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--blue-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Lifetime</div>
-        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
-          <span style="font-size:54px;font-weight:300;letter-spacing:-2px;">€249</span>
-          <span style="font-size:16px;color:var(--neutral-300);">/ station · one-time</span>
+      <div class="price-card featured">
+        <div class="price-badge">Best value</div>
+        <div class="price-label">Lifetime</div>
+        <div class="price-line">
+          <span class="price-num">€249</span>
+          <span class="price-unit">/ station · one-time</span>
         </div>
-        <p style="color:var(--neutral-300);font-size:14.5px;margin-bottom:24px;">One workstation, forever. Pay once — no annual renewals. Every feature included.</p>
-        <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:10px;">
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>All measurement tools</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>PDF / DXF / scan import</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Export to PDF, copy to Excel</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span>Lifetime license — no renewals</li>
-          <li style="font-size:14px;color:var(--neutral-200);display:flex;gap:10px;"><span style="color:var(--blue-light);">✓</span><a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email support</a></li>
+        <p class="price-body">One workstation, forever. Pay once — no annual renewals. Every feature included.</p>
+        <p class="price-save">Less than 3 years of the annual plan.</p>
+        <ul class="price-list">
+          <li><span class="tick">✓</span>All measurement tools</li>
+          <li><span class="tick">✓</span>PDF / DXF / scan import</li>
+          <li><span class="tick">✓</span>Export to PDF, copy to Excel</li>
+          <li><span class="tick">✓</span>Lifetime license — no renewals</li>
+          <li><span class="tick">✓</span><a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email support</a></li>
         </ul>
-        <a class="btn btn-primary payu-purchase-button-lifetime" href="order.html?plan=lifetime" style="width:100%;justify-content:center;">
+        <a class="btn btn-primary payu-purchase-button-lifetime" href="order.html?plan=lifetime">
           Buy Lifetime
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
-        <p style="font-family:var(--font-mono);font-size:10.5px;color:var(--neutral-500);margin-top:14px;text-align:center;letter-spacing:1px;">Secure payment · card or transfer via PayU</p>
-        <p class="purchase-terms-link" style="font-size:12px;color:var(--neutral-400);margin-top:12px;text-align:center;">
-          <a href="purchase-terms.html" style="color:var(--blue-light);">Purchase terms</a>
+        <p class="price-note">Secure payment · card or transfer via PayU · VAT invoice</p>
+        <p class="purchase-terms-link">
+          <a href="purchase-terms.html">Purchase terms</a>
         </p>
       </div>
     </div>
 
-    <p style="font-size:13px;color:var(--neutral-500);margin-top:28px;text-align:center;">
+    <p class="pricing-quote" style="font-size:13px;color:var(--neutral-400);margin-top:28px;text-align:center;">
       Need a quote for a team or company-wide license? <a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email us</a>
     </p>
   </div>
 </section>
 
-<style>
-  @media (max-width: 760px) { .pricing-grid { grid-template-columns: 1fr !important; } }
-</style>
+<!-- ── FAQ ──────────────────────────────────────── -->
+<section class="block" id="faq">
+  <div class="wrap">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="section-h2">Before you buy — <b>the usual questions.</b></h2>
+
+    <div class="faq-list">
+      <details class="reveal">
+        <summary>What counts as a station?<span class="faq-mark">+</span></summary>
+        <p>One license activates Comprobare on one Windows computer (workstation). If you need it on two machines, you need two licenses — or <a href="mailto:comprobareapp@gmail.com">email us</a> for a team quote.</p>
+      </details>
+      <details class="reveal">
+        <summary>Can I move my license to a new computer?<span class="faq-mark">+</span></summary>
+        <p>Yes. <a href="mailto:comprobareapp@gmail.com">Email us</a> from your license email and we'll reset the activation so you can activate the same key on the new machine.</p>
+      </details>
+      <details class="reveal">
+        <summary>What happens when the annual license expires?<span class="faq-mark">+</span></summary>
+        <p>The app asks for a valid license again — nothing is deleted. Your <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span> project files stay on your disk, and a renewed key picks up right where you left off. The lifetime license never expires.</p>
+      </details>
+      <details class="reveal">
+        <summary>How do I get the license key?<span class="faq-mark">+</span></summary>
+        <p>You pay securely via PayU (card or bank transfer). Your license key and a VAT invoice are emailed to you right after the payment is confirmed.</p>
+      </details>
+      <details class="reveal">
+        <summary>Do I get an invoice?<span class="faq-mark">+</span></summary>
+        <p>Yes — every purchase comes with a full VAT invoice issued to the billing details you enter on the order form.</p>
+      </details>
+      <details class="reveal">
+        <summary>Can I get a refund?<span class="faq-mark">+</span></summary>
+        <p>The 7-day trial is the full application, so you can test everything before paying. Because of that, activated licenses are non-refundable except where required by law or when a technical issue we can't resolve prevents use — details in the <a href="purchase-terms.html">purchase terms</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
 
 <!-- ── CTA ──────────────────────────────────────── -->
 <section id="download">
@@ -1152,7 +1182,7 @@
       hero: {
         eyebrow: 'Desktop measurement tool for Windows',
         h1: 'Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b>',
-        lede: 'Pull exact areas and lengths off any architectural or technical drawing - digital, scanned, or even bad-quality PDFs - without buying expensive drafting software or learning complex tools.',
+        lede: 'Pull exact areas and lengths off any architectural or technical drawing - digital, scanned, even bad-quality PDFs. No expensive drafting software. Nothing to learn.',
         primary: 'Download latest version',
         ghost: 'See how it works',
         meta: ['7-day free trial', 'Windows 10 / 11', 'EN · PL']
@@ -1189,10 +1219,10 @@
           }
         ],
         showcase: [
-          'Hull · 3 areas',
-          'Other areas',
-          'Top of railing',
-          'scale 1:125 · 42 lines · X 149.898  Y 1.455'
+          'Areas — one total',
+          'Lengths — one total',
+          'Named groups',
+          'COMPROBARE.cpb · 1:1 · unit mm → m'
         ]
       },
       features: {
@@ -1214,7 +1244,7 @@
         sub: 'A four-step flow that is the same whether you are measuring a 2-bedroom apartment or a 90-metre ship hull.',
         steps: [
           ['01', 'Open or convert your drawing', 'Drop in a DXF or PDF. For paper plans, "Convert PDF" turns a scan into a clean, measurable drawing — pick low / med / high to match scan quality.', 'DXF · PDF · scanned PDF · CPB'],
-          ['02', 'Set the scale once', 'Calibrate from a known dimension on the drawing, or type the scale directly (1:50, 1:125, etc). Comprobare locks the scale into the project — every measurement after that is in real units.', 'Calibrate · enter scale · 1:1 to 1:5000'],
+          ['02', 'Set the scale once', 'Calibrate from a known dimension on the drawing, or let Detect Scale set it automatically. Comprobare locks the scale into the project — every measurement after that is in real units.', 'Calibrate · Detect Scale'],
           ['03', 'Click around the parts you care about', 'Trace areas with a polygon, lay down lengths point to point, mark off zones to subtract. Each measurement appears in the right-hand panel with its area, length, factor and total — colour-coded.', 'Areas · lengths · factors · subtractions'],
           ['04', 'Save, reuse, export', 'Save the whole project as .cpb. Save snapshots of measurement sets to the memory panel — reopen them next time, or load them onto a similar drawing in seconds.', '.cpb · snapshots · copy · export PDF']
         ]
@@ -1229,8 +1259,7 @@
           ['Architects', 'Verify areas on plans without opening a full drafting seat just to count m².'],
           ['Engineers', 'Quantify pipes, cables and routes directly from technical drawings.'],
           ['Surveyors', 'Digitise scanned plans and pull lengths and areas from any source drawing.']
-        ],
-        line: '— and anyone else who needs to count m and m² without learning specialist drafting software.'
+        ]
       },
       why: {
         eyebrow: 'Why people use it',
@@ -1245,31 +1274,49 @@
       pricing: {
         eyebrow: 'Pricing',
         h2: 'Simple pricing. <b>Yours to keep.</b>',
-        sub: 'No tiers, no per-feature paywalls. Test it free for 7 days, then license per station — yearly, or once for life.',
+        sub: 'No tiers, no per-feature paywalls. Test it free for 7 days, then license per station — once for life, or yearly.',
         trial: 'Free trial',
         trialPrice: '7',
         trialUnit: 'days, free',
-        trialBody: 'Use the full app free for 7 days to try it on your own drawings.',
+        trialBody: 'Use the full app free for 7 days to try it on your own drawings. No credit card required.',
         trialBtn: 'Download latest version',
-        licenseTag: 'License',
         licenseLabel: 'Standard',
         licensePrice: '€100',
         licenseUnit: '/ year / station',
         licenseBody: 'One workstation, one year, every feature. Free updates for the duration of your license.',
         licenseItems: ['All measurement tools', 'PDF / DXF / scan import', 'Export to PDF, copy to Excel', 'Free version updates for 12 months', 'Email support'],
         payuBtn: 'Buy License',
-        payuNote: 'Secure payment · card or transfer via PayU',
+        payuNote: 'Secure payment · card or transfer via PayU · VAT invoice',
         lifetimeBadge: 'Best value',
         lifetimeLabel: 'Lifetime',
         lifetimePrice: '€249',
         lifetimeUnit: '/ station · one-time',
         lifetimeBody: 'One workstation, forever. Pay once — no annual renewals. Every feature included.',
+        lifetimeSave: 'Less than 3 years of the annual plan.',
         lifetimeItems: ['All measurement tools', 'PDF / DXF / scan import', 'Export to PDF, copy to Excel', 'Lifetime license — no renewals', 'Email support'],
         lifetimeBtn: 'Buy Lifetime',
         quote: 'Need a quote for a team or company-wide license?',
         quoteLink: 'Email us',
         quoteMail: 'comprobareapp@gmail.com',
         terms: 'Purchase terms'
+      },
+      faq: {
+        eyebrow: 'FAQ',
+        h2: 'Before you buy — <b>the usual questions.</b>',
+        items: [
+          ['What counts as a station?',
+           'One license activates Comprobare on one Windows computer (workstation). If you need it on two machines, you need two licenses — or <a href="mailto:comprobareapp@gmail.com">email us</a> for a team quote.'],
+          ['Can I move my license to a new computer?',
+           "Yes. <a href=\"mailto:comprobareapp@gmail.com\">Email us</a> from your license email and we'll reset the activation so you can activate the same key on the new machine."],
+          ['What happens when the annual license expires?',
+           'The app asks for a valid license again — nothing is deleted. Your <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span> project files stay on your disk, and a renewed key picks up right where you left off. The lifetime license never expires.'],
+          ['How do I get the license key?',
+           'You pay securely via PayU (card or bank transfer). Your license key and a VAT invoice are emailed to you right after the payment is confirmed.'],
+          ['Do I get an invoice?',
+           'Yes — every purchase comes with a full VAT invoice issued to the billing details you enter on the order form.'],
+          ['Can I get a refund?',
+           "The 7-day trial is the full application, so you can test everything before paying. Because of that, activated licenses are non-refundable except where required by law or when a technical issue we can't resolve prevents use — details in the <a href=\"purchase-terms.html\">purchase terms</a>."]
+        ]
       },
       cta: {
         h2: 'Ready to measure <b>your first plan?</b>',
@@ -1278,7 +1325,6 @@
         secondary: 'See pricing'
       },
       footer: {
-        brand: 'GS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ | ul. Płaszowska 25/1, 30-713 Kraków | KRS 0001144358 | NIP 6793317716 | REGON 540426181',
         product: 'Product',
         contact: 'Contact',
         legal: 'Legal',
@@ -1293,7 +1339,7 @@
       hero: {
         eyebrow: 'Narzędzie desktopowe do pomiarów dla Windows',
         h1: 'Mierz plany <span class="accent">i rysunki</span><br/>szybko. <b>Dokładnie.</b>',
-        lede: 'Wyciągaj dokładne powierzchnie i długości z dowolnego rysunku technicznego lub architektonicznego - cyfrowego, zeskanowanego albo słabej jakości PDF - bez kupowania drogich narzędzi projektowych i bez uczenia się skomplikowanego oprogramowania.',
+        lede: 'Wyciągaj dokładne powierzchnie i długości z dowolnego rysunku technicznego lub architektonicznego - cyfrowego, zeskanowanego, nawet słabej jakości PDF. Bez drogich narzędzi projektowych. Bez nauki.',
         primary: 'Pobierz najnowszą wersję',
         ghost: 'Zobacz, jak działa',
         meta: ['7-dniowy darmowy okres próbny', 'Windows 10 / 11', 'EN · PL']
@@ -1330,10 +1376,10 @@
           }
         ],
         showcase: [
-          'Kadłub · 3 powierzchnie',
-          'Inne powierzchnie',
-          'Góra relingu',
-          'skala 1:125 · 42 linie · X 149.898  Y 1.455'
+          'Powierzchnie — jedna suma',
+          'Długości — jedna suma',
+          'Nazwane grupy',
+          'COMPROBARE.cpb · 1:1 · jednostka mm → m'
         ]
       },
       features: {
@@ -1355,7 +1401,7 @@
         sub: 'Ten sam czterostopniowy proces działa zarówno dla mieszkania 2-pokojowego, jak i 90-metrowego kadłuba statku.',
         steps: [
           ['01', 'Otwórz lub skonwertuj rysunek', 'Wczytaj DXF albo PDF. Dla planów papierowych "Konwertuj PDF" zamienia skan na czysty, mierzalny rysunek — wybierz niski / średni / wysoki poziom jakości.', 'DXF · PDF · zeskanowany PDF · CPB'],
-          ['02', 'Ustaw skalę tylko raz', 'Skalibruj na znanym wymiarze z rysunku albo wpisz skalę bezpośrednio (1:50, 1:125 itd.). Comprobare zapisuje skalę w projekcie — każdy kolejny pomiar jest w rzeczywistych jednostkach.', 'Kalibracja · wpisz skalę · 1:1 do 1:5000'],
+          ['02', 'Ustaw skalę tylko raz', 'Skalibruj na znanym wymiarze z rysunku albo pozwól, żeby automatyczne wykrywanie skali ustawiło ją za Ciebie. Comprobare zapisuje skalę w projekcie — każdy kolejny pomiar jest w rzeczywistych jednostkach.', 'Kalibracja · Wykryj skalę'],
           ['03', 'Klikaj elementy, które chcesz policzyć', 'Obrysuj powierzchnie wielokątem, rysuj długości punkt po punkcie, zaznacz obszary do odjęcia. Każdy pomiar trafia do panelu po prawej z powierzchnią, długością, współczynnikiem i sumą — kolorystycznie oznaczony.', 'Powierzchnie · długości · współczynniki · odjęcia'],
           ['04', 'Zapisz, użyj ponownie, wyeksportuj', 'Zapisz cały projekt jako .cpb. Zapisuj migawki zestawów pomiarów do panelu pamięci — otwórz je następnym razem albo naładuj na podobny rysunek w kilka sekund.', '.cpb · migawki · kopiuj · eksport PDF']
         ]
@@ -1370,8 +1416,7 @@
           ['Architekci', 'Weryfikuj powierzchnie bez uruchamiania pełnej licencji oprogramowania projektowego tylko po to, by policzyć m².'],
           ['Inżynierowie', 'Obliczaj rury, kable i trasy bezpośrednio z rysunków technicznych.'],
           ['Geodeci', 'Digitalizuj skany planów i licz długości oraz powierzchnie z dowolnego źródła.']
-        ],
-        line: '— i dla wszystkich innych, którzy muszą liczyć m i m² bez nauki specjalistycznego oprogramowania.'
+        ]
       },
       why: {
         eyebrow: 'Dlaczego ludzie tego używają',
@@ -1386,31 +1431,49 @@
       pricing: {
         eyebrow: 'Cennik',
         h2: 'Prosty cennik. <b>Na własność.</b>',
-        sub: 'Bez poziomów, bez paywalla per funkcja. Przetestuj za darmo przez 7 dni, potem licencja na stanowisko — na rok albo na zawsze.',
+        sub: 'Bez poziomów, bez paywalla per funkcja. Przetestuj za darmo przez 7 dni, potem licencja na stanowisko — na zawsze albo na rok.',
         trial: 'Darmowy trial',
         trialPrice: '7',
         trialUnit: 'dni, bez opłat',
-        trialBody: 'Używaj pełnej aplikacji za darmo przez 7 dni i sprawdź ją na własnych rysunkach.',
+        trialBody: 'Używaj pełnej aplikacji za darmo przez 7 dni i sprawdź ją na własnych rysunkach. Bez karty płatniczej.',
         trialBtn: 'Pobierz najnowszą wersję',
-        licenseTag: 'Licencja',
         licenseLabel: 'Standard',
         licensePrice: '€100',
         licenseUnit: '/ rok / stanowisko',
         licenseBody: 'Jedno stanowisko, jeden rok, wszystkie funkcje. Darmowe aktualizacje przez cały okres licencji.',
         licenseItems: ['Wszystkie narzędzia pomiarowe', 'Import PDF / DXF / skanów', 'Eksport do PDF, kopiowanie do Excela', 'Darmowe aktualizacje przez 12 miesięcy', 'Wsparcie mailowe'],
         payuBtn: 'Kup licencję',
-        payuNote: 'Bezpieczna płatność · karta lub przelew przez PayU',
+        payuNote: 'Bezpieczna płatność · karta lub przelew przez PayU · faktura VAT',
         lifetimeBadge: 'Najlepszy wybór',
         lifetimeLabel: 'Dożywotnia',
         lifetimePrice: '€249',
         lifetimeUnit: '/ stanowisko · jednorazowo',
         lifetimeBody: 'Jedno stanowisko, na zawsze. Płacisz raz — bez corocznych odnowień. Wszystkie funkcje w zestawie.',
+        lifetimeSave: 'Mniej niż 3 lata planu rocznego.',
         lifetimeItems: ['Wszystkie narzędzia pomiarowe', 'Import PDF / DXF / skanów', 'Eksport do PDF, kopiowanie do Excela', 'Licencja dożywotnia — bez odnawiania', 'Wsparcie mailowe'],
         lifetimeBtn: 'Kup dożywotnią',
         quote: 'Potrzebujesz oferty dla zespołu lub firmy?',
         quoteLink: 'Napisz do nas',
         quoteMail: 'comprobareapp@gmail.com',
         terms: 'Warunki zakupu'
+      },
+      faq: {
+        eyebrow: 'FAQ',
+        h2: 'Zanim kupisz — <b>najczęstsze pytania.</b>',
+        items: [
+          ['Co oznacza „stanowisko"?',
+           'Jedna licencja aktywuje Comprobare na jednym komputerze z Windows (stanowisku). Jeśli potrzebujesz programu na dwóch maszynach, potrzebujesz dwóch licencji — albo <a href="mailto:comprobareapp@gmail.com">napisz do nas</a> po wycenę dla zespołu.'],
+          ['Czy mogę przenieść licencję na nowy komputer?',
+           'Tak. <a href="mailto:comprobareapp@gmail.com">Napisz do nas</a> z adresu e-mail licencji, a zresetujemy aktywację, żebyś mógł aktywować ten sam klucz na nowej maszynie.'],
+          ['Co się dzieje, gdy licencja roczna wygaśnie?',
+           'Aplikacja ponownie prosi o ważną licencję — nic nie jest usuwane. Twoje pliki projektów <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span> zostają na dysku, a po odnowieniu klucza wracasz dokładnie tam, gdzie skończyłeś. Licencja dożywotnia nigdy nie wygasa.'],
+          ['Jak otrzymam klucz licencji?',
+           'Płacisz bezpiecznie przez PayU (karta lub przelew). Klucz licencji i faktura VAT przychodzą e-mailem zaraz po potwierdzeniu płatności.'],
+          ['Czy dostanę fakturę?',
+           'Tak — do każdego zakupu wystawiamy pełną fakturę VAT na dane rozliczeniowe podane w formularzu zamówienia.'],
+          ['Czy mogę otrzymać zwrot?',
+           'Trial na 7 dni to pełna aplikacja, więc możesz wszystko sprawdzić przed zakupem. Dlatego aktywowane licencje są bezzwrotne, chyba że wymagają tego przepisy albo problem techniczny, którego nie umiemy rozwiązać, uniemożliwia korzystanie — szczegóły w <a href="purchase-terms.html">warunkach zakupu</a>.']
+        ]
       },
       cta: {
         h2: 'Gotowy, żeby zmierzyć <b>pierwszy plan?</b>',
@@ -1419,7 +1482,6 @@
         secondary: 'Zobacz cennik'
       },
       footer: {
-        brand: 'Narzędzie desktopowe do pomiarów rysunków architektonicznych i technicznych — dla osób, które miały dość ręcznego szacowania.',
         product: 'Produkt',
         contact: 'Kontakt',
         legal: 'Formalne',
@@ -1541,7 +1603,6 @@
       if (role) role.textContent = data[0];
       if (desc) desc.textContent = data[1];
     });
-    setText('#who .who-line', t.who.line);
 
     setText('#why .eyebrow', t.why.eyebrow);
     setHtml('#why .section-h2', t.why.h2);
@@ -1564,74 +1625,78 @@
     if (pricingSub) pricingSub.textContent = t.pricing.sub;
 
     var priceCards = document.querySelectorAll('#pricing .price-card');
-    if (priceCards[0]) {
-      var c0 = priceCards[0];
-      c0.querySelector('div').textContent = t.pricing.trial;
-      var c0Price = c0.querySelectorAll('span')[0];
-      var c0Unit = c0.querySelectorAll('span')[1];
-      if (c0Price) c0Price.textContent = t.pricing.trialPrice;
-      if (c0Unit) c0Unit.textContent = t.pricing.trialUnit;
-      c0.querySelector('p').textContent = t.pricing.trialBody;
-      c0.querySelector('.btn').childNodes[0].nodeValue = t.pricing.trialBtn;
+    function setPriceCard(card, d) {
+      if (!card) return;
+      var label = card.querySelector('.price-label');
+      var num = card.querySelector('.price-num');
+      var unit = card.querySelector('.price-unit');
+      var body = card.querySelector('.price-body');
+      if (label && d.label) label.textContent = d.label;
+      if (num && d.price) num.textContent = d.price;
+      if (unit && d.unit) unit.textContent = d.unit;
+      if (body && d.body) body.textContent = d.body;
+      var badge = card.querySelector('.price-badge');
+      if (badge && d.badge) badge.textContent = d.badge;
+      var save = card.querySelector('.price-save');
+      if (save && d.save) save.textContent = d.save;
+      if (d.items) {
+        card.querySelectorAll('.price-list li').forEach(function(li, i){
+          if (!d.items[i]) return;
+          var liLink = li.querySelector('a');
+          if (liLink) liLink.textContent = d.items[i];
+          else li.childNodes[1].nodeValue = d.items[i];
+        });
+      }
+      var note = card.querySelector('.price-note');
+      if (note && d.note) note.textContent = d.note;
+      var termsLink = card.querySelector('.purchase-terms-link a');
+      if (termsLink && d.terms) termsLink.textContent = d.terms;
     }
+    setPriceCard(priceCards[0], {
+      label: t.pricing.trial, price: t.pricing.trialPrice, unit: t.pricing.trialUnit, body: t.pricing.trialBody
+    });
+    if (priceCards[0]) priceCards[0].querySelector('.btn').childNodes[0].nodeValue = t.pricing.trialBtn;
+    setPriceCard(priceCards[1], {
+      label: t.pricing.licenseLabel, price: t.pricing.licensePrice, unit: t.pricing.licenseUnit,
+      body: t.pricing.licenseBody, items: t.pricing.licenseItems, note: t.pricing.payuNote, terms: t.pricing.terms
+    });
     if (priceCards[1]) {
-      var c1 = priceCards[1];
-      c1.querySelector('div').textContent = t.pricing.licenseTag;
-      var c1Label = c1.querySelectorAll('div')[1];
-      if (c1Label) c1Label.textContent = t.pricing.licenseLabel;
-      var c1Price = c1.querySelectorAll('span')[0];
-      var c1Unit = c1.querySelectorAll('span')[1];
-      if (c1Price) c1Price.textContent = t.pricing.licensePrice;
-      if (c1Unit) c1Unit.textContent = t.pricing.licenseUnit;
-      c1.querySelector('p').textContent = t.pricing.licenseBody;
-      c1.querySelectorAll('ul li').forEach(function(li, i){
-        if (!t.pricing.licenseItems[i]) return;
-        var liLink = li.querySelector('a');
-        if (liLink) liLink.textContent = t.pricing.licenseItems[i];
-        else li.childNodes[1].nodeValue = t.pricing.licenseItems[i];
-      });
-      var payuButton = c1.querySelector('.payu-purchase-button');
+      var payuButton = priceCards[1].querySelector('.payu-purchase-button');
       if (payuButton) {
         payuButton.childNodes[0].nodeValue = t.pricing.payuBtn;
         payuButton.href = 'order.html';
         payuButton.removeAttribute('target');
         payuButton.removeAttribute('rel');
       }
-      var payuNote = c1.querySelector('p[style*="font-family"]');
-      if (payuNote) payuNote.textContent = t.pricing.payuNote;
-      var termsLink = c1.querySelector('.purchase-terms-link a');
-      if (termsLink) termsLink.textContent = t.pricing.terms;
     }
+    setPriceCard(priceCards[2], {
+      badge: t.pricing.lifetimeBadge, label: t.pricing.lifetimeLabel, price: t.pricing.lifetimePrice,
+      unit: t.pricing.lifetimeUnit, body: t.pricing.lifetimeBody, save: t.pricing.lifetimeSave,
+      items: t.pricing.lifetimeItems, note: t.pricing.payuNote, terms: t.pricing.terms
+    });
     if (priceCards[2]) {
-      var c2 = priceCards[2];
-      c2.querySelector('div').textContent = t.pricing.lifetimeBadge;
-      var c2Label = c2.querySelectorAll('div')[1];
-      if (c2Label) c2Label.textContent = t.pricing.lifetimeLabel;
-      var c2Price = c2.querySelectorAll('span')[0];
-      var c2Unit = c2.querySelectorAll('span')[1];
-      if (c2Price) c2Price.textContent = t.pricing.lifetimePrice;
-      if (c2Unit) c2Unit.textContent = t.pricing.lifetimeUnit;
-      c2.querySelector('p').textContent = t.pricing.lifetimeBody;
-      c2.querySelectorAll('ul li').forEach(function(li, i){
-        if (!t.pricing.lifetimeItems[i]) return;
-        var liLink = li.querySelector('a');
-        if (liLink) liLink.textContent = t.pricing.lifetimeItems[i];
-        else li.childNodes[1].nodeValue = t.pricing.lifetimeItems[i];
-      });
-      var lifetimeButton = c2.querySelector('.payu-purchase-button-lifetime');
+      var lifetimeButton = priceCards[2].querySelector('.payu-purchase-button-lifetime');
       if (lifetimeButton) {
         lifetimeButton.childNodes[0].nodeValue = t.pricing.lifetimeBtn;
         lifetimeButton.href = 'order.html?plan=lifetime';
         lifetimeButton.removeAttribute('target');
         lifetimeButton.removeAttribute('rel');
       }
-      var lifetimeNote = c2.querySelector('p[style*="font-family"]');
-      if (lifetimeNote) lifetimeNote.textContent = t.pricing.payuNote;
-      var lifetimeTerms = c2.querySelector('.purchase-terms-link a');
-      if (lifetimeTerms) lifetimeTerms.textContent = t.pricing.terms;
     }
-    var pricingQuote = document.querySelector('#pricing > .wrap > p:last-child');
+    var pricingQuote = document.querySelector('#pricing .pricing-quote');
     if (pricingQuote) pricingQuote.innerHTML = t.pricing.quote + ' <a href="mailto:' + t.pricing.quoteMail + '" style="color:var(--blue-light);">' + t.pricing.quoteLink + '</a>';
+
+    setText('#faq .eyebrow', t.faq.eyebrow);
+    setHtml('#faq .section-h2', t.faq.h2);
+    document.querySelectorAll('#faq details').forEach(function(d, i){
+      var item = t.faq.items[i];
+      if (!item) return;
+      var summary = d.querySelector('summary');
+      var p = d.querySelector('p');
+      if (summary) summary.childNodes[0].nodeValue = item[0];
+      if (p) p.innerHTML = item[1];
+    });
+
     var ctaH2 = document.querySelector('.cta h2');
     if (ctaH2) ctaH2.innerHTML = t.cta.h2;
     var ctaP = document.querySelector('.cta p');
@@ -1640,8 +1705,6 @@
     if (ctaBtns[0]) ctaBtns[0].childNodes[0].nodeValue = t.cta.primary;
     if (ctaBtns[1]) ctaBtns[1].textContent = t.cta.secondary;
 
-    var footerBrand = document.querySelector('.foot-brand p');
-    if (footerBrand) footerBrand.textContent = t.footer.brand;
     var footerCols = document.querySelectorAll('.foot-col');
     if (footerCols[0]) {
       footerCols[0].querySelector('h4').textContent = t.footer.product;
@@ -1686,33 +1749,7 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
 
-  // Scroll-driven parallax on every revealed block
-  var parallaxEls = [];
-  document.querySelectorAll('section.block, .showcase, .step, .feat, .who-cell, .hero-frame, .price-card').forEach(function(el){
-    parallaxEls.push(el);
-  });
-  var lastY = 0, ticking = false;
-  function onScroll(){
-    lastY = window.scrollY;
-    if (!ticking){
-      requestAnimationFrame(function(){
-        var vh = window.innerHeight;
-        parallaxEls.forEach(function(el){
-          var r = el.getBoundingClientRect();
-          var center = r.top + r.height/2 - vh/2;
-          var depth = parseFloat(el.dataset.depth || '0.04');
-          el.style.transform = 'translate3d(0,' + (-center * depth).toFixed(1) + 'px,0)';
-        });
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
-  document.querySelectorAll('.reveal, .anim-dim, .count').forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('.reveal, .count').forEach(function(el){ io.observe(el); });
 
   // Count-up
   var started = new WeakSet();
@@ -1739,29 +1776,28 @@
     return parts.join('.');
   }
 
-  // Hero parallax tilt
-  var tilt = document.getElementById('hero-tilt');
-  if (tilt && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !window.matchMedia('(max-width: 980px)').matches){
-    var frame = tilt.querySelector('.hero-frame');
-    tilt.addEventListener('mousemove', function(e){
-      var r = tilt.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width - 0.5;
-      var y = (e.clientY - r.top) / r.height - 0.5;
-      frame.style.setProperty('--ry', (x * 6).toFixed(2) + 'deg');
-      frame.style.setProperty('--rx', (-y * 5).toFixed(2) + 'deg');
-    });
-    tilt.addEventListener('mouseleave', function(){
-      frame.style.setProperty('--ry', '0deg');
-      frame.style.setProperty('--rx', '0deg');
-    });
-  }
-
   // Nav shadow on scroll
   var nav = document.querySelector('nav');
   window.addEventListener('scroll', function(){
     if (window.scrollY > 8) nav.style.boxShadow = '0 8px 24px rgba(0,0,0,0.35)';
     else nav.style.boxShadow = 'none';
   }, { passive: true });
+
+  // Mobile menu
+  var burger = document.getElementById('nav-burger');
+  var navLinks = document.getElementById('nav-links');
+  if (burger && navLinks) {
+    burger.addEventListener('click', function(){
+      var open = navLinks.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        navLinks.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 })();
 </script>
 
