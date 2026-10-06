@@ -1,685 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>comprobare — measure plans and drawings, fast</title>
-<meta name="description" content="Comprobare is a desktop tool that helps you measure plans and drawings quickly and accurately. Areas, lengths, scanned plans — one file, one place." />
+<title>Comprobare | Measure plans and drawings on Windows</title>
+<meta name="description" content="Comprobare measures areas, lengths and counts on PDF and DXF drawings, scanned plans included. Colour drawings in with Marking, then print or export to PDF. 7-day free trial for Windows." />
+<meta name="theme-color" content="#111214" />
+<link rel="canonical" href="https://comprobare.com/" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="comprobare" />
-<meta property="og:title" content="comprobare — measure plans and drawings, fast" />
-<meta property="og:description" content="Pull exact areas and lengths off any architectural or technical drawing — digital, scanned, even bad-quality PDFs. 7-day free trial for Windows." />
+<meta property="og:site_name" content="Comprobare" />
+<meta property="og:title" content="Comprobare | Measure plans and drawings on Windows" />
+<meta property="og:description" content="Areas, lengths and counts off any PDF or DXF drawing, plus Marking to colour it in. 7-day free trial for Windows." />
 <meta property="og:url" content="https://comprobare.com/" />
-<meta property="og:image" content="https://comprobare.com/assets/screen-hero.png" />
+<meta property="og:image" content="https://comprobare.com/assets/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="comprobare — measure plans and drawings, fast" />
-<meta name="twitter:description" content="Pull exact areas and lengths off any architectural or technical drawing — digital, scanned, even bad-quality PDFs. 7-day free trial for Windows." />
-<meta name="twitter:image" content="https://comprobare.com/assets/screen-hero.png" />
+<meta name="twitter:title" content="Comprobare | Measure plans and drawings on Windows" />
+<meta name="twitter:description" content="Areas, lengths and counts off any PDF or DXF drawing, plus Marking to colour it in. 7-day free trial for Windows." />
+<meta name="twitter:image" content="https://comprobare.com/assets/og-image.png" />
 <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
-<link rel="preload" as="image" href="assets/screen-hero-window.png" />
+<link rel="preload" as="image" href="assets/img/app-main.webp" imagesrcset="assets/img/app-main-960.webp 960w, assets/img/app-main.webp 1768w" imagesizes="(max-width: 980px) 92vw, 640px" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --blue-primary: #0078d4;
-    --blue-deep:    #0056a3;
-    --blue-dark:    #003e7e;
-    --blue-light:   #4fc3f7;
-    --blue-pale:    #e6f1fb;
-    --neutral-900:  #0c0d0f;
-    --neutral-850:  #111214;
-    --neutral-800:  #1a1c1f;
-    --neutral-750:  #1f2125;
-    --neutral-700:  #252729;
-    --neutral-600:  #2e3135;
-    --neutral-500:  #5a5f66;
-    --neutral-400:  #7d838b;
-    --neutral-300:  #b0b5bc;
-    --neutral-200:  #d4d8dd;
-    --neutral-100:  #f0f2f4;
-    --white:        #ffffff;
-    --orange-accent: #f59e0b;
-    --green-accent:  #4ade80;
-    --font-main: 'DM Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    --font-mono: 'DM Mono', 'Consolas', 'Courier New', monospace;
-    --max-w: 1240px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font-main);
-    background: var(--neutral-850);
-    color: var(--white);
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  a { color: inherit; text-decoration: none; }
-  img, svg { display: block; max-width: 100%; }
-
-  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
-
-  /* ── NAV ───────────────────────────────────────── */
-  nav {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(17, 18, 20, 0.78);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid #1e2023;
-  }
-  .nav-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-  }
-  .nav-logo { display: flex; align-items: center; gap: 12px; }
-  .nav-logo .wordmark {
-    font-size: 20px; font-weight: 300; letter-spacing: -0.4px; color: var(--white);
-  }
-  .nav-logo .wordmark b { font-weight: 600; color: var(--blue-primary); }
-  .nav-links { display: flex; gap: 36px; align-items: center; }
-  .nav-links a {
-    font-size: 14px; color: var(--neutral-300); transition: color .15s;
-  }
-  .nav-links a:hover { color: var(--white); }
-  .nav-cta {
-    font-size: 13px; font-weight: 500;
-    padding: 9px 18px; border-radius: 6px;
-    background: var(--blue-primary); color: var(--white);
-    transition: background .15s;
-  }
-  .nav-cta:hover { background: var(--blue-deep); }
-  .lang-switch {
-    display: inline-flex;
-    gap: 6px;
-    margin-left: 10px;
-    padding: 4px;
-    border: 1px solid #2e3135;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.02);
-  }
-  .lang-switch button {
-    appearance: none;
-    border: 0;
-    background: transparent;
-    color: var(--neutral-400);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    padding: 7px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-  }
-  .lang-switch button.active {
-    background: var(--blue-primary);
-    color: var(--white);
-  }
-  .nav-burger {
-    display: none;
-    appearance: none;
-    background: transparent;
-    border: 1px solid #2e3135;
-    border-radius: 8px;
-    width: 40px; height: 40px;
-    align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--neutral-200);
-  }
-  .nav-burger svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
-  .nav-burger .icon-close { display: none; }
-  .nav-burger[aria-expanded="true"] .icon-open { display: none; }
-  .nav-burger[aria-expanded="true"] .icon-close { display: block; }
-  @media (max-width: 760px) {
-    .nav-burger { display: inline-flex; }
-    .nav-links {
-      display: none;
-      position: absolute;
-      top: 64px; left: 0; right: 0;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-      background: var(--neutral-850);
-      border-bottom: 1px solid #2a2d31;
-      padding: 8px 24px 20px;
-    }
-    .nav-links.open { display: flex; }
-    .nav-links a { padding: 13px 4px; font-size: 15px; border-bottom: 1px solid #1e2023; }
-    .nav-links a.nav-cta {
-      margin-top: 14px; text-align: center; border-bottom: 0;
-    }
-    .lang-switch { margin: 16px 0 0; align-self: flex-start; }
-  }
-
-  /* ── shared ──────────────────────────────────── */
-  .eyebrow {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--blue-light); font-weight: 400;
-    display: inline-flex; align-items: center; gap: 12px;
-  }
-  .eyebrow::before {
-    content: ''; width: 24px; height: 1px; background: var(--blue-light); opacity: .6;
-  }
-  h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; line-height: 1.1; }
-  .section-h2 { font-size: clamp(32px, 4vw, 48px); margin: 16px 0 18px; max-width: 720px; }
-  .section-h2 b { font-weight: 600; color: var(--blue-light); }
-  .section-sub { font-size: 17px; color: var(--neutral-300); max-width: 640px; line-height: 1.55; }
-  .mono { font-family: var(--font-mono); }
-
-  /* dimension-line motif: dashed cyan with end caps */
-  .dim-line {
-    position: relative;
-    border-top: 1px dashed rgba(79, 195, 247, 0.4);
-  }
-  .dim-line::before, .dim-line::after {
-    content: ''; position: absolute; top: -5px; width: 1px; height: 9px;
-    background: var(--blue-light); opacity: .7;
-  }
-  .dim-line::before { left: 0; }
-  .dim-line::after { right: 0; }
-
-  /* ── HERO ─────────────────────────────────────── */
-  .hero {
-    position: relative;
-    padding: 88px 0 64px;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: ''; position: absolute; inset: 0;
-    background:
-      radial-gradient(800px 400px at 80% 0%, rgba(0, 120, 212, 0.18), transparent 70%),
-      radial-gradient(600px 500px at 0% 100%, rgba(79, 195, 247, 0.08), transparent 70%);
-    pointer-events: none;
-  }
-  .hero-grid {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: 56px;
-    align-items: stretch;
-  }
-  #hero-tilt { display: flex; }
-  @media (max-width: 980px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 40px; align-items: center; }
-    #hero-tilt { display: block; }
-  }
-  .hero-eyebrow { margin-bottom: 28px; }
-  .hero h1 {
-    font-size: clamp(40px, 5.5vw, 68px);
-    line-height: 1.04;
-    letter-spacing: -1.5px;
-    margin-bottom: 22px;
-  }
-  .hero h1 b { font-weight: 600; color: var(--blue-primary); }
-  .hero h1 .accent { color: var(--blue-light); font-weight: 400; }
-  .hero-lede {
-    font-size: 19px; color: var(--neutral-300);
-    max-width: 540px; margin-bottom: 36px; line-height: 1.55;
-  }
-  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
-  .btn {
-    font-family: var(--font-main); font-size: 14px; font-weight: 500;
-    padding: 13px 22px; border-radius: 7px;
-    border: 1px solid transparent;
-    cursor: pointer; transition: all .15s;
-    display: inline-flex; align-items: center; gap: 10px;
-  }
-  .btn-primary { background: var(--blue-primary); color: var(--white); }
-  .btn-primary:hover { background: var(--blue-deep); transform: translateY(-1px); }
-  .btn-ghost {
-    background: transparent; color: var(--neutral-200);
-    border-color: #2e3135;
-  }
-  .btn-ghost:hover { border-color: var(--blue-light); color: var(--white); }
-  .hero-meta {
-    margin-top: 28px; display: flex; gap: 28px; flex-wrap: wrap;
-    font-size: 12px; color: var(--neutral-400); font-family: var(--font-mono);
-  }
-  .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
-  .hero-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-accent); }
-
-  /* hero screenshot frame — near-square app window matches text column height */
-  .hero-frame {
-    position: relative;
-    border: 1px solid #2a2d31;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--neutral-900);
-    box-shadow:
-      0 30px 80px rgba(0,0,0,0.45),
-      0 0 0 1px rgba(79,195,247,0.04);
-    width: 100%;
-    height: 100%;
-  }
-  .hero-frame img {
-    width: 100%; height: 100%; display: block;
-    object-fit: cover; object-position: left top;
-    transform: scale(1);
-    transition: transform 2.4s cubic-bezier(.2,.7,.2,1);
-  }
-  /* slight zoom + slow pan to the right on hover */
-  #hero-tilt:hover .hero-frame img { transform: scale(1.06) translateX(-2.5%); }
-  @media (max-width: 980px) {
-    .hero-frame { height: auto; }
-    .hero-frame img { height: auto; object-fit: contain; }
-  }
-  .hero-frame::after {
-    content: ''; position: absolute; inset: 0;
-    pointer-events: none;
-    background: linear-gradient(180deg, transparent 70%, rgba(12,13,15,0.5));
-  }
-  /* dimension marker on hero */
-  .hero-dim {
-    position: absolute;
-    left: -28px; top: 36%; bottom: 12%;
-    width: 14px;
-    border-left: 1px dashed rgba(79, 195, 247, 0.55);
-  }
-  .hero-dim::before, .hero-dim::after {
-    content: ''; position: absolute; left: -6px; width: 13px; height: 1px;
-    background: var(--blue-light); opacity: .8;
-  }
-  .hero-dim::before { top: 0; }
-  .hero-dim::after { bottom: 0; }
-  .hero-dim span {
-    position: absolute; left: -10px; top: 50%;
-    transform: translate(-100%, -50%) rotate(-90deg);
-    transform-origin: 100% 50%;
-    font-family: var(--font-mono); font-size: 10px; color: var(--blue-light);
-    white-space: nowrap; letter-spacing: 1px;
-    background: var(--neutral-850); padding: 0 6px;
-  }
-  @media (max-width: 980px) { .hero-dim { display: none; } }
-
-  /* ── LOGO STRIP ────────────────────────────────── */
-  .strip {
-    border-top: 1px solid #1e2023;
-    border-bottom: 1px solid #1e2023;
-    background: var(--neutral-800);
-    padding: 22px 0;
-  }
-  .strip-inner {
-    display: flex; align-items: center; gap: 40px;
-    font-size: 12px; font-family: var(--font-mono);
-    color: var(--neutral-400); flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .strip-inner .label { color: var(--neutral-400); letter-spacing: 2px; text-transform: uppercase; font-size: 10px; }
-  .strip-pills { display: flex; gap: 24px; flex-wrap: wrap; }
-  .strip-pills span { color: var(--neutral-300); }
-
-  /* ── SECTIONS ──────────────────────────────────── */
-  section.block { padding: 110px 0; position: relative; }
-  section.block + section.block { border-top: 1px solid #1e2023; }
-
-  /* ── WHAT IT DOES ──────────────────────────────── */
-  .what-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
-    margin-top: 56px;
-    background: #1e2023;
-    border: 1px solid #1e2023;
-    border-radius: 14px; overflow: hidden;
-  }
-  @media (max-width: 900px) { .what-grid { grid-template-columns: 1fr; } }
-  .what-cell {
-    background: var(--neutral-800);
-    padding: 38px 32px;
-    display: flex; flex-direction: column;
-    min-height: 280px;
-    transition: background .2s;
-  }
-  .what-cell:hover { background: #1d1f22; }
-  .what-cell .num {
-    font-family: var(--font-mono); font-size: 11px;
-    color: var(--blue-light); letter-spacing: 2px; margin-bottom: 24px;
-  }
-  .what-cell h3 {
-    font-size: 24px; font-weight: 400; margin-bottom: 12px; letter-spacing: -0.3px;
-  }
-  .what-cell h3 b { color: var(--blue-primary); font-weight: 600; }
-  .what-cell p { font-size: 14.5px; color: var(--neutral-300); margin-bottom: 24px; flex: 1; }
-  .what-vis {
-    height: 80px; border-top: 1px solid #2a2d31;
-    padding-top: 18px;
-    display: flex; align-items: center;
-    font-family: var(--font-mono); font-size: 12px;
-  }
-  .what-vis .val { color: var(--blue-light); font-weight: 500; font-size: 15px; }
-  .what-vis .lbl { color: var(--neutral-400); margin-right: 8px; font-size: 11px; }
-
-  /* ── BIG SHOWCASE (ship plan) ──────────────────── */
-  .showcase {
-    margin-top: 72px;
-    border: 1px solid #2a2d31; border-radius: 14px;
-    overflow: hidden;
-    background: var(--neutral-900);
-    position: relative;
-  }
-  .showcase img { width: 100%; height: auto; display: block; }
-  .showcase-cap {
-    background: var(--neutral-800);
-    border-top: 1px solid #2a2d31;
-    padding: 18px 24px;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .showcase-cap .left { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
-  .showcase-cap .stat .v {
-    font-family: var(--font-mono); font-size: 16px; color: var(--blue-light); font-weight: 500;
-  }
-  .showcase-cap .stat .l {
-    font-size: 10px; color: var(--neutral-400); letter-spacing: 1.5px; text-transform: uppercase;
-  }
-  .showcase-cap .right {
-    font-family: var(--font-mono); font-size: 11px; color: var(--neutral-400);
-  }
-
-  /* ── FEATURES grid ─────────────────────────────── */
-  .features {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-    margin-top: 56px;
-  }
-  @media (max-width: 900px) { .features { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 600px) { .features { grid-template-columns: 1fr; } }
-  .feat {
-    background: var(--neutral-800);
-    border: 1px solid #2a2d31;
-    border-radius: 12px;
-    padding: 28px 26px;
-    transition: border-color .2s, transform .2s;
-  }
-  .feat:hover { border-color: rgba(79, 195, 247, 0.35); transform: translateY(-2px); }
-  .feat .ico {
-    width: 42px; height: 42px; border-radius: 9px;
-    background: rgba(0, 120, 212, 0.12);
-    border: 1px solid rgba(0, 120, 212, 0.25);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 22px;
-  }
-  .feat .ico svg { width: 22px; height: 22px; stroke: var(--blue-light); fill: none; stroke-width: 1.5; }
-  .feat h3 {
-    font-size: 17px; font-weight: 500; margin-bottom: 8px; color: var(--white);
-    letter-spacing: -0.2px;
-  }
-  .feat p { font-size: 14px; color: var(--neutral-300); line-height: 1.6; }
-
-  /* ── HOW IT WORKS ──────────────────────────────── */
-  .steps { margin-top: 64px; display: flex; flex-direction: column; gap: 28px; }
-  .step {
-    display: grid;
-    grid-template-columns: 100px 1fr minmax(0, 380px);
-    gap: 36px;
-    align-items: center;
-    background: var(--neutral-800);
-    border: 1px solid #2a2d31;
-    border-radius: 14px;
-    padding: 32px;
-    position: relative;
-  }
-  @media (max-width: 900px) {
-    .step { grid-template-columns: 1fr; gap: 20px; padding: 24px; }
-  }
-  .step-num {
-    font-family: var(--font-mono); font-size: 56px; font-weight: 400;
-    color: var(--blue-primary);
-    line-height: 1;
-    letter-spacing: -2px;
-  }
-  .step-num span { color: var(--neutral-400); font-size: 12px; vertical-align: top; margin-left: 4px; }
-  .step-body h3 {
-    font-size: 22px; font-weight: 500; margin-bottom: 10px; letter-spacing: -0.3px;
-  }
-  .step-body p { font-size: 14.5px; color: var(--neutral-300); line-height: 1.6; }
-  .step-body .meta {
-    margin-top: 14px;
-    font-family: var(--font-mono); font-size: 11px; color: var(--blue-light);
-    letter-spacing: 1.5px; text-transform: uppercase;
-  }
-  .step-vis {
-    border: 1px solid #2a2d31; border-radius: 8px;
-    background: var(--neutral-900);
-    overflow: hidden;
-    height: 200px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .step-vis img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
-  .step-vis.contain img { object-fit: contain; padding: 12px; object-position: center; }
-  @media (max-width: 900px) { .step-vis { height: auto; max-height: 240px; } .step-vis img { height: auto; } }
-
-  /* ── WHO IT'S FOR ──────────────────────────────── */
-  .who {
-    background: var(--neutral-800);
-  }
-  .who-grid {
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
-    margin-top: 48px;
-  }
-  @media (max-width: 900px) { .who-grid { grid-template-columns: repeat(2, 1fr); } }
-  .who-cell {
-    background: var(--neutral-750);
-    border: 1px solid #2a2d31;
-    border-radius: 10px;
-    padding: 24px 20px;
-    text-align: left;
-    transition: border-color .2s;
-  }
-  .who-cell:hover { border-color: var(--blue-primary); }
-  .who-cell .role {
-    font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 6px;
-  }
-  .who-cell .desc { font-size: 12.5px; color: var(--neutral-400); line-height: 1.5; }
-
-  /* ── WHY ───────────────────────────────────────── */
-  .why-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
-    margin-top: 56px;
-  }
-  @media (max-width: 900px) { .why-grid { grid-template-columns: 1fr 1fr; } }
-  .why {
-    border-left: 1px solid #2a2d31;
-    padding: 8px 0 8px 24px;
-  }
-  .why .big {
-    font-family: var(--font-mono); font-size: 13px;
-    color: var(--blue-light); letter-spacing: 2px;
-    margin-bottom: 16px;
-  }
-  .why h3 { font-size: 28px; font-weight: 300; margin-bottom: 12px; letter-spacing: -0.5px; }
-  .why h3 b { color: var(--blue-primary); font-weight: 600; }
-  .why p { font-size: 14px; color: var(--neutral-300); line-height: 1.6; }
-
-  /* ── CTA ───────────────────────────────────────── */
-  .cta {
-    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-primary) 100%);
-    border-radius: 18px;
-    padding: 56px 48px;
-    margin: 80px auto 60px;
-    max-width: var(--max-w);
-    position: relative;
-    overflow: hidden;
-  }
-  @media (max-width: 980px) { .cta { margin: 60px 24px; padding: 40px 28px; } }
-  .cta::before {
-    content: ''; position: absolute; inset: 0;
-    background:
-      repeating-linear-gradient(45deg, transparent, transparent 22px, rgba(255,255,255,0.025) 22px, rgba(255,255,255,0.025) 23px);
-  }
-  .cta-inner {
-    position: relative;
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 32px; flex-wrap: wrap;
-  }
-  .cta h2 { font-size: clamp(28px, 3.5vw, 40px); color: white; max-width: 600px; }
-  .cta h2 b { font-weight: 600; }
-  .cta p { font-size: 15px; color: rgba(255,255,255,0.85); margin-top: 10px; }
-  .cta .btn-white {
-    background: white; color: var(--blue-deep); padding: 15px 26px;
-    font-weight: 600; font-size: 14px;
-  }
-  .cta .btn-white:hover { background: var(--neutral-100); }
-
-  /* ── PRICING ───────────────────────────────────── */
-  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 48px; }
-  @media (max-width: 1000px) { .pricing-grid { grid-template-columns: 1fr; max-width: 520px; } }
-  .price-card {
-    background: var(--neutral-750);
-    border: 1px solid #2a2d31;
-    border-radius: 14px;
-    padding: 36px 32px;
-    position: relative;
-    display: flex; flex-direction: column;
-  }
-  .price-card.featured {
-    background: linear-gradient(180deg, #1a2c44 0%, var(--neutral-750) 100%);
-    border: 1px solid var(--blue-primary);
-  }
-  .price-badge {
-    position: absolute; top: -1px; right: 24px;
-    color: white; font-size: 10px; font-weight: 600;
-    letter-spacing: 1.5px; padding: 5px 12px;
-    border-radius: 0 0 6px 6px; text-transform: uppercase;
-    background: var(--blue-primary);
-  }
-  .price-card.featured .price-badge { background: var(--green-accent); color: #0c0d0f; font-weight: 700; }
-  .price-label {
-    font-family: var(--font-mono); font-size: 11px; color: var(--blue-light);
-    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;
-  }
-  .price-line { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
-  .price-num { font-size: 54px; font-weight: 300; letter-spacing: -2px; }
-  .price-unit { font-size: 16px; color: var(--neutral-300); }
-  .price-body { color: var(--neutral-300); font-size: 14.5px; margin-bottom: 24px; }
-  .price-save {
-    font-size: 13px; color: var(--green-accent); margin: -14px 0 24px;
-  }
-  .price-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 10px; }
-  .price-list li { font-size: 14px; color: var(--neutral-200); display: flex; gap: 10px; }
-  .price-list li .tick { color: var(--blue-light); }
-  .price-card .btn { width: 100%; justify-content: center; margin-top: auto; }
-  .price-note {
-    font-family: var(--font-mono); font-size: 10.5px; color: var(--neutral-400);
-    margin-top: 14px; text-align: center; letter-spacing: 1px;
-  }
-  .purchase-terms-link { font-size: 12px; color: var(--neutral-400); margin-top: 12px; text-align: center; }
-  .purchase-terms-link a { color: var(--blue-light); }
-
-  /* ── FAQ ───────────────────────────────────────── */
-  .faq-list { margin-top: 48px; max-width: 820px; }
-  .faq-list details {
-    border: 1px solid #2a2d31;
-    border-radius: 12px;
-    background: var(--neutral-800);
-    margin-bottom: 12px;
-    overflow: hidden;
-  }
-  .faq-list summary {
-    cursor: pointer;
-    list-style: none;
-    display: flex; align-items: center; justify-content: space-between; gap: 18px;
-    padding: 18px 22px;
-    font-size: 16px; font-weight: 500; color: var(--white);
-  }
-  .faq-list summary::-webkit-details-marker { display: none; }
-  .faq-list summary .faq-mark {
-    flex-shrink: 0;
-    font-family: var(--font-mono); font-size: 18px; color: var(--blue-light);
-    transition: transform .25s;
-  }
-  .faq-list details[open] summary .faq-mark { transform: rotate(45deg); }
-  .faq-list details p {
-    padding: 0 22px 20px;
-    font-size: 14.5px; color: var(--neutral-300); line-height: 1.65;
-    max-width: 700px;
-  }
-  .faq-list details p a { color: var(--blue-light); }
-
-  /* ── FOOTER ────────────────────────────────────── */
-  footer {
-    background: var(--neutral-900);
-    border-top: 1px solid #1e2023;
-    padding: 48px 0 28px;
-  }
-  .foot-top {
-    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px;
-    margin-bottom: 36px;
-  }
-  @media (max-width: 760px) { .foot-top { grid-template-columns: 1fr 1fr; } }
-  .foot-col h4 {
-    font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--neutral-500); margin-bottom: 16px;
-  }
-  .foot-col a {
-    display: block; font-size: 13.5px; color: var(--neutral-300);
-    padding: 6px 0; transition: color .15s;
-  }
-  .foot-col a:hover { color: var(--blue-light); }
-  .foot-bottom {
-    border-top: 1px solid #1e2023; padding-top: 24px;
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-    font-family: var(--font-mono); font-size: 11px; color: var(--neutral-400);
-  }
-  .foot-bottom .lang { display: flex; gap: 16px; }
-  .foot-bottom .lang button {
-    background: none;
-    border: 0;
-    color: inherit;
-    cursor: pointer;
-    font: inherit;
-    padding: 0;
-  }
-  .foot-bottom .lang button.active { color: var(--blue-light); }
-
-  /* ── REVEAL-ON-SCROLL ─────────────────────────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity .45s cubic-bezier(.2,.7,.2,1), transform .45s cubic-bezier(.2,.7,.2,1);
-    will-change: opacity, transform;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal.delay-1 { transition-delay: .05s; }
-  .reveal.delay-2 { transition-delay: .10s; }
-  .reveal.delay-3 { transition-delay: .15s; }
-  .reveal.delay-4 { transition-delay: .20s; }
-  .reveal.delay-5 { transition-delay: .25s; }
-
-  /* ── animated count-up wrapper ───────────────── */
-  .count {
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* ── feature card hover lift ─────────────────── */
-  .feat .ico svg { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
-  .feat:hover .ico svg { transform: scale(1.1) rotate(-3deg); }
-
-  /* ── step image zoom on view ─────────────────── */
-  .step-vis img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); transform: scale(1.04); }
-  .step.visible .step-vis img { transform: scale(1); }
-
-  .hero-frame { z-index: 1; }
-
-  /* ── keyboard focus ──────────────────────────── */
-  a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--blue-light);
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
-
-  /* respect reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-    .step-vis img { transform: none !important; transition: none !important; }
-    .hero-frame img { transform: none !important; transition: none !important; }
-  }
-
-  /* mini icon - logo */
-  .logo-icon-svg { width: 32px; height: 32px; flex-shrink: 0; }
-
-</style>
+<link rel="stylesheet" href="assets/css/site.css?v=1" />
+<link rel="stylesheet" href="assets/css/home.css?v=1" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Comprobare",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "BusinessApplication",
+  "description": "Desktop software for measuring areas, lengths and counts on PDF and DXF drawings, with Marking to colour drawings in.",
+  "url": "https://comprobare.com/",
+  "image": "https://comprobare.com/assets/og-image.png",
+  "offers": [
+    { "@type": "Offer", "name": "Annual license", "price": "100", "priceCurrency": "EUR" },
+    { "@type": "Offer", "name": "Lifetime license", "price": "249", "priceCurrency": "EUR" }
+  ]
+}
+</script>
 </head>
 <body>
 
-<!-- ── LOGO MARK (re-usable inline) ─────────────── -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="cmp-mark" viewBox="0 0 80 80">
@@ -690,26 +53,28 @@
       <line x1="68" y1="14" x2="76" y2="14" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round"></line>
       <line x1="68" y1="66" x2="76" y2="66" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round"></line>
     </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m0 0l-5-5m5 5l5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
 
 <!-- ── NAV ──────────────────────────────────────── -->
-<nav>
+<nav class="site-nav" aria-label="Main">
   <div class="wrap nav-inner">
-    <a class="nav-logo" href="#top">
-      <svg class="logo-icon-svg" aria-hidden="true"><use href="#cmp-mark"></use></svg>
+    <a class="nav-logo" href="#top" aria-label="Comprobare home">
+      <svg aria-hidden="true"><use href="#cmp-mark"></use></svg>
       <span class="wordmark">com<b>pro</b>bare</span>
     </a>
     <div class="nav-links" id="nav-links">
-      <a href="#what">What it does</a>
+      <a href="#try">Try it</a>
+      <a href="#features">Features</a>
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
-      <a href="#who">Who it's for</a>
-      <a href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" class="nav-cta">Download</a>
-      <div class="lang-switch" aria-label="Language switcher">
-        <button type="button" data-lang="en" class="active">EN</button>
-        <button type="button" data-lang="pl">PL</button>
-      </div>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary btn-sm" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" data-download>
+        <svg width="14" height="14" aria-hidden="true"><use href="#i-download"></use></svg>Download
+      </a>
     </div>
     <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-links" aria-label="Menu">
       <svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -718,1127 +83,557 @@
   </div>
 </nav>
 
-<!-- ── ANNOUNCE BAR ─────────────────────────────── -->
+<main>
 <!-- ── HERO ─────────────────────────────────────── -->
 <section class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow hero-eyebrow">Desktop measurement tool for Windows</span>
-      <h1>Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b></h1>
-      <p class="hero-lede">
-        Pull exact areas and lengths off any architectural or technical drawing —
-        digital, scanned, even bad-quality PDFs. No expensive drafting software. Nothing to learn.
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <svg class="hero-blueprint" viewBox="0 0 1000 620" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <g class="bp-lines">
+      <path d="M120 400 L900 385 L870 450 L700 470 L450 476 L250 468 L140 455 Z" />
+      <path d="M430 476 L410 575 L520 575 L510 474" />
+      <path d="M180 462 L165 535 L190 535 L205 465" />
+      <path d="M470 385 L470 70" />
+      <path d="M465 85 L465 370 L250 370 Z" />
+      <path d="M478 100 L850 380 L560 372 Z" />
+      <path d="M330 393 L360 352 L560 348 L600 389" />
+      <path d="M470 72 L895 386" />
+    </g>
+    <g class="bp-dims">
+      <path d="M120 600 L900 600 M120 590 L120 610 M900 590 L900 610" />
+      <path d="M960 70 L960 455 M950 70 L970 70 M950 455 L970 455" />
+      <path class="bp-water" d="M60 455 L960 455" />
+    </g>
+    <text class="bp-label" x="510" y="594">LOA 8.67 m</text>
+    <text class="bp-label" x="952" y="262" transform="rotate(-90 952 262)">HEIGHT 4.28 m</text>
+  </svg>
+
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow hero-eyebrow reveal">Takeoff software for Windows</span>
+      <h1 class="reveal d1">Measure plans in minutes, <b>not afternoons.</b></h1>
+      <p class="hero-lede reveal d2">
+        Open a PDF or DXF, set the scale and click around the parts you need.
+        Comprobare adds up areas, lengths and counts as you go. And with the new Marking tools
+        you can colour the drawing in and see how it will look before anyone builds it.
       </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download">
-          Download latest version
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v14m0 0l-6-6m6 6l6-6M5 21h14"/></svg>
+      <div class="hero-actions reveal d3">
+        <a class="btn btn-primary btn-lg" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" data-download>
+          <svg width="16" height="16" aria-hidden="true"><use href="#i-download"></use></svg>
+          Download free trial
         </a>
-        <a class="btn btn-ghost" href="#how">See how it works</a>
+        <a class="btn btn-ghost btn-lg" href="#try">
+          Try it in your browser
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-arrow"></use></svg>
+        </a>
       </div>
-      <div class="hero-meta">
-        <span><span class="dot"></span>7&#8209;day free trial</span>
-        <span>Windows 10 / 11</span>
-        <span>EN · PL</span>
-      </div>
-    </div>
-    <div style="position:relative" id="hero-tilt">
-      <div class="hero-dim"><span>application window · 16:9</span></div>
-      <div class="hero-frame">
-        <img src="assets/screen-hero-window.png" alt="Comprobare main window — sailboat general arrangement drawing loaded, with the measurement results panel ready on the right" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── STRIP ────────────────────────────────────── -->
-<div class="strip">
-  <div class="wrap strip-inner">
-    <span class="label">Built for</span>
-    <div class="strip-pills">
-      <span>Estimators</span>
-      <span>Contractors</span>
-      <span>Architects</span>
-      <span>Engineers</span>
-      <span>Surveyors</span>
-    </div>
-    <span class="label" style="font-family:var(--font-mono);text-transform:none;letter-spacing:.5px;color:var(--neutral-400);">DXF · PDF · CPB</span>
-  </div>
-</div>
-
-<!-- ── WHAT IT DOES ─────────────────────────────── -->
-<section class="block" id="what">
-  <div class="wrap">
-    <span class="eyebrow">What it does</span>
-    <h2 class="section-h2">Three things, done well — <b>areas, lengths, scans.</b></h2>
-    <p class="section-sub">
-      Open a drawing, set the scale, click around the parts you care about. Comprobare
-      tracks every measurement with units, factors, and group totals so you don't have
-      to keep notes on the side.
-    </p>
-
-    <div class="what-grid">
-      <div class="what-cell reveal delay-1">
-        <div class="num">01 / AREAS</div>
-        <h3>Measure <b>areas</b></h3>
-        <p>Rooms, floors, walls, plots of land — anything with an outline. Trace the perimeter and the area is calculated instantly, with optional height and multiplier factors.</p>
-        <div class="what-vis">
-          <span class="lbl">AREA</span><span class="val"><span class="count" data-count="2387.25" data-decimals="2">0.00</span> m²</span>
-        </div>
-      </div>
-      <div class="what-cell reveal delay-2">
-        <div class="num">02 / LENGTHS</div>
-        <h3>Measure <b>lengths</b></h3>
-        <p>Pipes, cables, edges, perimeters, distances. Click point to point, or follow a polyline. Totals add up across whatever segments you've drawn.</p>
-        <div class="what-vis">
-          <span class="lbl">LENGTH</span><span class="val"><span class="count" data-count="169.68" data-decimals="2">0.00</span> m</span>
-        </div>
-      </div>
-      <div class="what-cell reveal delay-3">
-        <div class="num">03 / SCANS</div>
-        <h3>Convert <b>scans &amp; bad PDFs</b></h3>
-        <p>Photographed paper plans, scanned documents, low-quality PDFs — all become measurable drawings. Three quality settings to match what you've got.</p>
-        <div class="what-vis">
-          <span class="lbl">QUALITY</span>
-          <span class="val">low &nbsp;·&nbsp; med &nbsp;·&nbsp; high</span>
-        </div>
-      </div>
+      <ul class="hero-meta reveal d4">
+        <li><span class="dot"></span>7 days free, every feature</li>
+        <li>Windows 10 and 11</li>
+        <li>No card needed</li>
+      </ul>
     </div>
 
-    <div class="showcase reveal">
-      <img src="assets/screen-showcase-groups.png" loading="lazy"
-           alt="Comprobare — a hull body plan with measured areas and lengths organised into named groups (Railings, Room 1), each with its own subtotal and a grand total" />
-      <div class="showcase-cap">
-        <div class="left">
-          <div class="stat"><div class="v"><span class="count" data-count="22.71" data-decimals="2">0.00</span> m²</div><div class="l">Areas — one total</div></div>
-          <div class="stat"><div class="v"><span class="count" data-count="6.04" data-decimals="2">0.00</span> m</div><div class="l">Lengths — one total</div></div>
-          <div class="stat"><div class="v">2</div><div class="l">Named groups</div></div>
+    <div class="hero-visual" id="hero-visual">
+      <div class="hero-tilt" id="hero-tilt">
+        <div class="hero-window">
+          <img src="assets/img/app-main.webp"
+               srcset="assets/img/app-main-960.webp 960w, assets/img/app-main.webp 1768w"
+               sizes="(max-width: 980px) 92vw, 640px"
+               width="1768" height="1353" fetchpriority="high"
+               alt="Comprobare main window with a sailboat drawing. Hull areas, hatches and a rope length are measured and listed in groups with totals on the right." />
+          <span class="hero-glare" aria-hidden="true"></span>
+          <span class="hero-scan" aria-hidden="true"></span>
         </div>
-        <div class="right">COMPROBARE.cpb · 1:1 · unit mm → m</div>
+        <div class="chip chip-area" aria-hidden="true">
+          <span class="chip-k">Total area</span>
+          <span class="chip-v"><span data-count="18.91" data-decimals="2" data-delay="900">0.00</span> m²</span>
+        </div>
+        <div class="chip chip-length" aria-hidden="true">
+          <span class="chip-k">Total length</span>
+          <span class="chip-v"><span data-count="9.80" data-decimals="2" data-delay="1150">0.00</span> m</span>
+        </div>
+        <div class="chip chip-items" aria-hidden="true">
+          <span class="chip-k">Items</span>
+          <span class="chip-v"><span data-count="2" data-delay="1400">0</span> pcs</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FEATURES GRID ────────────────────────────── -->
-<section class="block" style="background:var(--neutral-800);" id="features">
-  <div class="wrap">
-    <span class="eyebrow">Everything you need</span>
-    <h2 class="section-h2">Built for real takeoff work, <b>not demos.</b></h2>
-    <p class="section-sub">The features estimators actually ask for, surfaced as plain buttons — no drafting experience required.</p>
+<!-- ── MARQUEE ──────────────────────────────────── -->
+<section class="marquee-band" aria-label="What people measure with Comprobare">
+  <div class="marquee" data-speed="48">
+    <div class="marquee-track">
+      <span>Floor areas</span><span>Facades</span><span>Roofing</span><span>Boat hulls</span><span>Sails</span>
+      <span>Steel frames</span><span>Flooring</span><span>Drywall</span><span>Paint and coatings</span><span>Pipe runs</span>
+      <span>Cable routes</span><span>Tiling</span><span>Insulation</span><span>Landscaping</span><span>Fencing</span><span>Antifouling</span>
+    </div>
+  </div>
+  <div class="marquee marquee-rev" data-speed="60">
+    <div class="marquee-track">
+      <span>Estimators</span><span>Contractors</span><span>Boatyards</span><span>Architects</span><span>Engineers</span>
+      <span>Surveyors</span><span>Fit-out teams</span><span>Painters</span><span>Steel fabricators</span><span>Roofers</span><span>Shipyards</span><span>Facility managers</span>
+    </div>
+  </div>
+</section>
 
-    <div class="features">
-      <div class="feat reveal delay-1">
-        <div class="ico">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+<!-- ── TRY IT ───────────────────────────────────── -->
+<section class="block" id="try">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal">Try it here</span>
+      <h2 class="section-h2 reveal d1">Go on, <b>measure something.</b></h2>
+      <p class="section-sub reveal d2">
+        A small browser version of what the app does. Pick a drawing, choose a tool and click on the corners.
+        Points snap to the drawing and the result shows up once the last point is in, just like in Comprobare.
+        The real thing works the same way on your own PDFs.
+      </p>
+    </div>
+
+    <div class="demo reveal" id="demo">
+      <div class="demo-top">
+        <div class="seg" role="tablist" aria-label="Drawing">
+          <button type="button" role="tab" class="seg-btn active" data-drawing="building" aria-selected="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V9l9-6 9 6v12M9 21v-6h6v6"/></svg>Floor plan
+          </button>
+          <button type="button" role="tab" class="seg-btn" data-drawing="boat" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v13M12 4l-6 11h6M3 18h18l-2 3H5z"/></svg>Sailboat
+          </button>
+          <button type="button" role="tab" class="seg-btn" data-drawing="frame" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V11l9-6 9 6v10M3 11h18M7 11l5-6 5 6M7 11v10M17 11v10"/></svg>Steel frame
+          </button>
         </div>
-        <h3>Subtract zones automatically</h3>
-        <p>Mark off doorways, columns, openings, or any zone you don't want counted — they're subtracted from the totals automatically.</p>
+        <div class="demo-scale mono" id="demo-scale">scale 1:50 · unit m</div>
       </div>
-      <div class="feat reveal delay-2">
-        <div class="ico">
-          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="18" cy="18" r="2"/></svg>
+
+      <div class="demo-body">
+        <div class="demo-dock" role="toolbar" aria-label="Measuring tools">
+          <button type="button" class="tool active" data-tool="area" aria-pressed="true" title="Area">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7l6-3 8 4-2 10-11 1z"/><circle cx="5" cy="7" r="1.6"/><circle cx="11" cy="4" r="1.6"/><circle cx="19" cy="8" r="1.6"/><circle cx="17" cy="18" r="1.6"/><circle cx="6" cy="19" r="1.6"/></svg>
+            <span>Area</span>
+          </button>
+          <button type="button" class="tool" data-tool="length" aria-pressed="false" title="Length">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/></svg>
+            <span>Length</span>
+          </button>
+          <button type="button" class="tool" data-tool="count" aria-pressed="false" title="Count">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h11M10 12h11M10 18h11"/><path d="M4 6h1v4M4 10h2M4 14.5c0-.8.7-1.5 1.5-1.5S7 13.7 7 14.5c0 1-3 2-3 3.5h3"/></svg>
+            <span>Count</span>
+          </button>
+          <span class="dock-sep" aria-hidden="true"></span>
+          <button type="button" class="tool" id="demo-undo" title="Undo last point">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 010 10h-3"/></svg>
+            <span>Undo</span>
+          </button>
+          <button type="button" class="tool" id="demo-finish" title="Finish measurement">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Finish</span>
+          </button>
         </div>
-        <h3>Group measurements</h3>
-        <p>Combine related items — "all windows on floor 1", "all pipes in basement" — into a single named group with one total.</p>
+
+        <div class="demo-canvas" id="demo-canvas">
+          <svg id="demo-svg" viewBox="0 0 1000 600" role="img" aria-label="Drawing you can measure. Click to place points."></svg>
+          <div class="demo-hint" id="demo-hint" aria-live="polite">Click the corners of a room, then the first point again. The area appears once the shape is closed.</div>
+          <div class="demo-toast" id="demo-toast" role="status"></div>
+        </div>
+
+        <aside class="demo-panel" aria-label="Measurement results">
+          <div class="dp-head"><span>Measurement results</span><span class="dp-count" id="dp-count">0</span></div>
+          <ul class="dp-list" id="dp-list"></ul>
+          <div class="dp-empty" id="dp-empty">Nothing measured yet.<br/>Your results show up here.</div>
+          <div class="dp-totals">
+            <div><span>Total area</span><b class="c-area" id="dp-area">0.00 m²</b></div>
+            <div><span>Total length</span><b class="c-length" id="dp-length">0.00 m</b></div>
+            <div><span>Total items</span><b class="c-count" id="dp-items">0 pcs</b></div>
+          </div>
+          <button type="button" class="dp-clear" id="dp-clear">Clear all</button>
+        </aside>
       </div>
-      <div class="feat reveal delay-3">
-        <div class="ico">
-          <svg viewBox="0 0 24 24"><path d="M4 4h12l4 4v12a2 2 0 0 1-2 2H4z"/><path d="M14 4v6h6"/></svg>
+    </div>
+    <p class="demo-foot reveal">Like it? The app does this on any PDF or DXF, with groups, subtractions, memory and export on top. <a href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" data-download>Download the free trial</a>.</p>
+  </div>
+</section>
+
+<!-- ── FEATURES (bento) ─────────────────────────── -->
+<section class="block" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal">What's inside</span>
+      <h2 class="section-h2 reveal d1">Everything a takeoff needs. <b>Nothing to study first.</b></h2>
+      <p class="section-sub reveal d2">Plain buttons, clear results, and the features estimators kept asking for. Including the new Marking tools further down.</p>
+    </div>
+
+    <div class="bento">
+      <article class="card c-results reveal" data-spotlight>
+        <div class="card-text">
+          <span class="card-k">Measure</span>
+          <h3>Areas, lengths and counts</h3>
+          <p>Trace an outline for square metres, click along a run for metres, tap items to count them. Every result lands in the panel with its own colour, and the totals update as you go.</p>
+          <div class="pill-row"><span class="pill p-area">m²</span><span class="pill p-length">m</span><span class="pill p-count">pcs</span></div>
         </div>
+        <div class="card-shot">
+          <img src="assets/img/panel-results.webp" width="418" height="1132" loading="lazy" data-lightbox="assets/img/panel-results.webp" data-caption="Measurement results: three areas in Hull, a count in Items and a length in Equipment, each group with its own summary." alt="Measurement results panel with Hull, Items and Equipment groups, group summaries and totals of 18.91 m², 9.80 m and 2 pcs." />
+        </div>
+      </article>
+
+      <article class="card c-multi reveal d1" data-spotlight>
+        <span class="card-k">Multiple Areas</span>
+        <h3>Several shapes, one measurement</h3>
+        <p>Pick a few separate areas and keep them together as one result. Press <kbd>S</kbd> and start clicking.</p>
+        <div class="card-shot shot-crop"><img src="assets/img/dock-tooltip.webp" width="766" height="968" loading="lazy" data-lightbox="assets/img/dock-tooltip.webp" data-caption="Every tool in the dock has a shortcut. Multiple Areas is S." alt="Tool dock with the Multiple Areas tooltip and its S shortcut." /></div>
+      </article>
+
+      <article class="card c-groups reveal d2" data-spotlight>
+        <span class="card-k">Groups</span>
+        <h3>Subtotals that sort themselves out</h3>
+        <p>Hull parts in one group, equipment in another. Each group sums itself and the grand total sits at the bottom.</p>
+        <div class="mini-groups" aria-hidden="true">
+          <div class="mg"><span>Hull</span><b>18.91 m²</b></div>
+          <div class="mg"><span>Items</span><b class="c-count">2 pcs</b></div>
+          <div class="mg"><span>Equipment</span><b class="c-length">9.80 m</b></div>
+        </div>
+      </article>
+
+      <article class="card c-subtract reveal" data-spotlight>
+        <span class="card-k">Subtract</span>
+        <h3>Cut out what doesn't count</h3>
+        <p>Mark doors, openings or columns and they come off the total on their own.</p>
+        <svg class="mini-subtract" viewBox="0 0 220 110" aria-hidden="true">
+          <rect x="10" y="10" width="200" height="90" rx="3" class="ms-room" />
+          <rect x="80" y="40" width="44" height="60" class="ms-cut" />
+          <rect x="150" y="26" width="38" height="28" class="ms-cut" />
+          <text x="18" y="30" class="ms-t">48.6 m² − 7.2 m²</text>
+        </svg>
+      </article>
+
+      <article class="card c-memory reveal d1" data-spotlight>
+        <span class="card-k">Memory</span>
+        <h3>Measure once, reuse it</h3>
+        <p>Save a set of measurements and load it again later, or drop it onto the next drawing of the same kind.</p>
+        <div class="card-shot"><img src="assets/img/panel-memory.webp" width="660" height="474" loading="lazy" data-lightbox="assets/img/panel-memory.webp" data-caption="Memory: save the current selection and reload it on another drawing." alt="Memory panel with a saved set called Sailing Boat M, 3 areas and 1 segment, and buttons to save the current selection." /></div>
+      </article>
+
+      <article class="card c-scan reveal d2" data-spotlight>
+        <span class="card-k">PDF to DXF</span>
+        <h3>Bad scans are fine</h3>
+        <p>Photographed or scanned plans become real lines you can snap to. Three quality settings to match what you've got.</p>
+        <svg class="mini-scan" viewBox="0 0 220 90" aria-hidden="true">
+          <g class="sc-raw"><path d="M12 72 L48 20 L86 72 Z" /><path d="M20 72 H80" /></g>
+          <path class="sc-arrow" d="M100 46 H128 M120 38 L128 46 L120 54" />
+          <g class="sc-clean"><path d="M146 72 L180 20 L214 72 Z" /><circle cx="146" cy="72" r="3"/><circle cx="180" cy="20" r="3"/><circle cx="214" cy="72" r="3"/></g>
+        </svg>
+      </article>
+
+      <article class="card c-file reveal" data-spotlight>
+        <span class="card-k">.cpb</span>
         <h3>One project, one file</h3>
-        <p>Drawing, measurements, groups, settings — all kept in a single <span class="mono" style="color:var(--blue-light);font-size:12px">.cpb</span> file. Reopen tomorrow and pick up where you left off.</p>
-      </div>
-      <div class="feat reveal delay-1">
-        <div class="ico">
-          <svg viewBox="0 0 24 24"><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/><circle cx="12" cy="12" r="9"/></svg>
+        <p>Drawing, measurements and groups in a single file. Email it, archive it, open it next month and carry on.</p>
+      </article>
+
+      <article class="card c-export reveal d1" data-spotlight>
+        <span class="card-k">Export</span>
+        <h3>Out to Excel, PDF or paper</h3>
+        <p>Copy results into a spreadsheet, export a PDF, save a DXF or print straight from the app.</p>
+        <div class="pill-row"><span class="pill">Excel</span><span class="pill">PDF</span><span class="pill">DXF</span><span class="pill">Print</span></div>
+      </article>
+
+    </div>
+    <div class="feature-marking" id="marking">
+      <div class="marking-glow" aria-hidden="true"></div>
+  <div class="fm-inner">
+    <div class="section-head">
+      <span class="eyebrow reveal"><span class="new-badge">New</span>Marking</span>
+      <h3 class="section-h2 reveal d1">Colour the drawing in <b>before anything gets built.</b></h3>
+      <p class="section-sub reveal d2">
+        Marking lets you fill parts of a drawing with colour, add text and place images on it.
+        See how the hull looks in red instead of blue, show a client which rooms get new flooring,
+        or print the plan with your own logo in the corner.
+      </p>
+    </div>
+
+    <div class="marking-grid">
+      <div class="compare reveal" id="compare" role="slider" tabindex="0" aria-label="Drag to compare the drawing before and after Marking" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+        <img class="compare-img" src="assets/img/compare-after.webp" srcset="assets/img/compare-after-820.webp 820w, assets/img/compare-after.webp 1580w" sizes="(max-width: 980px) 92vw, 640px" width="1580" height="1520" loading="lazy" alt="The sailboat drawing after Marking: red hull, sand coloured cabin, white sails, blue bottom and a COMPROBARE name on the bow." draggable="false" />
+        <div class="compare-before" id="compare-before">
+          <img class="compare-img" src="assets/img/compare-before.webp" srcset="assets/img/compare-before-820.webp 820w, assets/img/compare-before.webp 1580w" sizes="(max-width: 980px) 92vw, 640px" width="1580" height="1520" loading="lazy" alt="The same sailboat drawing as imported: plain white lines on a dark background." draggable="false" />
         </div>
-        <h3>Polish + English</h3>
-        <p>Full localisation in both languages. Switch the entire interface from Settings — menus, dialogs, status bar, exports.</p>
-      </div>
-      <div class="feat reveal delay-2">
-        <div class="ico">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+        <span class="compare-tag tag-before">As imported</span>
+        <span class="compare-tag tag-after">With Marking</span>
+        <div class="compare-handle" id="compare-handle" aria-hidden="true">
+          <span class="compare-knob">
+            <svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg>
+          </span>
         </div>
-        <h3>Light or dark theme</h3>
-        <p>Match the time of day and your monitor. Both themes share the same exact contrast ratios for measurements and dimension lines.</p>
+        <span class="compare-help" aria-hidden="true">Drag me</span>
       </div>
-      <div class="feat reveal delay-3">
-        <div class="ico">
-          <svg viewBox="0 0 24 24"><path d="M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9c2.5 0 4.7 1 6.4 2.6"/><path d="M21 3v6h-6"/></svg>
-        </div>
-        <h3>Export &amp; print</h3>
-        <p>Copy measurements to Excel, export the marked-up drawing as PDF, save as DXF, or print directly with measurement results inline.</p>
+
+      <div class="marking-side">
+        <ul class="mk-list">
+          <li class="mk reveal d1">
+            <span class="mk-ico" style="--c:#ac3827"><svg viewBox="0 0 24 24"><path d="M4 20h16M7 16l9-9 3 3-9 9H7z"/></svg></span>
+            <div><h3>Fill any shape</h3><p>Pick a colour and an opacity, then click inside an outline. Change your mind as often as you like, every fill stays editable.</p></div>
+          </li>
+          <li class="mk reveal d2">
+            <span class="mk-ico" style="--c:#3471a3"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="5"/><circle cx="16" cy="12" r="5"/></svg></span>
+            <div><h3>See the change before you make it</h3><p>Try a different colour for the hull, the roof or the facade and look at it next to the original. Cheaper than finding out after the paint is ordered.</p></div>
+          </li>
+          <li class="mk reveal d3">
+            <span class="mk-ico" style="--c:#b2976f"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/></svg></span>
+            <div><h3>Add your own branding</h3><p>Place a PNG or a PDF on the drawing, like your company logo, a stamp or a product image. Every print goes out looking like yours.</p></div>
+          </li>
+          <li class="mk reveal d4">
+            <span class="mk-ico" style="--c:#4fc3f7"><svg viewBox="0 0 24 24"><path d="M5 5h14M12 5v14M9 19h6"/></svg></span>
+            <div><h3>Text where you need it</h3><p>Room names, notes, colour codes. Write straight on the drawing instead of in a separate email.</p></div>
+          </li>
+          <li class="mk reveal d4">
+            <span class="mk-ico" style="--c:#4ade80"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-6a2 2 0 012-2h14a2 2 0 012 2v6a1 1 0 01-1 1h-2"/><path d="M6 14h12v7H6z"/></svg></span>
+            <div><h3>Print it or export a PDF</h3><p>Markings sit on their own layer. Hide them with one click to get the clean drawing back, or send the coloured version to the client.</p></div>
+          </li>
+        </ul>
       </div>
+    </div>
+
+    <figure class="marking-full reveal">
+      <img src="assets/img/app-marking.webp" srcset="assets/img/app-marking-960.webp 960w, assets/img/app-marking-1400.webp 1400w, assets/img/app-marking.webp 2764w" sizes="(max-width: 1240px) 92vw, 1176px" width="2764" height="1926" loading="lazy"
+           data-lightbox="assets/img/app-marking.webp" data-caption="The Marking tab with Print and Export PDF, the marking dock on the left and the Markings panel on the right."
+           alt="Comprobare Marking tab: the sailboat coloured in with red hull, sand cabin, white sails and blue bottom, with Print and Export PDF buttons." />
+      <figcaption><span class="mono">Marking tab</span> Print and Export PDF sit right in the ribbon.</figcaption>
+    </figure>
+  </div>
     </div>
   </div>
 </section>
 
-<!-- ── HOW IT WORKS ─────────────────────────────── -->
-<section class="block" id="how">
+<!-- ── HOW IT WORKS (scrollytelling) ────────────── -->
+<section class="block how" id="how">
   <div class="wrap">
-    <span class="eyebrow">How it works</span>
-    <h2 class="section-h2">From file to figure in <b>under five minutes.</b></h2>
-    <p class="section-sub">A four-step flow that's the same whether you're measuring a 2-bedroom apartment or a 90-metre ship hull.</p>
+    <div class="section-head">
+      <span class="eyebrow reveal">How it works</span>
+      <h2 class="section-h2 reveal d1">From a PDF to a number <b>you can quote.</b></h2>
+      <p class="section-sub reveal d2">The same five steps whether it's a two-room flat or a forty-metre hull.</p>
+    </div>
 
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">01<span>STEP</span></div>
-        <div class="step-body">
-          <h3>Open or convert your drawing</h3>
-          <p>Drop in a DXF or PDF. For paper plans, "Convert PDF" turns a scan into a clean, measurable drawing — pick low / med / high to match scan quality.</p>
-          <div class="meta">DXF · PDF · scanned PDF · CPB</div>
+    <div class="story" id="story">
+      <div class="story-steps">
+        <div class="story-step active" data-img="main" data-focus="0,0.035,0.42,0.075">
+          <span class="ss-num">01</span>
+          <h3>Open the drawing</h3>
+          <p>Import a PDF or open a DXF. Scanned plans go through PDF to DXF first, so you get real lines to snap to instead of pixels.</p>
+          <span class="ss-meta mono">PDF · DXF · scanned PDF · CPB</span>
         </div>
-        <div class="step-vis">
-          <img src="assets/screen-step1-open.png" loading="lazy" alt="Comprobare with a body plan drawing loaded and ready to measure" />
-        </div>
-      </div>
-
-      <div class="step reveal">
-        <div class="step-num">02<span>STEP</span></div>
-        <div class="step-body">
+        <div class="story-step" data-img="main" data-focus="0.70,0.93,0.30,0.07">
+          <span class="ss-num">02</span>
           <h3>Set the scale once</h3>
-          <p>Calibrate from a known dimension on the drawing, or let Detect Scale set it automatically. Comprobare locks the scale into the project — every measurement after that is in real units.</p>
-          <div class="meta">Calibrate · Detect Scale</div>
+          <p>Calibrate against one dimension you know, or let Detect Scale read it off the drawing. After that every number is in real units.</p>
+          <span class="ss-meta mono">Calibrate · Detect Scale</span>
         </div>
-        <div class="step-vis contain">
-          <img src="assets/screen-step2-scale.png" loading="lazy" alt="The Scale tab with Calibrate and Detect Scale buttons" />
+        <div class="story-step" data-img="main" data-focus="0.09,0.24,0.35,0.42">
+          <span class="ss-num">03</span>
+          <h3>Click around the parts you need</h3>
+          <p>Trace areas, lay down lengths, count items. Each one gets a colour and a label right on the drawing.</p>
+          <span class="ss-meta mono">Area · Multiple Areas · Length · Count</span>
+        </div>
+        <div class="story-step" data-img="main" data-focus="0.755,0.105,0.245,0.81">
+          <span class="ss-num">04</span>
+          <h3>Group it, save it, reuse it</h3>
+          <p>Results stack up on the right in groups with subtotals. Save the set to Memory and keep the whole job in one .cpb file.</p>
+          <span class="ss-meta mono">Groups · Memory · .cpb</span>
+        </div>
+        <div class="story-step" data-img="marking" data-focus="0.1,0.1,0.68,0.85">
+          <span class="ss-num">05</span>
+          <h3>Mark it up and send it</h3>
+          <p>Colour the drawing in, add your logo and a few notes, then print it or export a PDF for the client.</p>
+          <span class="ss-meta mono">Marking · Print · Export PDF</span>
         </div>
       </div>
 
-      <div class="step reveal">
-        <div class="step-num">03<span>STEP</span></div>
-        <div class="step-body">
-          <h3>Click around the parts you care about</h3>
-          <p>Trace areas with a polygon, lay down lengths point to point, mark off zones to subtract. Each measurement appears in the right-hand panel with its area, length, factor and total — colour-coded.</p>
-          <div class="meta">Areas · lengths · factors · subtractions</div>
+      <div class="story-sticky">
+        <div class="story-frame" id="story-frame">
+          <div class="story-bar" aria-hidden="true"><i></i><i></i><i></i><span class="mono">COMPROBARE.cpb</span></div>
+          <div class="story-view">
+            <div class="story-layer" data-layer="main">
+              <img src="assets/img/app-main.webp" srcset="assets/img/app-main-960.webp 960w, assets/img/app-main.webp 1768w" sizes="(max-width: 980px) 92vw, 640px" width="1768" height="1353" loading="lazy" alt="" />
+              <span class="story-focus" aria-hidden="true"></span>
+            </div>
+            <div class="story-layer" data-layer="marking">
+              <img src="assets/img/app-marking.webp" srcset="assets/img/app-marking-960.webp 960w, assets/img/app-marking-1400.webp 1400w, assets/img/app-marking.webp 2764w" sizes="(max-width: 980px) 92vw, 640px" width="2764" height="1926" loading="lazy" alt="" />
+              <span class="story-focus" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="story-progress" aria-hidden="true"><span id="story-progress"></span></div>
         </div>
-        <div class="step-vis">
-          <img src="assets/screen-step3-measure.png" loading="lazy" alt="Four measured areas listed in the measurement results panel with a running total of 29.52 square metres" style="object-position: top right;" />
-        </div>
-      </div>
-
-      <div class="step reveal">
-        <div class="step-num">04<span>STEP</span></div>
-        <div class="step-body">
-          <h3>Save, reuse, export</h3>
-          <p>Save the whole project as <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span>. Save snapshots of measurement sets to the memory panel — reopen them next time, or load them onto a similar drawing in seconds.</p>
-          <div class="meta">.cpb · snapshots · copy · export PDF</div>
-        </div>
-        <div class="step-vis">
-          <img src="assets/screen-step4-memory.png" loading="lazy" alt="The measurements memory panel with a saved measurement set ready to reload" />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── WHO IT'S FOR ─────────────────────────────── -->
-<section class="block who" id="who">
-  <div class="wrap">
-    <span class="eyebrow">Who it's for</span>
-    <h2 class="section-h2">Anyone who pulls quantities <b>off a drawing.</b></h2>
-    <p class="section-sub">If "expensive drafting software" or "a week of training" was the only thing standing between you and accurate numbers — that's exactly the gap Comprobare fills.</p>
-
-    <div class="who-grid">
-      <div class="who-cell reveal delay-1">
-        <div class="role">Estimators</div>
-        <div class="desc">Bid faster with exact takeoff quantities, not ruler-on-paper guesses.</div>
-      </div>
-      <div class="who-cell reveal delay-2">
-        <div class="role">Contractors</div>
-        <div class="desc">Order the right amount of material the first time. Re-measure changes in seconds.</div>
-      </div>
-      <div class="who-cell reveal delay-3">
-        <div class="role">Architects</div>
-        <div class="desc">Verify areas on plans without opening a full drafting seat just to count m².</div>
-      </div>
-      <div class="who-cell reveal delay-4">
-        <div class="role">Engineers</div>
-        <div class="desc">Quantify pipes, cables and routes directly from technical drawings.</div>
-      </div>
-      <div class="who-cell reveal delay-5">
-        <div class="role">Surveyors</div>
-        <div class="desc">Digitise scanned plans and pull lengths and areas from any source drawing.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── WHY ──────────────────────────────────────── -->
-<section class="block" id="why">
-  <div class="wrap">
-    <span class="eyebrow">Why people use it</span>
-    <h2 class="section-h2">Four things, every time.</h2>
-
-    <div class="why-grid">
-      <div class="why reveal delay-1">
-        <div class="big">01 — FAST</div>
-        <h3><b>Minutes,</b><br/>not hours.</h3>
-        <p>Measure a typical floor plan in the time it takes to make coffee. No menu-diving, no learning curve.</p>
-      </div>
-      <div class="why reveal delay-2">
-        <div class="big">02 — ACCURATE</div>
-        <h3><b>Exact</b> numbers, every time.</h3>
-        <p>Snap-to-line, fixed scale, sub-millimetre precision. No manual ruler errors, no rounding to the nearest brick.</p>
-      </div>
-      <div class="why reveal delay-3">
-        <div class="big">03 — SIMPLE</div>
-        <h3>Clear buttons, <b>no drafting software.</b></h3>
-        <p>If you can use a web browser, you can use Comprobare. The whole interface is a labelled ribbon — that's it.</p>
-      </div>
-      <div class="why reveal delay-4">
-        <div class="big">04 — KEPT TOGETHER</div>
-        <h3>One file, <b>one place.</b></h3>
-        <p>Drawing, measurements, groups, settings — all in one <span class="mono" style="color:var(--blue-light);">.cpb</span>. Email it, archive it, reopen it.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ── PRICING ──────────────────────────────────── -->
-<section class="block" id="pricing" style="background:var(--neutral-800);">
+<section class="block pricing" id="pricing">
   <div class="wrap">
-    <span class="eyebrow">Pricing</span>
-    <h2 class="section-h2">Simple pricing. <b>Yours to keep.</b></h2>
-    <p class="section-sub">No tiers, no per-feature paywalls. Test it free for 7 days, then license per station — once for life, or yearly.</p>
+    <div class="section-head center">
+      <span class="eyebrow reveal">Pricing</span>
+      <h2 class="section-h2 reveal d1">Pay once, <b>or pay yearly.</b></h2>
+      <p class="section-sub reveal d2">Every license has every feature. Try the full app free for 7 days first, no card needed.</p>
+    </div>
 
     <div class="pricing-grid">
-      <div class="price-card">
+      <div class="price-card reveal d1" data-spotlight>
         <div class="price-label">Free trial</div>
-        <div class="price-line">
-          <span class="price-num">7</span>
-          <span class="price-unit">days, free</span>
-        </div>
-        <p class="price-body">Use the full app free for 7 days to try it on your own drawings. No credit card required.</p>
-        <a class="btn btn-ghost" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download">
-          Download latest version
+        <div class="price-line"><span class="price-num">7</span><span class="price-unit">days, free</span></div>
+        <p class="price-body">The full app on your own drawings. If it doesn't save you time, you've lost nothing.</p>
+        <ul class="price-list">
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Every feature, including Marking</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>No card needed</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" data-download>
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-download"></use></svg>Download
         </a>
       </div>
 
-      <div class="price-card">
-        <div class="price-label">Standard</div>
-        <div class="price-line">
-          <span class="price-num">€100</span>
-          <span class="price-unit">/ year / station</span>
-        </div>
-        <p class="price-body">One workstation, one year, every feature. Free updates for the duration of your license.</p>
+      <div class="price-card reveal d2" data-spotlight>
+        <div class="price-label">Annual</div>
+        <div class="price-line"><span class="price-num">€100</span><span class="price-unit">per year, per computer</span></div>
+        <p class="price-body">One computer, one year, all features and every update in that time.</p>
         <ul class="price-list">
-          <li><span class="tick">✓</span>All measurement tools</li>
-          <li><span class="tick">✓</span>PDF / DXF / scan import</li>
-          <li><span class="tick">✓</span>Export to PDF, copy to Excel</li>
-          <li><span class="tick">✓</span>Free version updates for 12 months</li>
-          <li><span class="tick">✓</span><a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email support</a></li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>All measuring and Marking tools</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>PDF, DXF and scan import</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Export to PDF, copy to Excel</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Updates for 12 months</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg><a href="mailto:comprobareapp@gmail.com">Email support</a></li>
         </ul>
         <a class="btn btn-ghost payu-purchase-button" href="order.html">
-          Buy License
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+          Buy annual license<svg width="15" height="15" aria-hidden="true"><use href="#i-arrow"></use></svg>
         </a>
-        <p class="price-note">Secure payment · card or transfer via PayU · VAT invoice</p>
-        <p class="purchase-terms-link">
-          <a href="purchase-terms.html">Purchase terms</a>
-        </p>
+        <p class="price-note">Card or bank transfer via PayU. VAT invoice included. <a href="purchase-terms.html">Purchase terms</a></p>
       </div>
 
-      <div class="price-card featured">
+      <div class="price-card featured reveal d3" data-spotlight>
+        <span class="beam" aria-hidden="true"></span>
         <div class="price-badge">Best value</div>
         <div class="price-label">Lifetime</div>
-        <div class="price-line">
-          <span class="price-num">€249</span>
-          <span class="price-unit">/ station · one-time</span>
-        </div>
-        <p class="price-body">One workstation, forever. Pay once — no annual renewals. Every feature included.</p>
-        <p class="price-save">Less than 3 years of the annual plan.</p>
+        <div class="price-line"><span class="price-num">€<span data-count="249" data-duration="1200">249</span></span><span class="price-unit">per computer, one-time</span></div>
+        <p class="price-body">One computer, for good. No renewals, no reminders, every feature.</p>
+        <p class="price-save">Costs less than two and a half years of the annual plan.</p>
         <ul class="price-list">
-          <li><span class="tick">✓</span>All measurement tools</li>
-          <li><span class="tick">✓</span>PDF / DXF / scan import</li>
-          <li><span class="tick">✓</span>Export to PDF, copy to Excel</li>
-          <li><span class="tick">✓</span>Lifetime license — no renewals</li>
-          <li><span class="tick">✓</span><a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email support</a></li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>All measuring and Marking tools</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>PDF, DXF and scan import</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Export to PDF, copy to Excel</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Never expires</li>
+          <li><svg aria-hidden="true"><use href="#i-check"></use></svg><a href="mailto:comprobareapp@gmail.com">Email support</a></li>
         </ul>
         <a class="btn btn-primary payu-purchase-button-lifetime" href="order.html?plan=lifetime">
-          Buy Lifetime
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+          Buy lifetime license<svg width="15" height="15" aria-hidden="true"><use href="#i-arrow"></use></svg>
         </a>
-        <p class="price-note">Secure payment · card or transfer via PayU · VAT invoice</p>
-        <p class="purchase-terms-link">
-          <a href="purchase-terms.html">Purchase terms</a>
-        </p>
+        <p class="price-note">Card or bank transfer via PayU. VAT invoice included. <a href="purchase-terms.html">Purchase terms</a></p>
       </div>
     </div>
 
-    <p class="pricing-quote" style="font-size:13px;color:var(--neutral-400);margin-top:28px;text-align:center;">
-      Need a quote for a team or company-wide license? <a href="mailto:comprobareapp@gmail.com" style="color:var(--blue-light);">Email us</a>
-    </p>
+    <p class="pricing-quote reveal">Need licenses for a whole team? <a href="mailto:comprobareapp@gmail.com">Email us</a> and we'll put a quote together.</p>
   </div>
 </section>
 
 <!-- ── FAQ ──────────────────────────────────────── -->
 <section class="block" id="faq">
-  <div class="wrap">
-    <span class="eyebrow">FAQ</span>
-    <h2 class="section-h2">Before you buy — <b>the usual questions.</b></h2>
+  <div class="wrap faq-wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal">FAQ</span>
+      <h2 class="section-h2 reveal d1">Questions people ask <b>before buying.</b></h2>
+      <p class="section-sub reveal d2">Something missing? <a class="link" href="mailto:comprobareapp@gmail.com">Write to us</a>, a real person answers.</p>
+    </div>
 
     <div class="faq-list">
       <details class="reveal">
-        <summary>What counts as a station?<span class="faq-mark">+</span></summary>
-        <p>One license activates Comprobare on one Windows computer (workstation). If you need it on two machines, you need two licenses — or <a href="mailto:comprobareapp@gmail.com">email us</a> for a team quote.</p>
+        <summary>What counts as a station?<span class="faq-mark" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>One license activates Comprobare on one Windows computer. If you need it on two machines you need two licenses, or <a href="mailto:comprobareapp@gmail.com">email us</a> for a team quote.</p></div>
       </details>
       <details class="reveal">
-        <summary>Can I move my license to a new computer?<span class="faq-mark">+</span></summary>
-        <p>Yes. <a href="mailto:comprobareapp@gmail.com">Email us</a> from your license email and we'll reset the activation so you can activate the same key on the new machine.</p>
+        <summary>Can I move my license to a new computer?<span class="faq-mark" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Yes. <a href="mailto:comprobareapp@gmail.com">Email us</a> from the address you bought the license with and we'll reset the activation, so the same key works on the new machine.</p></div>
       </details>
       <details class="reveal">
-        <summary>What happens when the annual license expires?<span class="faq-mark">+</span></summary>
-        <p>The app asks for a valid license again — nothing is deleted. Your <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span> project files stay on your disk, and a renewed key picks up right where you left off. The lifetime license never expires.</p>
+        <summary>What happens when the annual license runs out?<span class="faq-mark" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>The app asks for a valid license again. Nothing is deleted: your <span class="mono">.cpb</span> project files stay on your disk, and a renewed key picks up right where you left off. The lifetime license never runs out.</p></div>
       </details>
       <details class="reveal">
-        <summary>How do I get the license key?<span class="faq-mark">+</span></summary>
-        <p>You pay securely via PayU (card or bank transfer). Your license key and a VAT invoice are emailed to you right after the payment is confirmed.</p>
+        <summary>How do I get the license key?<span class="faq-mark" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>You pay through PayU by card or bank transfer. As soon as the payment is confirmed we email you the license key and a VAT invoice.</p></div>
       </details>
       <details class="reveal">
-        <summary>Do I get an invoice?<span class="faq-mark">+</span></summary>
-        <p>Yes — every purchase comes with a full VAT invoice issued to the billing details you enter on the order form.</p>
+        <summary>Do I get an invoice?<span class="faq-mark" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Yes. Every purchase comes with a full VAT invoice made out to the billing details you enter on the order form.</p></div>
       </details>
       <details class="reveal">
-        <summary>Can I get a refund?<span class="faq-mark">+</span></summary>
-        <p>The 7-day trial is the full application, so you can test everything before paying. Because of that, activated licenses are non-refundable except where required by law or when a technical issue we can't resolve prevents use — details in the <a href="purchase-terms.html">purchase terms</a>.</p>
+        <summary>Is Marking included in my license?<span class="faq-mark" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Yes. There are no add-ons or paid tiers. Marking is part of the app for everyone with a license, and it's in the free trial too.</p></div>
+      </details>
+      <details class="reveal">
+        <summary>Can I get a refund?<span class="faq-mark" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>The 7-day trial is the full application, so you can test everything before paying. Because of that, activated licenses can't be refunded, except where the law requires it or when a technical problem we can't fix stops you using the app. The details are in the <a href="purchase-terms.html">purchase terms</a>.</p></div>
       </details>
     </div>
   </div>
 </section>
 
 <!-- ── CTA ──────────────────────────────────────── -->
-<section id="download">
-  <div class="cta">
-    <div class="cta-inner">
-      <div>
+<section class="cta-wrap" id="download">
+  <div class="wrap">
+    <div class="cta reveal" data-spotlight>
+      <div class="cta-grid" aria-hidden="true"></div>
+      <div class="cta-inner">
         <h2>Ready to measure <b>your first plan?</b></h2>
-        <p>Download for Windows · 7-day free trial · no credit card · full features.</p>
-      </div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a class="btn btn-white" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download">
-          Download latest version
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v14m0 0l-6-6m6 6l6-6M5 21h14"/></svg>
-        </a>
-        <a class="btn" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.25);" href="#pricing">
-          See pricing
-        </a>
+        <p>Download for Windows and use every feature free for 7 days. No card, no sales call.</p>
+        <div class="cta-actions">
+          <a class="btn btn-white btn-lg" href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" data-download>
+            <svg width="16" height="16" aria-hidden="true"><use href="#i-download"></use></svg>Download free trial
+          </a>
+          <a class="btn btn-glass btn-lg" href="#pricing">See pricing</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
+</main>
 
 <!-- ── FOOTER ───────────────────────────────────── -->
-<footer>
+<footer class="site-foot">
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <a class="nav-logo" href="#top">
-          <svg class="logo-icon-svg" aria-hidden="true"><use href="#cmp-mark"></use></svg>
+        <a class="nav-logo" href="#top" aria-label="Comprobare home">
+          <svg aria-hidden="true"><use href="#cmp-mark"></use></svg>
           <span class="wordmark">com<b>pro</b>bare</span>
         </a>
+        <p>Measuring and marking software for plans and technical drawings. Made in Poland, for Windows.</p>
       </div>
       <div class="foot-col">
         <h4>Product</h4>
-        <a href="#what">What it does</a>
-        <a href="#how">How it works</a>
+        <a href="#try">Try it</a>
         <a href="#features">Features</a>
         <a href="#pricing">Pricing</a>
-        <a href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download">Download</a>
+        <a href="https://europe-central2-comprobare-ce8a1.cloudfunctions.net/download" data-download>Download</a>
       </div>
       <div class="foot-col">
         <h4>Contact</h4>
-        <a href="mailto:comprobareapp@gmail.com">Email us</a>
+        <a href="mailto:comprobareapp@gmail.com">comprobareapp@gmail.com</a>
+        <a href="#faq">FAQ</a>
       </div>
       <div class="foot-col">
         <h4>Legal</h4>
         <a href="privacy.html">Privacy policy</a>
-        <a href="license.html">License</a>
+        <a href="license.html">License agreement</a>
         <a href="purchase-terms.html">Purchase terms</a>
       </div>
     </div>
-
-    <div class="dim-line" style="margin: 20px 0 24px;"></div>
-
+    <div class="dim-line"></div>
     <div class="foot-bottom">
       <span>© 2026 comprobare</span>
-      <div class="lang">
-        <button type="button" data-lang="en" class="active">EN</button>
-        <button type="button" data-lang="pl">PL</button>
-      </div>
-      <span>made for Windows · DXF · PDF · CPB</span>
+      <span>Windows 10 and 11 · PDF · DXF · CPB</span>
     </div>
   </div>
 </footer>
 
-<script>
-(function(){
-  var translations = {
-    en: {
-      title: 'comprobare - measure plans and drawings, fast',
-      description: 'Comprobare is a desktop tool that helps you measure plans and drawings quickly and accurately. Areas, lengths, scanned plans - one file, one place.',
-      nav: ['What it does', 'How it works', 'Pricing', "Who it's for", 'Download'],
-      hero: {
-        eyebrow: 'Desktop measurement tool for Windows',
-        h1: 'Measure plans <span class="accent">and drawings</span><br/>quickly. <b>Accurately.</b>',
-        lede: 'Pull exact areas and lengths off any architectural or technical drawing - digital, scanned, even bad-quality PDFs. No expensive drafting software. Nothing to learn.',
-        primary: 'Download latest version',
-        ghost: 'See how it works',
-        meta: ['7-day free trial', 'Windows 10 / 11', 'EN · PL']
-      },
-      strip: {
-        label: 'Built for',
-        pills: ['Estimators', 'Contractors', 'Architects', 'Engineers', 'Surveyors'],
-        code: 'DXF · PDF · CPB'
-      },
-      what: {
-        eyebrow: 'What it does',
-        h2: 'Three things, done well — <b>areas, lengths, scans.</b>',
-        sub: 'Open a drawing, set the scale, click around the parts you care about. Comprobare tracks every measurement with units, factors, and group totals so you do not have to keep notes on the side.',
-        cards: [
-          {
-            num: '01 / AREAS',
-            title: 'Measure <b>areas</b>',
-            body: 'Rooms, floors, walls, plots of land — anything with an outline. Trace the perimeter and the area is calculated instantly, with optional height and multiplier factors.',
-            label: 'AREA'
-          },
-          {
-            num: '02 / LENGTHS',
-            title: 'Measure <b>lengths</b>',
-            body: 'Pipes, cables, edges, perimeters, distances. Click point to point, or follow a polyline. Totals add up across whatever segments you have drawn.',
-            label: 'LENGTH'
-          },
-          {
-            num: '03 / SCANS',
-            title: 'Convert <b>scans & bad PDFs</b>',
-            body: 'Photographed paper plans, scanned documents, low-quality PDFs — all become measurable drawings. Three quality settings to match what you have got.',
-            label: 'QUALITY',
-            range: 'low · med · high',
-            extra: ''
-          }
-        ],
-        showcase: [
-          'Areas — one total',
-          'Lengths — one total',
-          'Named groups',
-          'COMPROBARE.cpb · 1:1 · unit mm → m'
-        ]
-      },
-      features: {
-        eyebrow: 'Everything you need',
-        h2: 'Built for real takeoff work, <b>not demos.</b>',
-        sub: 'The features estimators actually ask for, surfaced as plain buttons — no drafting experience required.',
-        cards: [
-          ['Subtract zones automatically', 'Mark off doorways, columns, openings, or any zone you do not want counted — they are subtracted from the totals automatically.'],
-          ['Group measurements', 'Combine related items — "all windows on floor 1", "all pipes in basement" — into a single named group with one total.'],
-          ['One project, one file', 'Drawing, measurements, groups, settings — all kept in a single .cpb file. Reopen tomorrow and pick up where you left off.'],
-          ['Polish + English', 'Full localisation in both languages. Switch the entire interface from Settings — menus, dialogs, status bar, exports.'],
-          ['Light or dark theme', 'Match the time of day and your monitor. Both themes share the same exact contrast ratios for measurements and dimension lines.'],
-          ['Export & print', 'Copy measurements to Excel, export the marked-up drawing as PDF, save as DXF, or print directly with measurement results inline.']
-        ]
-      },
-      how: {
-        eyebrow: 'How it works',
-        h2: 'From file to figure in <b>under five minutes.</b>',
-        sub: 'A four-step flow that is the same whether you are measuring a 2-bedroom apartment or a 90-metre ship hull.',
-        steps: [
-          ['01', 'Open or convert your drawing', 'Drop in a DXF or PDF. For paper plans, "Convert PDF" turns a scan into a clean, measurable drawing — pick low / med / high to match scan quality.', 'DXF · PDF · scanned PDF · CPB'],
-          ['02', 'Set the scale once', 'Calibrate from a known dimension on the drawing, or let Detect Scale set it automatically. Comprobare locks the scale into the project — every measurement after that is in real units.', 'Calibrate · Detect Scale'],
-          ['03', 'Click around the parts you care about', 'Trace areas with a polygon, lay down lengths point to point, mark off zones to subtract. Each measurement appears in the right-hand panel with its area, length, factor and total — colour-coded.', 'Areas · lengths · factors · subtractions'],
-          ['04', 'Save, reuse, export', 'Save the whole project as .cpb. Save snapshots of measurement sets to the memory panel — reopen them next time, or load them onto a similar drawing in seconds.', '.cpb · snapshots · copy · export PDF']
-        ]
-      },
-      who: {
-        eyebrow: "Who it's for",
-        h2: 'Anyone who pulls quantities <b>off a drawing.</b>',
-        sub: 'If "expensive drafting software" or "a week of training" was the only thing standing between you and accurate numbers — that is exactly the gap Comprobare fills.',
-        roles: [
-          ['Estimators', 'Bid faster with exact takeoff quantities, not ruler-on-paper guesses.'],
-          ['Contractors', 'Order the right amount of material the first time. Re-measure changes in seconds.'],
-          ['Architects', 'Verify areas on plans without opening a full drafting seat just to count m².'],
-          ['Engineers', 'Quantify pipes, cables and routes directly from technical drawings.'],
-          ['Surveyors', 'Digitise scanned plans and pull lengths and areas from any source drawing.']
-        ]
-      },
-      why: {
-        eyebrow: 'Why people use it',
-        h2: 'Four things, every time.',
-        cards: [
-          ['01 — FAST', '<b>Minutes,</b><br/>not hours.', 'Measure a typical floor plan in the time it takes to make coffee. No menu-diving, no learning curve.'],
-          ['02 — ACCURATE', '<b>Exact</b> numbers, every time.', 'Snap-to-line, fixed scale, sub-millimetre precision. No manual ruler errors, no rounding to the nearest brick.'],
-          ['03 — SIMPLE', 'Clear buttons, <b>no drafting software.</b>', 'If you can use a web browser, you can use Comprobare. The whole interface is a labelled ribbon — that is it.'],
-          ['04 — KEPT TOGETHER', 'One file, <b>one place.</b>', 'Drawing, measurements, groups, settings — all in one .cpb. Email it, archive it, reopen it.']
-        ]
-      },
-      pricing: {
-        eyebrow: 'Pricing',
-        h2: 'Simple pricing. <b>Yours to keep.</b>',
-        sub: 'No tiers, no per-feature paywalls. Test it free for 7 days, then license per station — once for life, or yearly.',
-        trial: 'Free trial',
-        trialPrice: '7',
-        trialUnit: 'days, free',
-        trialBody: 'Use the full app free for 7 days to try it on your own drawings. No credit card required.',
-        trialBtn: 'Download latest version',
-        licenseLabel: 'Standard',
-        licensePrice: '€100',
-        licenseUnit: '/ year / station',
-        licenseBody: 'One workstation, one year, every feature. Free updates for the duration of your license.',
-        licenseItems: ['All measurement tools', 'PDF / DXF / scan import', 'Export to PDF, copy to Excel', 'Free version updates for 12 months', 'Email support'],
-        payuBtn: 'Buy License',
-        payuNote: 'Secure payment · card or transfer via PayU · VAT invoice',
-        lifetimeBadge: 'Best value',
-        lifetimeLabel: 'Lifetime',
-        lifetimePrice: '€249',
-        lifetimeUnit: '/ station · one-time',
-        lifetimeBody: 'One workstation, forever. Pay once — no annual renewals. Every feature included.',
-        lifetimeSave: 'Less than 3 years of the annual plan.',
-        lifetimeItems: ['All measurement tools', 'PDF / DXF / scan import', 'Export to PDF, copy to Excel', 'Lifetime license — no renewals', 'Email support'],
-        lifetimeBtn: 'Buy Lifetime',
-        quote: 'Need a quote for a team or company-wide license?',
-        quoteLink: 'Email us',
-        quoteMail: 'comprobareapp@gmail.com',
-        terms: 'Purchase terms'
-      },
-      faq: {
-        eyebrow: 'FAQ',
-        h2: 'Before you buy — <b>the usual questions.</b>',
-        items: [
-          ['What counts as a station?',
-           'One license activates Comprobare on one Windows computer (workstation). If you need it on two machines, you need two licenses — or <a href="mailto:comprobareapp@gmail.com">email us</a> for a team quote.'],
-          ['Can I move my license to a new computer?',
-           "Yes. <a href=\"mailto:comprobareapp@gmail.com\">Email us</a> from your license email and we'll reset the activation so you can activate the same key on the new machine."],
-          ['What happens when the annual license expires?',
-           'The app asks for a valid license again — nothing is deleted. Your <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span> project files stay on your disk, and a renewed key picks up right where you left off. The lifetime license never expires.'],
-          ['How do I get the license key?',
-           'You pay securely via PayU (card or bank transfer). Your license key and a VAT invoice are emailed to you right after the payment is confirmed.'],
-          ['Do I get an invoice?',
-           'Yes — every purchase comes with a full VAT invoice issued to the billing details you enter on the order form.'],
-          ['Can I get a refund?',
-           "The 7-day trial is the full application, so you can test everything before paying. Because of that, activated licenses are non-refundable except where required by law or when a technical issue we can't resolve prevents use — details in the <a href=\"purchase-terms.html\">purchase terms</a>."]
-        ]
-      },
-      cta: {
-        h2: 'Ready to measure <b>your first plan?</b>',
-        p: 'Download for Windows · 7-day free trial · no credit card · full features.',
-        primary: 'Download latest version',
-        secondary: 'See pricing'
-      },
-      footer: {
-        product: 'Product',
-        contact: 'Contact',
-        legal: 'Legal',
-        links: ['What it does', 'How it works', 'Features', 'Pricing', 'Download'],
-        lang: 'made for Windows · DXF · PDF · CPB'
-      }
-    },
-    pl: {
-      title: 'comprobare - mierz plany i rysunki szybko',
-      description: 'Comprobare to narzędzie desktopowe do szybkiego i dokładnego mierzenia planów i rysunków. Powierzchnie, długości, skany - jeden plik, jedno miejsce.',
-      nav: ['Co robi', 'Jak działa', 'Cennik', 'Dla kogo', 'Pobierz'],
-      hero: {
-        eyebrow: 'Narzędzie desktopowe do pomiarów dla Windows',
-        h1: 'Mierz plany <span class="accent">i rysunki</span><br/>szybko. <b>Dokładnie.</b>',
-        lede: 'Wyciągaj dokładne powierzchnie i długości z dowolnego rysunku technicznego lub architektonicznego - cyfrowego, zeskanowanego, nawet słabej jakości PDF. Bez drogich narzędzi projektowych. Bez nauki.',
-        primary: 'Pobierz najnowszą wersję',
-        ghost: 'Zobacz, jak działa',
-        meta: ['7-dniowy darmowy okres próbny', 'Windows 10 / 11', 'EN · PL']
-      },
-      strip: {
-        label: 'Dla',
-        pills: ['Kosztorysantów', 'Wykonawców', 'Architektów', 'Inżynierów', 'Geodetów'],
-        code: 'DXF · PDF · CPB'
-      },
-      what: {
-        eyebrow: 'Co robi',
-        h2: 'Trzy rzeczy, ale dobrze — <b>powierzchnie, długości, skany.</b>',
-        sub: 'Otwórz rysunek, ustaw skalę, klikaj elementy, które chcesz policzyć. Comprobare śledzi każdy pomiar z jednostkami, współczynnikami i sumami grup, więc nie musisz prowadzić notatek obok.',
-        cards: [
-          {
-            num: '01 / POWIERZCHNIE',
-            title: 'Mierz <b>powierzchnie</b>',
-            body: 'Pomieszczenia, podłogi, ściany, działki — wszystko z obrysem. Obrysujesz kształt, a powierzchnia liczy się od razu, z opcjonalną wysokością i współczynnikami.',
-            label: 'POW.'
-          },
-          {
-            num: '02 / DŁUGOŚCI',
-            title: 'Mierz <b>długości</b>',
-            body: 'Rury, kable, krawędzie, obwody, odległości. Klikaj punkt po punkcie albo prowadź łamaną. Suma zlicza wszystkie narysowane odcinki.',
-            label: 'DŁUGOŚĆ'
-          },
-          {
-            num: '03 / SKANY',
-            title: 'Konwertuj <b>skany i słabe PDF-y</b>',
-            body: 'Fotografowane plany papierowe, skany i niskiej jakości PDF-y stają się mierzalnymi rysunkami. Trzy ustawienia jakości dopasowane do źródła.',
-            label: 'JAKOŚĆ',
-            range: 'niski · średni · wysoki',
-            extra: ''
-          }
-        ],
-        showcase: [
-          'Powierzchnie — jedna suma',
-          'Długości — jedna suma',
-          'Nazwane grupy',
-          'COMPROBARE.cpb · 1:1 · jednostka mm → m'
-        ]
-      },
-      features: {
-        eyebrow: 'Wszystko, czego potrzebujesz',
-        h2: 'Stworzone do prawdziwej pracy, <b>nie do dem.</b>',
-        sub: 'Funkcje, o które naprawdę proszą kosztorysanci, pokazane jako zwykłe przyciski — bez znajomości specjalistycznego oprogramowania.',
-        cards: [
-          ['Automatyczne odejmowanie stref', 'Zaznacz drzwi, kolumny, otwory albo dowolny obszar, którego nie chcesz liczyć — zostanie odjęty od sumy automatycznie.'],
-          ['Grupowanie pomiarów', 'Łącz powiązane elementy — "wszystkie okna na 1. piętrze", "wszystkie rury w piwnicy" — w jedną nazwaną grupę z jedną sumą.'],
-          ['Jeden projekt, jeden plik', 'Rysunek, pomiary, grupy, ustawienia — wszystko w jednym pliku .cpb. Otwórz jutro i kontynuuj od tego samego miejsca.'],
-          ['Polski + angielski', 'Pełna lokalizacja w obu językach. Przełącz cały interfejs w Ustawieniach — menu, dialogi, pasek stanu i eksport.'],
-          ['Jasny lub ciemny motyw', 'Dopasuj wygląd do pory dnia i monitora. Oba motywy zachowują te same współczynniki kontrastu dla pomiarów i linii wymiarowych.'],
-          ['Eksport i druk', 'Kopiuj pomiary do Excela, eksportuj oznaczony rysunek do PDF, zapisuj jako DXF albo drukuj bezpośrednio z wynikami pomiarów.']
-        ]
-      },
-      how: {
-        eyebrow: 'Jak działa',
-        h2: 'Od pliku do wyniku w <b>mniej niż pięć minut.</b>',
-        sub: 'Ten sam czterostopniowy proces działa zarówno dla mieszkania 2-pokojowego, jak i 90-metrowego kadłuba statku.',
-        steps: [
-          ['01', 'Otwórz lub skonwertuj rysunek', 'Wczytaj DXF albo PDF. Dla planów papierowych "Konwertuj PDF" zamienia skan na czysty, mierzalny rysunek — wybierz niski / średni / wysoki poziom jakości.', 'DXF · PDF · zeskanowany PDF · CPB'],
-          ['02', 'Ustaw skalę tylko raz', 'Skalibruj na znanym wymiarze z rysunku albo pozwól, żeby automatyczne wykrywanie skali ustawiło ją za Ciebie. Comprobare zapisuje skalę w projekcie — każdy kolejny pomiar jest w rzeczywistych jednostkach.', 'Kalibracja · Wykryj skalę'],
-          ['03', 'Klikaj elementy, które chcesz policzyć', 'Obrysuj powierzchnie wielokątem, rysuj długości punkt po punkcie, zaznacz obszary do odjęcia. Każdy pomiar trafia do panelu po prawej z powierzchnią, długością, współczynnikiem i sumą — kolorystycznie oznaczony.', 'Powierzchnie · długości · współczynniki · odjęcia'],
-          ['04', 'Zapisz, użyj ponownie, wyeksportuj', 'Zapisz cały projekt jako .cpb. Zapisuj migawki zestawów pomiarów do panelu pamięci — otwórz je następnym razem albo naładuj na podobny rysunek w kilka sekund.', '.cpb · migawki · kopiuj · eksport PDF']
-        ]
-      },
-      who: {
-        eyebrow: 'Dla kogo',
-        h2: 'Dla każdego, kto wyciąga ilości <b>z rysunku.</b>',
-        sub: 'Jeśli "drogie oprogramowanie projektowe" albo "tydzień szkolenia" było jedyną przeszkodą między Tobą a dokładnymi liczbami — to właśnie tę lukę wypełnia Comprobare.',
-        roles: [
-          ['Kosztorysanci', 'Wygrywaj szybciej dzięki dokładnym ilościom, a nie zgadywaniu linijką na papierze.'],
-          ['Wykonawcy', 'Zamawiaj właściwą ilość materiału za pierwszym razem. Zmiany licz w kilka sekund.'],
-          ['Architekci', 'Weryfikuj powierzchnie bez uruchamiania pełnej licencji oprogramowania projektowego tylko po to, by policzyć m².'],
-          ['Inżynierowie', 'Obliczaj rury, kable i trasy bezpośrednio z rysunków technicznych.'],
-          ['Geodeci', 'Digitalizuj skany planów i licz długości oraz powierzchnie z dowolnego źródła.']
-        ]
-      },
-      why: {
-        eyebrow: 'Dlaczego ludzie tego używają',
-        h2: 'Zawsze te same cztery rzeczy.',
-        cards: [
-          ['01 — SZYBKO', '<b>Minuty,</b><br/>nie godziny.', 'Zmierz typowy rzut w czasie potrzebnym na kawę. Bez przeklikiwania menu i bez stromego progu wejścia.'],
-          ['02 — DOKŁADNIE', '<b>Dokładne</b> liczby za każdym razem.', 'Przyciąganie do linii, stała skala, precyzja poniżej milimetra. Bez błędów ręcznej linijki i bez zaokrągleń.'],
-          ['03 — PROSTO', 'Czytelne przyciski, <b>bez specjalistycznego oprogramowania.</b>', 'Jeśli umiesz używać przeglądarki, umiesz używać Comprobare. Cały interfejs to podpisana wstążka — tyle.'],
-          ['04 — W JEDNYM MIEJSCU', 'Jeden plik, <b>jedno miejsce.</b>', 'Rysunek, pomiary, grupy i ustawienia — wszystko w jednym pliku .cpb. Wyślij mailem, archiwizuj, otwieraj ponownie.']
-        ]
-      },
-      pricing: {
-        eyebrow: 'Cennik',
-        h2: 'Prosty cennik. <b>Na własność.</b>',
-        sub: 'Bez poziomów, bez paywalla per funkcja. Przetestuj za darmo przez 7 dni, potem licencja na stanowisko — na zawsze albo na rok.',
-        trial: 'Darmowy trial',
-        trialPrice: '7',
-        trialUnit: 'dni, bez opłat',
-        trialBody: 'Używaj pełnej aplikacji za darmo przez 7 dni i sprawdź ją na własnych rysunkach. Bez karty płatniczej.',
-        trialBtn: 'Pobierz najnowszą wersję',
-        licenseLabel: 'Standard',
-        licensePrice: '€100',
-        licenseUnit: '/ rok / stanowisko',
-        licenseBody: 'Jedno stanowisko, jeden rok, wszystkie funkcje. Darmowe aktualizacje przez cały okres licencji.',
-        licenseItems: ['Wszystkie narzędzia pomiarowe', 'Import PDF / DXF / skanów', 'Eksport do PDF, kopiowanie do Excela', 'Darmowe aktualizacje przez 12 miesięcy', 'Wsparcie mailowe'],
-        payuBtn: 'Kup licencję',
-        payuNote: 'Bezpieczna płatność · karta lub przelew przez PayU · faktura VAT',
-        lifetimeBadge: 'Najlepszy wybór',
-        lifetimeLabel: 'Dożywotnia',
-        lifetimePrice: '€249',
-        lifetimeUnit: '/ stanowisko · jednorazowo',
-        lifetimeBody: 'Jedno stanowisko, na zawsze. Płacisz raz — bez corocznych odnowień. Wszystkie funkcje w zestawie.',
-        lifetimeSave: 'Mniej niż 3 lata planu rocznego.',
-        lifetimeItems: ['Wszystkie narzędzia pomiarowe', 'Import PDF / DXF / skanów', 'Eksport do PDF, kopiowanie do Excela', 'Licencja dożywotnia — bez odnawiania', 'Wsparcie mailowe'],
-        lifetimeBtn: 'Kup dożywotnią',
-        quote: 'Potrzebujesz oferty dla zespołu lub firmy?',
-        quoteLink: 'Napisz do nas',
-        quoteMail: 'comprobareapp@gmail.com',
-        terms: 'Warunki zakupu'
-      },
-      faq: {
-        eyebrow: 'FAQ',
-        h2: 'Zanim kupisz — <b>najczęstsze pytania.</b>',
-        items: [
-          ['Co oznacza „stanowisko"?',
-           'Jedna licencja aktywuje Comprobare na jednym komputerze z Windows (stanowisku). Jeśli potrzebujesz programu na dwóch maszynach, potrzebujesz dwóch licencji — albo <a href="mailto:comprobareapp@gmail.com">napisz do nas</a> po wycenę dla zespołu.'],
-          ['Czy mogę przenieść licencję na nowy komputer?',
-           'Tak. <a href="mailto:comprobareapp@gmail.com">Napisz do nas</a> z adresu e-mail licencji, a zresetujemy aktywację, żebyś mógł aktywować ten sam klucz na nowej maszynie.'],
-          ['Co się dzieje, gdy licencja roczna wygaśnie?',
-           'Aplikacja ponownie prosi o ważną licencję — nic nie jest usuwane. Twoje pliki projektów <span class="mono" style="color:var(--blue-light);font-size:13px">.cpb</span> zostają na dysku, a po odnowieniu klucza wracasz dokładnie tam, gdzie skończyłeś. Licencja dożywotnia nigdy nie wygasa.'],
-          ['Jak otrzymam klucz licencji?',
-           'Płacisz bezpiecznie przez PayU (karta lub przelew). Klucz licencji i faktura VAT przychodzą e-mailem zaraz po potwierdzeniu płatności.'],
-          ['Czy dostanę fakturę?',
-           'Tak — do każdego zakupu wystawiamy pełną fakturę VAT na dane rozliczeniowe podane w formularzu zamówienia.'],
-          ['Czy mogę otrzymać zwrot?',
-           'Trial na 7 dni to pełna aplikacja, więc możesz wszystko sprawdzić przed zakupem. Dlatego aktywowane licencje są bezzwrotne, chyba że wymagają tego przepisy albo problem techniczny, którego nie umiemy rozwiązać, uniemożliwia korzystanie — szczegóły w <a href="purchase-terms.html">warunkach zakupu</a>.']
-        ]
-      },
-      cta: {
-        h2: 'Gotowy, żeby zmierzyć <b>pierwszy plan?</b>',
-        p: 'Pobierz dla Windows · 7-dniowy trial · bez karty płatniczej · pełna funkcjonalność.',
-        primary: 'Pobierz najnowszą wersję',
-        secondary: 'Zobacz cennik'
-      },
-      footer: {
-        product: 'Produkt',
-        contact: 'Kontakt',
-        legal: 'Formalne',
-        links: ['Co robi', 'Jak działa', 'Funkcje', 'Cennik', 'Pobierz'],
-        lang: 'dla Windows · DXF · PDF · CPB'
-      }
-    }
-  };
-
-  function setLanguage(lang) {
-    var t = translations[lang] || translations.en;
-    function setHtml(sel, value) {
-      var el = document.querySelector(sel);
-      if (el) el.innerHTML = value;
-    }
-    function setText(sel, value) {
-      var el = document.querySelector(sel);
-      if (el) el.textContent = value;
-    }
-    document.documentElement.lang = lang;
-    document.title = t.title;
-    var desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute('content', t.description);
-
-    var navLinks = document.querySelectorAll('nav .nav-links > a');
-    if (navLinks[0]) navLinks[0].textContent = t.nav[0];
-    if (navLinks[1]) navLinks[1].textContent = t.nav[1];
-    if (navLinks[2]) navLinks[2].textContent = t.nav[2];
-    if (navLinks[3]) navLinks[3].textContent = t.nav[3];
-    if (navLinks[4]) navLinks[4].textContent = t.nav[4];
-
-    var heroEyebrow = document.querySelector('.hero-eyebrow');
-    if (heroEyebrow) heroEyebrow.textContent = t.hero.eyebrow;
-    var heroH1 = document.querySelector('.hero h1');
-    if (heroH1) heroH1.innerHTML = t.hero.h1;
-    var heroLede = document.querySelector('.hero-lede');
-    if (heroLede) heroLede.textContent = t.hero.lede;
-    var heroBtns = document.querySelectorAll('.hero-actions .btn');
-    if (heroBtns[0]) heroBtns[0].childNodes[0].nodeValue = t.hero.primary;
-    if (heroBtns[1]) heroBtns[1].textContent = t.hero.ghost;
-    var heroMeta = document.querySelector('.hero-meta');
-    if (heroMeta) heroMeta.innerHTML = '<span><span class="dot"></span>' + t.hero.meta[0] + '</span><span>' + t.hero.meta[1] + '</span><span>' + t.hero.meta[2] + '</span>';
-
-    var stripLabel = document.querySelector('.strip .label');
-    if (stripLabel) stripLabel.textContent = t.strip.label;
-    var stripPills = document.querySelectorAll('.strip-pills span');
-    stripPills.forEach(function(el, i){ if (t.strip.pills[i]) el.textContent = t.strip.pills[i]; });
-    var stripCode = document.querySelector('.strip .label[style*="font-family"]');
-    if (stripCode) stripCode.textContent = t.strip.code;
-
-    setText('#what .eyebrow', t.what.eyebrow);
-    setHtml('#what .section-h2', t.what.h2);
-    setText('#what .section-sub', t.what.sub);
-    var whatCells = document.querySelectorAll('#what .what-cell');
-    whatCells.forEach(function(cell, i){
-      var card = t.what.cards[i];
-      if (!card) return;
-      var num = cell.querySelector('.num');
-      var h3 = cell.querySelector('h3');
-      var p = cell.querySelector('p');
-      var lbl = cell.querySelector('.lbl');
-      var extra = cell.querySelector('p span[style*="color:var(--blue-light)"]');
-      if (num) num.textContent = card.num;
-      if (h3) h3.innerHTML = card.title;
-      if (p) {
-        p.childNodes[0].nodeValue = card.body + ' ';
-        if (extra) extra.textContent = card.extra || '';
-      }
-      if (lbl) lbl.textContent = card.label;
-      var val = cell.querySelector('.val');
-      if (val && i === 2) val.childNodes[0].nodeValue = card.range + ' ';
-    });
-    var showcase = document.querySelector('#what .showcase-cap');
-    if (showcase) {
-      var sLeft = showcase.querySelectorAll('.stat .l');
-      if (sLeft[0]) sLeft[0].textContent = t.what.showcase[0];
-      if (sLeft[1]) sLeft[1].textContent = t.what.showcase[1];
-      if (sLeft[2]) sLeft[2].textContent = t.what.showcase[2];
-      var right = showcase.querySelector('.right');
-      if (right) right.textContent = t.what.showcase[3];
-    }
-
-    setText('#features .eyebrow', t.features.eyebrow);
-    setHtml('#features .section-h2', t.features.h2);
-    setText('#features .section-sub', t.features.sub);
-    document.querySelectorAll('#features .feat').forEach(function(card, i){
-      var data = t.features.cards[i];
-      if (!data) return;
-      var h3 = card.querySelector('h3');
-      var p = card.querySelector('p');
-      if (h3) h3.textContent = data[0];
-      if (p) p.textContent = data[1];
-    });
-
-    setText('#how .eyebrow', t.how.eyebrow);
-    setHtml('#how .section-h2', t.how.h2);
-    setText('#how .section-sub', t.how.sub);
-    document.querySelectorAll('#how .step').forEach(function(step, i){
-      var data = t.how.steps[i];
-      if (!data) return;
-      var num = step.querySelector('.step-num');
-      var h3 = step.querySelector('.step-body h3');
-      var p = step.querySelector('.step-body p');
-      var meta = step.querySelector('.meta');
-      if (num) num.innerHTML = data[0] + '<span>STEP</span>';
-      if (h3) h3.textContent = data[1];
-      if (p) p.textContent = data[2];
-      if (meta) meta.textContent = data[3];
-    });
-
-    setText('#who .eyebrow', t.who.eyebrow);
-    setHtml('#who .section-h2', t.who.h2);
-    setText('#who .section-sub', t.who.sub);
-    document.querySelectorAll('#who .who-cell').forEach(function(cell, i){
-      var data = t.who.roles[i];
-      if (!data) return;
-      var role = cell.querySelector('.role');
-      var desc = cell.querySelector('.desc');
-      if (role) role.textContent = data[0];
-      if (desc) desc.textContent = data[1];
-    });
-
-    setText('#why .eyebrow', t.why.eyebrow);
-    setHtml('#why .section-h2', t.why.h2);
-    document.querySelectorAll('#why .why').forEach(function(card, i){
-      var data = t.why.cards[i];
-      if (!data) return;
-      var big = card.querySelector('.big');
-      var h3 = card.querySelector('h3');
-      var p = card.querySelector('p');
-      if (big) big.textContent = data[0];
-      if (h3) h3.innerHTML = data[1];
-      if (p) p.textContent = data[2];
-    });
-
-    var pricingEyebrow = document.querySelector('#pricing .eyebrow');
-    if (pricingEyebrow) pricingEyebrow.textContent = t.pricing.eyebrow;
-    var pricingH2 = document.querySelector('#pricing .section-h2');
-    if (pricingH2) pricingH2.innerHTML = t.pricing.h2;
-    var pricingSub = document.querySelector('#pricing .section-sub');
-    if (pricingSub) pricingSub.textContent = t.pricing.sub;
-
-    var priceCards = document.querySelectorAll('#pricing .price-card');
-    function setPriceCard(card, d) {
-      if (!card) return;
-      var label = card.querySelector('.price-label');
-      var num = card.querySelector('.price-num');
-      var unit = card.querySelector('.price-unit');
-      var body = card.querySelector('.price-body');
-      if (label && d.label) label.textContent = d.label;
-      if (num && d.price) num.textContent = d.price;
-      if (unit && d.unit) unit.textContent = d.unit;
-      if (body && d.body) body.textContent = d.body;
-      var badge = card.querySelector('.price-badge');
-      if (badge && d.badge) badge.textContent = d.badge;
-      var save = card.querySelector('.price-save');
-      if (save && d.save) save.textContent = d.save;
-      if (d.items) {
-        card.querySelectorAll('.price-list li').forEach(function(li, i){
-          if (!d.items[i]) return;
-          var liLink = li.querySelector('a');
-          if (liLink) liLink.textContent = d.items[i];
-          else li.childNodes[1].nodeValue = d.items[i];
-        });
-      }
-      var note = card.querySelector('.price-note');
-      if (note && d.note) note.textContent = d.note;
-      var termsLink = card.querySelector('.purchase-terms-link a');
-      if (termsLink && d.terms) termsLink.textContent = d.terms;
-    }
-    setPriceCard(priceCards[0], {
-      label: t.pricing.trial, price: t.pricing.trialPrice, unit: t.pricing.trialUnit, body: t.pricing.trialBody
-    });
-    if (priceCards[0]) priceCards[0].querySelector('.btn').childNodes[0].nodeValue = t.pricing.trialBtn;
-    setPriceCard(priceCards[1], {
-      label: t.pricing.licenseLabel, price: t.pricing.licensePrice, unit: t.pricing.licenseUnit,
-      body: t.pricing.licenseBody, items: t.pricing.licenseItems, note: t.pricing.payuNote, terms: t.pricing.terms
-    });
-    if (priceCards[1]) {
-      var payuButton = priceCards[1].querySelector('.payu-purchase-button');
-      if (payuButton) {
-        payuButton.childNodes[0].nodeValue = t.pricing.payuBtn;
-        payuButton.href = 'order.html';
-        payuButton.removeAttribute('target');
-        payuButton.removeAttribute('rel');
-      }
-    }
-    setPriceCard(priceCards[2], {
-      badge: t.pricing.lifetimeBadge, label: t.pricing.lifetimeLabel, price: t.pricing.lifetimePrice,
-      unit: t.pricing.lifetimeUnit, body: t.pricing.lifetimeBody, save: t.pricing.lifetimeSave,
-      items: t.pricing.lifetimeItems, note: t.pricing.payuNote, terms: t.pricing.terms
-    });
-    if (priceCards[2]) {
-      var lifetimeButton = priceCards[2].querySelector('.payu-purchase-button-lifetime');
-      if (lifetimeButton) {
-        lifetimeButton.childNodes[0].nodeValue = t.pricing.lifetimeBtn;
-        lifetimeButton.href = 'order.html?plan=lifetime';
-        lifetimeButton.removeAttribute('target');
-        lifetimeButton.removeAttribute('rel');
-      }
-    }
-    var pricingQuote = document.querySelector('#pricing .pricing-quote');
-    if (pricingQuote) pricingQuote.innerHTML = t.pricing.quote + ' <a href="mailto:' + t.pricing.quoteMail + '" style="color:var(--blue-light);">' + t.pricing.quoteLink + '</a>';
-
-    setText('#faq .eyebrow', t.faq.eyebrow);
-    setHtml('#faq .section-h2', t.faq.h2);
-    document.querySelectorAll('#faq details').forEach(function(d, i){
-      var item = t.faq.items[i];
-      if (!item) return;
-      var summary = d.querySelector('summary');
-      var p = d.querySelector('p');
-      if (summary) summary.childNodes[0].nodeValue = item[0];
-      if (p) p.innerHTML = item[1];
-    });
-
-    var ctaH2 = document.querySelector('.cta h2');
-    if (ctaH2) ctaH2.innerHTML = t.cta.h2;
-    var ctaP = document.querySelector('.cta p');
-    if (ctaP) ctaP.textContent = t.cta.p;
-    var ctaBtns = document.querySelectorAll('.cta .btn');
-    if (ctaBtns[0]) ctaBtns[0].childNodes[0].nodeValue = t.cta.primary;
-    if (ctaBtns[1]) ctaBtns[1].textContent = t.cta.secondary;
-
-    var footerCols = document.querySelectorAll('.foot-col');
-    if (footerCols[0]) {
-      footerCols[0].querySelector('h4').textContent = t.footer.product;
-      footerCols[0].querySelectorAll('a').forEach(function(a, i){ if (t.footer.links[i]) a.textContent = t.footer.links[i]; });
-    }
-    if (footerCols[1]) footerCols[1].querySelector('h4').textContent = t.footer.contact;
-    if (footerCols[2]) footerCols[2].querySelector('h4').textContent = t.footer.legal;
-    if (footerCols[2]) footerCols[2].querySelectorAll('a')[0].textContent = lang === 'pl' ? 'Polityka prywatności' : 'Privacy policy';
-    if (footerCols[2]) footerCols[2].querySelectorAll('a')[1].textContent = lang === 'pl' ? 'Regulamin' : 'License';
-    if (footerCols[2]) footerCols[2].querySelectorAll('a')[2].textContent = lang === 'pl' ? 'Warunki zakupu' : 'Purchase terms';
-
-    var footerBottom = document.querySelector('.foot-bottom');
-    if (footerBottom) {
-      var bottomBits = footerBottom.querySelectorAll('span');
-      if (bottomBits[1]) bottomBits[1].textContent = t.footer.lang;
-    }
-
-    document.querySelectorAll('[data-lang]').forEach(function(btn){
-      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-      btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === lang ? 'true' : 'false');
-    });
-    localStorage.setItem('comprobare-lang', lang);
-  }
-
-  var savedLang = localStorage.getItem('comprobare-lang') || (navigator.language && navigator.language.toLowerCase().indexOf('pl') === 0 ? 'pl' : 'en');
-  document.querySelectorAll('[data-lang]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      setLanguage(btn.getAttribute('data-lang'));
-    });
-  });
-  setLanguage(savedLang);
-
-  // Reveal-on-scroll observer
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if (en.isIntersecting) {
-        en.target.classList.add('visible');
-        if (en.target.classList.contains('count')) startCount(en.target);
-        en.target.querySelectorAll && en.target.querySelectorAll('.count').forEach(startCount);
-        io.unobserve(en.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
-
-  document.querySelectorAll('.reveal, .count').forEach(function(el){ io.observe(el); });
-
-  // Count-up
-  var started = new WeakSet();
-  function startCount(el){
-    if (started.has(el)) return;
-    started.add(el);
-    var target = parseFloat(el.getAttribute('data-count'));
-    var dec = parseInt(el.getAttribute('data-decimals') || '0', 10);
-    if (isNaN(target)) return;
-    var dur = 1400, t0 = performance.now();
-    function tick(now){
-      var p = Math.min(1, (now - t0) / dur);
-      var eased = 1 - Math.pow(1 - p, 3);
-      var v = target * eased;
-      el.textContent = formatNum(v, dec);
-      if (p < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-  function formatNum(v, dec){
-    var s = v.toFixed(dec);
-    var parts = s.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '\u202F');
-    return parts.join('.');
-  }
-
-  // Nav shadow on scroll
-  var nav = document.querySelector('nav');
-  window.addEventListener('scroll', function(){
-    if (window.scrollY > 8) nav.style.boxShadow = '0 8px 24px rgba(0,0,0,0.35)';
-    else nav.style.boxShadow = 'none';
-  }, { passive: true });
-
-  // Mobile menu
-  var burger = document.getElementById('nav-burger');
-  var navLinks = document.getElementById('nav-links');
-  if (burger && navLinks) {
-    burger.addEventListener('click', function(){
-      var open = navLinks.classList.toggle('open');
-      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    navLinks.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        navLinks.classList.remove('open');
-        burger.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
-})();
-</script>
-
-<!-- Cookie consent -->
-<div id="cookie-notice" role="dialog" aria-label="Cookie consent" style="position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;background:#16181b;border-top:1px solid #2a2d31;box-shadow:0 -4px 24px rgba(0,0,0,.35);font-family:'DM Sans','Segoe UI',Arial,sans-serif">
-  <div style="max-width:1000px;margin:0 auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;justify-content:space-between">
-    <p id="cookie-notice-text" style="margin:0;color:#d4d8dd;font-size:13.5px;line-height:1.55;flex:1 1 360px"></p>
-    <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;flex-wrap:wrap">
-      <a id="cookie-notice-link" href="privacy.html" style="color:#4fc3f7;font-size:13px;text-decoration:none;white-space:nowrap;margin-right:4px"></a>
-      <button id="cookie-reject" type="button" style="font-family:inherit;font-size:13.5px;font-weight:500;color:#d4d8dd;background:transparent;border:1px solid #2e3135;border-radius:8px;padding:9px 16px;cursor:pointer;white-space:nowrap"></button>
-      <button id="cookie-accept" type="button" style="font-family:inherit;font-size:13.5px;font-weight:600;color:#fff;background:#0078d4;border:0;border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap"></button>
-    </div>
-  </div>
-</div>
-<script>
-(function(){
-  var KEY='comprobare-cookie-consent';
-  function applyConsent(v){
-    window.comprobareConsent=v;
-    // Non-essential cookies (e.g. analytics) must load ONLY when v==='accepted'.
-    // TODO: when adding analytics, gate its loader here: if(v==='accepted'){ loadAnalytics(); }
-  }
-  var saved=null; try{saved=localStorage.getItem(KEY);}catch(e){}
-  if(saved){ applyConsent(saved); return; }
-  var lang='en';
-  try { var l=localStorage.getItem('comprobare-lang'); if(l){lang=l;} else if(navigator.language&&navigator.language.toLowerCase().indexOf('pl')===0){lang='pl';} } catch(e){}
-  var T={
-    en:{text:'We use cookies — essential ones to run the site and, with your consent, analytics cookies to measure traffic and improve it.',link:'Privacy policy',accept:'Accept all',reject:'Reject non-essential'},
-    pl:{text:'Używamy plików cookie — niezbędnych do działania serwisu oraz, za Twoją zgodą, analitycznych do pomiaru ruchu i ulepszania strony.',link:'Polityka prywatności',accept:'Akceptuję wszystkie',reject:'Tylko niezbędne'}
-  };
-  var t=T[lang]||T.en, bar=document.getElementById('cookie-notice');
-  document.getElementById('cookie-notice-text').textContent=t.text;
-  document.getElementById('cookie-notice-link').textContent=t.link;
-  var a=document.getElementById('cookie-accept'), r=document.getElementById('cookie-reject');
-  a.textContent=t.accept; r.textContent=t.reject;
-  bar.style.display='block';
-  function choose(v){ try{localStorage.setItem(KEY,v);}catch(e){} applyConsent(v); bar.style.display='none'; }
-  a.addEventListener('click',function(){choose('accepted');});
-  r.addEventListener('click',function(){choose('rejected');});
-})();
-</script>
+<script src="assets/js/site.js?v=1" defer></script>
+<script src="assets/js/home.js?v=1" defer></script>
 </body>
 </html>
-

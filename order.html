@@ -1,81 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>comprobare — order a license</title>
-<meta name="description" content="Order a Comprobare license. Enter the number of stations and your details — we send a proforma invoice with payment details by email." />
+<title>Order a license | Comprobare</title>
+<meta name="description" content="Order a Comprobare license. Choose the plan and number of computers, pay by card or bank transfer via PayU, and get your license key by email." />
 <meta name="robots" content="noindex" />
 <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/site.css?v=1" />
 <style>
-  :root {
-    --blue-primary: #0078d4;
-    --blue-deep:    #0056a3;
-    --blue-light:   #4fc3f7;
-    --neutral-900:  #0c0d0f;
-    --neutral-850:  #111214;
-    --neutral-800:  #1a1c1f;
-    --neutral-750:  #1f2125;
-    --neutral-700:  #252729;
-    --neutral-600:  #2e3135;
-    --neutral-500:  #5a5f66;
-    --neutral-400:  #7d838b;
-    --neutral-300:  #b0b5bc;
-    --neutral-200:  #d4d8dd;
-    --neutral-100:  #f0f2f4;
-    --white:        #ffffff;
-    --green-accent: #4ade80;
-    --red-accent:   #f87171;
-    --font-main: 'DM Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    --font-mono: 'DM Mono', 'Consolas', 'Courier New', monospace;
-    --max-w: 920px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font-main);
-    background: var(--neutral-850);
-    color: var(--white);
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; text-decoration: none; }
-  img, svg { display: block; max-width: 100%; }
-  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
-
-  /* nav */
-  nav {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(17, 18, 20, 0.82);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid #1e2023;
-  }
-  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; max-width: 1240px; margin: 0 auto; padding: 0 32px; }
-  .nav-logo { display: flex; align-items: center; gap: 12px; }
-  .nav-logo .wordmark { font-size: 20px; font-weight: 300; letter-spacing: -0.4px; color: var(--white); }
-  .nav-logo .wordmark b { font-weight: 600; color: var(--blue-primary); }
-  .logo-icon-svg { width: 32px; height: 32px; flex-shrink: 0; }
-  .nav-right { display: flex; align-items: center; gap: 18px; }
-  .back-link { font-size: 14px; color: var(--neutral-300); transition: color .15s; }
-  .back-link:hover { color: var(--white); }
-  .lang-switch { display: inline-flex; gap: 6px; padding: 4px; border: 1px solid #2e3135; border-radius: 999px; background: rgba(255,255,255,0.02); }
-  .lang-switch button { appearance: none; border: 0; background: transparent; color: var(--neutral-400); font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; padding: 7px 10px; border-radius: 999px; cursor: pointer; }
-  .lang-switch button.active { background: var(--blue-primary); color: var(--white); }
-
-  /* page header */
-  .page-head { padding: 56px 0 8px; }
-  .eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-light); font-weight: 400; display: inline-flex; align-items: center; gap: 12px; }
-  .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--blue-light); opacity: .6; }
-  h1 { font-weight: 300; letter-spacing: -1px; line-height: 1.08; font-size: clamp(30px, 4.5vw, 44px); margin: 16px 0 14px; }
-  h1 b { font-weight: 600; color: var(--blue-light); }
-  .lede { font-size: 16px; color: var(--neutral-300); max-width: 620px; }
-
+  .order-wrap { max-width: 980px; }
   /* layout */
-  .order-grid { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; margin: 40px 0 80px; }
+  .order-grid { display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; margin: 40px 0 100px; }
   @media (max-width: 820px) { .order-grid { grid-template-columns: 1fr; } }
 
   .card {
@@ -178,13 +117,12 @@
   .success .email-to { color: var(--white); font-weight: 500; }
   .success .sent-wrap.hidden { display: none; }
 
-  /* footer */
-  footer { background: var(--neutral-900); border-top: 1px solid #1e2023; padding: 30px 0; }
-  .foot-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--neutral-500); max-width: 1240px; margin: 0 auto; padding: 0 32px; }
-  .foot-inner a { color: var(--neutral-400); }
-  .foot-inner a:hover { color: var(--blue-light); }
-
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .card { background: linear-gradient(180deg, #16181c, #121418); }
+  .summary { top: calc(var(--nav-h) + 24px); }
+  .btn { width: 100%; justify-content: center; font-weight: 600; }
+  .trust { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; font-family: var(--font-mono); font-size: 11.5px; color: var(--neutral-400); }
+  .trust span { display: inline-flex; align-items: center; gap: 7px; }
+  .trust svg { width: 14px; height: 14px; stroke: var(--green-accent); fill: none; stroke-width: 2; }
 </style>
 </head>
 <body>
@@ -202,31 +140,33 @@
   </defs>
 </svg>
 
-<nav>
-  <div class="nav-inner">
-    <a class="nav-logo" href="index.html">
-      <svg class="logo-icon-svg" aria-hidden="true"><use href="#cmp-mark"></use></svg>
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap nav-inner">
+    <a class="nav-logo" href="index.html" aria-label="Comprobare home">
+      <svg aria-hidden="true"><use href="#cmp-mark"></use></svg>
       <span class="wordmark">com<b>pro</b>bare</span>
     </a>
-    <div class="nav-right">
-      <a class="back-link" href="index.html#pricing" data-i18n="back">← Back to pricing</a>
-      <div class="lang-switch" aria-label="Language switcher">
-        <button type="button" data-lang="en" class="active">EN</button>
-        <button type="button" data-lang="pl">PL</button>
-      </div>
-    </div>
+    <a class="nav-back" href="index.html#pricing">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5m0 0l6 6m-6-6l6-6"/></svg>
+      <span data-i18n="back">Back to pricing</span>
+    </a>
   </div>
 </nav>
 
 <header class="page-head">
-  <div class="wrap">
+  <div class="wrap order-wrap">
     <span class="eyebrow" data-i18n="eyebrow">Order a license</span>
     <h1 data-i18n-html="title">Buy a <b>Comprobare</b> license</h1>
-    <p class="lede" data-i18n="lede">Choose how many stations you need and enter your billing details. You'll pay securely via PayU (card or bank transfer) — your license keys and VAT invoice are emailed the moment the payment is confirmed.</p>
+    <p class="lede" data-i18n="lede"></p>
+    <div class="trust">
+      <span><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Secure payment via PayU</span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>VAT invoice included</span>
+      <span><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 7l8 6 8-6"/></svg>Key sent by email</span>
+    </div>
   </div>
 </header>
 
-<div class="wrap">
+<div class="wrap order-wrap">
   <div class="order-grid">
     <!-- form -->
     <div class="card">
@@ -327,10 +267,12 @@
   </div>
 </div>
 
-<footer>
-  <div class="foot-inner">
-    <span>© 2026 comprobare</span>
-    <span><a href="index.html">Home</a> · <a href="purchase-terms.html" data-i18n="footTerms">Purchase terms</a> · <a href="privacy.html" data-i18n="footPrivacy">Privacy policy</a></span>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-bottom">
+      <span>© 2026 comprobare</span>
+      <span><a href="index.html">Home</a> · <a href="purchase-terms.html">Purchase terms</a> · <a href="privacy.html">Privacy policy</a> · <a href="mailto:comprobareapp@gmail.com">comprobareapp@gmail.com</a></span>
+    </div>
   </div>
 </footer>
 
@@ -351,18 +293,18 @@
   // backend recomputes everything from the plan id we send.
   var PLAN_PRICES = { annual: 100, lifetime: 249 }; // EUR per license, incl. VAT
   var PLAN_PRODUCT = {
-    annual:   'Comprobare license — 1 station / 1 year',
-    lifetime: 'Comprobare license — 1 station / lifetime'
+    annual:   'Comprobare license, 1 station, 1 year',
+    lifetime: 'Comprobare license, 1 station, lifetime'
   };
   var VAT_RATE   = 0.23;
 
   var I18N = {
     en: {
-      docTitle: 'comprobare — order a license',
-      back: '← Back to pricing',
+      docTitle: 'Order a license | Comprobare',
+      back: 'Back to pricing',
       eyebrow: 'Order a license',
       title: 'Buy a <b>Comprobare</b> license',
-      lede: "Choose how many stations you need and enter your billing details. You'll pay securely via PayU (card or bank transfer) — your license keys and VAT invoice are emailed the moment the payment is confirmed.",
+      lede: 'Pick a plan, choose how many computers you need and enter your billing details. You pay securely through PayU by card or bank transfer, and your license keys and VAT invoice arrive by email as soon as the payment is confirmed.',
       formTitle: 'Your order',
       formSub: 'All fields marked with <span class="req" style="color:var(--blue-light)">*</span> are required.',
       legendPlan: 'License type',
@@ -400,7 +342,7 @@
       successInfo: 'Your license key(s) will be sent to your email <b>once the payment is credited to our account</b>. Bank transfers usually take 1–2 business days.',
       successBack: 'Back to homepage',
       pfNumber: '(no. <span class="proforma-no">{no}</span>) ',
-      payuReturnLine: 'Thank you — we\'re confirming your payment.',
+      payuReturnLine: 'Thank you. We\'re confirming your payment now.',
       payuReturnInfo: 'As soon as the payment is confirmed (usually within a minute), your license key(s) and VAT invoice are emailed to you. You can close this page.',
       footTerms: 'Purchase terms',
       footPrivacy: 'Privacy policy',
@@ -413,67 +355,10 @@
       errPayuCancelled: 'The payment was not completed. You can try again below.',
       mailSubject: 'Comprobare license order',
       mailIntro: 'I would like to order Comprobare licenses. Please send a proforma invoice.'
-    },
-    pl: {
-      docTitle: 'comprobare — zamów licencję',
-      back: '← Wróć do cennika',
-      eyebrow: 'Zamów licencję',
-      title: 'Kup licencję <b>Comprobare</b>',
-      lede: 'Wybierz liczbę stanowisk i podaj dane do faktury. Zapłacisz bezpiecznie przez PayU (karta lub przelew) — klucze licencyjne i fakturę VAT wyślemy e-mailem zaraz po potwierdzeniu płatności.',
-      formTitle: 'Twoje zamówienie',
-      formSub: 'Wszystkie pola oznaczone <span class="req" style="color:var(--blue-light)">*</span> są wymagane.',
-      legendPlan: 'Rodzaj licencji',
-      planAnnualName: '1 rok',
-      planAnnualPrice: '€100 / rok / stanowisko',
-      planAnnualDesc: 'Odnawiana co rok',
-      planLifetimeName: 'Dożywotnia',
-      planLifetimePrice: '€249 / stanowisko · jednorazowo',
-      planLifetimeDesc: 'Płacisz raz, używasz zawsze',
-      legendLicenses: 'Licencje',
-      qtyLabel: 'Liczba licencji (stanowisk) <span class="req">*</span>',
-      qtyHintAnnual: '1 licencja = 1 stanowisko, ważna przez 1 rok.',
-      qtyHintLifetime: '1 licencja = 1 stanowisko, ważna bezterminowo (bez odnawiania).',
-      legendBuyer: 'Dane nabywcy',
-      nameLabel: 'Firma / imię i nazwisko <span class="req">*</span>',
-      addressLabel: 'Adres do faktury <span class="req">*</span>',
-      vatLabel: 'NIP <span class="req">*</span>',
-      vatHint: 'Użyjemy go na fakturze. Same cyfry albo 2-literowy kod kraju i cyfry (np. PL1234567890).',
-      emailLabel: 'E-mail <span class="req">*</span>',
-      phoneLabel: 'Telefon kontaktowy <span class="req">*</span>',
-      submit: 'Zapłać teraz',
-      sending: 'Przekierowanie do płatności…',
-      legal: 'Zostaniesz przekierowany do PayU, aby bezpiecznie zapłacić kartą lub przelewem. Zakup podlega naszym <a href="purchase-terms.html">warunkom zakupu</a>.',
-      summaryTitle: 'Podsumowanie',
-      sumQty: 'Licencje',
-      sumNet: 'Netto',
-      sumVat: 'VAT 23%',
-      sumTotal: 'Razem (z VAT)',
-      sumPerUnitAnnual: '100,00 € / licencja · z 23% VAT',
-      sumPerUnitLifetime: '249,00 € / licencja · z 23% VAT',
-      sumNote1: '<b>Jak to działa:</b> płacisz bezpiecznie przez PayU (karta lub przelew) w EUR.',
-      sumNote2: 'Klucz(e) licencyjny oraz fakturę VAT wyślemy e-mailem zaraz po potwierdzeniu płatności.',
-      successTitle: 'Zamówienie przyjęte',
-      successLine: 'Faktura proforma {pf}jest w drodze na adres <span class="email-to">{email}</span>.',
-      successInfo: 'Klucze licencyjne wyślemy na Twój e-mail <b>po zaksięgowaniu wpłaty na naszym koncie</b>. Przelewy zwykle docierają w 1–2 dni robocze.',
-      successBack: 'Wróć na stronę główną',
-      pfNumber: '(nr <span class="proforma-no">{no}</span>) ',
-      payuReturnLine: 'Dziękujemy — potwierdzamy Twoją płatność.',
-      payuReturnInfo: 'Gdy tylko płatność zostanie potwierdzona (zwykle w ciągu minuty), wyślemy Ci e-mailem klucz(e) licencyjny i fakturę VAT. Możesz zamknąć tę stronę.',
-      footTerms: 'Warunki zakupu',
-      footPrivacy: 'Polityka prywatności',
-      errRequired: 'Uzupełnij wszystkie wymagane pola.',
-      errVat: 'NIP musi zawierać same cyfry albo 2-literowy kod kraju i cyfry (np. PL1234567890).',
-      errEmail: 'Podaj poprawny adres e-mail (musi zawierać @).',
-      errPhone: 'Numer telefonu może zawierać tylko cyfry, opcjonalnie z „+” na początku.',
-      errQty: 'Liczba licencji musi wynosić co najmniej 1.',
-      errSend: 'Coś poszło nie tak przy rozpoczęciu płatności. Spróbuj ponownie lub napisz na ' + SELLER_EMAIL + '.',
-      errPayuCancelled: 'Płatność nie została zakończona. Możesz spróbować ponownie poniżej.',
-      mailSubject: 'Zamówienie licencji Comprobare',
-      mailIntro: 'Chcę zamówić licencje Comprobare. Proszę o wystawienie faktury proforma.'
     }
   };
 
-  var lang = localStorage.getItem('comprobare-lang') || (navigator.language && navigator.language.toLowerCase().indexOf('pl') === 0 ? 'pl' : 'en');
+  var lang = 'en'; // the site is English-only
 
   function fmtEUR(v){
     var s = v.toFixed(2);
@@ -538,13 +423,6 @@
   document.getElementById('qty-plus').addEventListener('click', function(){ qtyInput.value = Math.min(999, getQty() + 1); recalc(); });
   document.querySelectorAll('input[name="plan"]').forEach(function(r){ r.addEventListener('change', recalc); });
 
-  document.querySelectorAll('[data-lang]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      lang = btn.getAttribute('data-lang');
-      localStorage.setItem('comprobare-lang', lang);
-      applyI18n();
-    });
-  });
 
   // ── submit ──────────────────────────────────────────────────────────────
   var form = document.getElementById('order-form');
@@ -595,13 +473,13 @@
     var t = I18N[lang];
     var body =
       t.mailIntro + '\n\n' +
-      '— ' + I18N[lang].sumQty + ': ' + p.quantity + '\n' +
-      '— ' + I18N[lang].nameLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.name + '\n' +
-      '— ' + I18N[lang].addressLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.address + '\n' +
-      '— ' + I18N[lang].vatLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.vatNumber + '\n' +
-      '— ' + I18N[lang].emailLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.email + '\n' +
-      '— ' + I18N[lang].phoneLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.phone + '\n' +
-      '— ' + I18N[lang].sumTotal + ': ' + fmtEUR(p.gross) + ' (net ' + fmtEUR(p.net) + ', VAT ' + fmtEUR(p.vat) + ')\n';
+      '- ' + I18N[lang].sumQty + ': ' + p.quantity + '\n' +
+      '- ' + I18N[lang].nameLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.name + '\n' +
+      '- ' + I18N[lang].addressLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.address + '\n' +
+      '- ' + I18N[lang].vatLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.vatNumber + '\n' +
+      '- ' + I18N[lang].emailLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.email + '\n' +
+      '- ' + I18N[lang].phoneLabel.replace(/<[^>]+>/g, '').trim() + ': ' + p.phone + '\n' +
+      '- ' + I18N[lang].sumTotal + ': ' + fmtEUR(p.gross) + ' (net ' + fmtEUR(p.net) + ', VAT ' + fmtEUR(p.vat) + ')\n';
     var url = 'mailto:' + SELLER_EMAIL +
       '?subject=' + encodeURIComponent(t.mailSubject) +
       '&body=' + encodeURIComponent(body);
@@ -661,7 +539,7 @@
     if (qs.get('payu') !== 'return') return;
     var t = I18N[lang];
     if (qs.get('error')) {
-      // Payment not completed — let them try again.
+      // Payment not completed, let them try again.
       showError(t.errPayuCancelled);
       return;
     }
@@ -685,43 +563,6 @@
   applyI18n();
 })();
 </script>
-<!-- Cookie consent -->
-<div id="cookie-notice" role="dialog" aria-label="Cookie consent" style="position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;background:#16181b;border-top:1px solid #2a2d31;box-shadow:0 -4px 24px rgba(0,0,0,.35);font-family:'DM Sans','Segoe UI',Arial,sans-serif">
-  <div style="max-width:1000px;margin:0 auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;justify-content:space-between">
-    <p id="cookie-notice-text" style="margin:0;color:#d4d8dd;font-size:13.5px;line-height:1.55;flex:1 1 360px"></p>
-    <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;flex-wrap:wrap">
-      <a id="cookie-notice-link" href="privacy.html" style="color:#4fc3f7;font-size:13px;text-decoration:none;white-space:nowrap;margin-right:4px"></a>
-      <button id="cookie-reject" type="button" style="font-family:inherit;font-size:13.5px;font-weight:500;color:#d4d8dd;background:transparent;border:1px solid #2e3135;border-radius:8px;padding:9px 16px;cursor:pointer;white-space:nowrap"></button>
-      <button id="cookie-accept" type="button" style="font-family:inherit;font-size:13.5px;font-weight:600;color:#fff;background:#0078d4;border:0;border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap"></button>
-    </div>
-  </div>
-</div>
-<script>
-(function(){
-  var KEY='comprobare-cookie-consent';
-  function applyConsent(v){
-    window.comprobareConsent=v;
-    // Non-essential cookies (e.g. analytics) must load ONLY when v==='accepted'.
-    // TODO: when adding analytics, gate its loader here: if(v==='accepted'){ loadAnalytics(); }
-  }
-  var saved=null; try{saved=localStorage.getItem(KEY);}catch(e){}
-  if(saved){ applyConsent(saved); return; }
-  var lang='en';
-  try { var l=localStorage.getItem('comprobare-lang'); if(l){lang=l;} else if(navigator.language&&navigator.language.toLowerCase().indexOf('pl')===0){lang='pl';} } catch(e){}
-  var T={
-    en:{text:'We use cookies — essential ones to run the site and, with your consent, analytics cookies to measure traffic and improve it.',link:'Privacy policy',accept:'Accept all',reject:'Reject non-essential'},
-    pl:{text:'Używamy plików cookie — niezbędnych do działania serwisu oraz, za Twoją zgodą, analitycznych do pomiaru ruchu i ulepszania strony.',link:'Polityka prywatności',accept:'Akceptuję wszystkie',reject:'Tylko niezbędne'}
-  };
-  var t=T[lang]||T.en, bar=document.getElementById('cookie-notice');
-  document.getElementById('cookie-notice-text').textContent=t.text;
-  document.getElementById('cookie-notice-link').textContent=t.link;
-  var a=document.getElementById('cookie-accept'), r=document.getElementById('cookie-reject');
-  a.textContent=t.accept; r.textContent=t.reject;
-  bar.style.display='block';
-  function choose(v){ try{localStorage.setItem(KEY,v);}catch(e){} applyConsent(v); bar.style.display='none'; }
-  a.addEventListener('click',function(){choose('accepted');});
-  r.addEventListener('click',function(){choose('rejected');});
-})();
-</script>
+<script src="assets/js/site.js?v=1" defer></script>
 </body>
 </html>
